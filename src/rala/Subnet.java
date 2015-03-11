@@ -18,7 +18,7 @@ import java.util.TreeSet;
  *         {@link ralaweb@gmx.at}<br>
  *         {@link www.ralaweb.bplaced.net}
  */
-public class Subnet {
+public class Subnet implements Comparable<Subnet> {
 	private static final int FehlerSpezialZahl = 0xDEADBEEF;
 	private static final char[] Zeichen_letterWithSpezialLetterAndSymbolsWithoutSlash = { ' ',
 			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -1372,5 +1372,22 @@ public class Subnet {
 	public String toString() {
 		String s = IP + " " + SNM;
 		return s;
+	}
+	
+	@Override
+	public int compareTo(Subnet s) {
+		for (int i = 0; i < 4; i++) {
+			int ip = Integer.parseInt(getIP_array()[i]) - Integer.parseInt(s.getIP_array()[i]);
+			if (ip != 0) {
+				return ip;
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			int snm = Integer.parseInt(getSNM_array()[i]) - Integer.parseInt(s.getSNM_array()[i]);
+			if (snm != 0) {
+				return snm;
+			}
+		}
+		return 0;
 	}
 }
