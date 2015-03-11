@@ -1,4 +1,4 @@
-// ralaVersion 1.1.0
+// ralaVersion 1.2.0
 // Methoden aus Subnetztabelle 1.2.6 [Ursprung: 1.1.8] entnommen
 package rala;
 
@@ -9,11 +9,11 @@ import java.util.TreeSet;
 /**
  * you need a IP-Address and a Subnetmask to get a Subnet<br>
  * <br>
- * this tool is in use from rala for his program: "Subnetztabelle"<br>
+ * this tool is in use from rala for his program: "Subnettable" (German: "Subnetztabelle")<br>
  * 
  * <i>you should catch IllegalArgumentExceptions</i>
  * 
- * @version 1.1.0
+ * @version 1.2.0
  * @author rala<br>
  *         {@link ralaweb@gmx.at}<br>
  *         {@link www.ralaweb.bplaced.net}
