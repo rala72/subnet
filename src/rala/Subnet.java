@@ -2,6 +2,9 @@
 // Methoden aus Subnetztabelle 1.2.6 [Ursprung: 1.1.8] entnommen
 package rala;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 // mini bug: toString: " \t" between -> tab removed
 /**
  * you need a IP-Address and a Subnetmask to get a Subnet<br>
@@ -1223,6 +1226,63 @@ public class Subnet {
 			}
 		}
 		return s;
+	}
+	
+	/**
+	 * returns all Subnets in this network<br>
+	 * <i>just compare the network with the first available IP to check which subnet is the current</i>
+	 * 
+	 * @return Set with all Subnets
+	 */
+	// see getAllNetworksFromTo
+	public Set<Subnet> getSubnets() {
+		Set<Subnet> subnets = new TreeSet<>();
+		for (int iq_count = 0; iq_count <= 255; iq_count += getMagicNumber()) {
+			switch (getIQ()) {
+				case 1:
+					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", iq_count + "", "0", "0" }, getSNM_array()));
+					break;
+				case 2:
+					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", iq_count + "", "0" }, getSNM_array()));
+					break;
+				case 3:
+					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", getIP_array()[2] + "", iq_count + "" }, getSNM_array()));
+					break;
+			}
+		}
+		return subnets;
+	}
+	
+	/**
+	 * returns Subnets from current network<br>
+	 * <b>NOTICE</b> it can take a while to get all
+	 * 
+	 * @return Set with all Subnets
+	 */
+	public Set<Subnet> getAllSubnets() {
+		return getAllNetworksFromTo(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
+	}
+	
+	/**
+	 * returns Subnets from IP to IP<br>
+	 * Subnetmask is taken from first network
+	 * 
+	 * @param from network with start IP
+	 * @param to network with stop IP
+	 * @return Set with all Subnets between
+	 */
+	protected static Set<Subnet> getAllNetworksFromTo(Subnet from, Subnet to) {
+		Set<Subnet> subnets = new TreeSet<>();
+		for (int from0 = Integer.parseInt(from.getIP_array()[0]); from0 <= Integer.parseInt(to.getIP_array()[0]); from0++) {
+			for (int from1 = Integer.parseInt(from.getIP_array()[1]); from1 <= Integer.parseInt(to.getIP_array()[1]); from1++) {
+				for (int from2 = Integer.parseInt(from.getIP_array()[2]); from2 <= Integer.parseInt(to.getIP_array()[2]); from2++) {
+					for (int from3 = Integer.parseInt(from.getIP_array()[3]); from3 <= Integer.parseInt(to.getIP_array()[3]); from3++) {
+						subnets.add(new Subnet(new String[] { from0 + "", from1 + "", from2 + "", from3 + "" }, from.getSNM_array()));
+					}
+				}
+			}
+		}
+		return subnets;
 	}
 	
 	// Umwandler
