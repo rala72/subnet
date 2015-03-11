@@ -243,15 +243,33 @@ public class Subnet {
 	
 	/**
 	 * @return subnetmask
+	 * @see Subnet#getSubnetmask()
 	 */
 	public String getSNM() {
 		return SNM;
 	}
 	
 	/**
+	 * @return subnetmask
+	 * @see Subnet#getSubnetmask()
+	 */
+	public String getSubnetmask() {
+		return SNM;
+	}
+	
+	/**
 	 * @return subnetmask as array
+	 * @see Subnet#getSubnetmask_array()
 	 */
 	public String[] getSNM_array() {
+		return SNM_a;
+	}
+	
+	/**
+	 * @return subnetmask as array
+	 * @see Subnet#getSubnetmask_array()
+	 */
+	public String[] getSubnetmask_array() {
 		return SNM_a;
 	}
 	
@@ -461,184 +479,6 @@ public class Subnet {
 	 */
 	public String getCountOfHosts_calc() {
 		return CountOfHosts_s;
-	}
-	
-	// TO DO calc
-	private boolean calc() {
-		// WILD SNM
-		for (int i = 0; i < 4; i++) {
-			WILD_a[i] = 255 - Integer.parseInt(SNM_a[i]) + "";
-			// Magic Number
-			setMagicNumber(i);
-		}
-		// SubnetID, firstAvailable, lastAvailable, Broadcast
-		calc_addresses();
-		
-		// nets, subnets, host
-		calc_bits();
-		
-		return true;
-	}
-	
-	private boolean calc_addresses() {
-		// 'reset' | default values
-		for (int i = 0; i < 4; i++) {
-			if (Integer.parseInt(SNM_a[i]) == 255 && i != IQ) {
-				subnetID_a[i] = IP_a[i];
-				firstAvailableIP_a[i] = IP_a[i];
-				lastAvailableIP_a[i] = IP_a[i];
-				broadCastIP_a[i] = IP_a[i];
-			}
-			if (i == 3) {
-				if (Integer.parseInt(SNM_a[2]) != 255 && Integer.parseInt(SNM_a[3]) != 255 && i != IQ) {// ==0?
-					subnetID_a[i] = 0 + "";
-					firstAvailableIP_a[i] = 1 + "";
-					lastAvailableIP_a[i] = 254 + "";
-					broadCastIP_a[i] = 255 + "";
-				}
-			}
-		}
-		
-		if (IQ == 1) {
-			subnetID_a[IQ] = MZ_min + "";
-			firstAvailableIP_a[IQ] = MZ_min + "";
-			lastAvailableIP_a[IQ] = MZ_max + "";
-			broadCastIP_a[IQ] = MZ_max + "";
-			broadCastIP_a[IQ + 1] = MZ_max + "";
-			
-			// +1
-			subnetID_a[IQ + 1] = 0 + "";
-			firstAvailableIP_a[IQ + 1] = 0 + "";
-			lastAvailableIP_a[IQ + 1] = 255 + "";
-			broadCastIP_a[IQ + 1] = 255 + "";
-		} else if (IQ == 2) {
-			subnetID_a[IQ] = MZ_min + "";
-			firstAvailableIP_a[IQ] = MZ_min + "";
-			lastAvailableIP_a[IQ] = MZ_max + "";
-			broadCastIP_a[IQ] = MZ_max + "";
-		} else if (IQ == 3) {
-			subnetID_a[IQ] = MZ_min + "";
-			if ((MZ_min + 1) < MZ_max) {
-				firstAvailableIP_a[IQ] = (MZ_min + 1) + "";
-			} else {
-				firstAvailableIP_a[IQ] = MZ_min + "";
-			}
-			
-			if ((MZ_max - 1) > 0) {
-				lastAvailableIP_a[IQ] = (MZ_max - 1) + "";
-			} else {
-				lastAvailableIP_a[IQ] = MZ_max + "";
-			}
-			
-			broadCastIP_a[IQ] = MZ_max + "";
-		}
-		
-		return true;
-	}
-	
-	private boolean calc_bits() {
-		for (int i = 3; i >= 0; i--) {
-			if (Integer.parseInt(SNM_a[i]) == 0) {
-				zero_count += 8;
-			} else if (Integer.parseInt(SNM_a[i]) != 255) {
-				String snmIQ = Integer.toBinaryString(Integer.parseInt(SNM_a[i])) + "";
-				for (int j = (snmIQ.length() - 1); j >= 0; j--) {
-					if (snmIQ.charAt(j) == '0') {
-						zero_count += 1;
-					}
-				}
-			}
-		}
-		
-		// makeTabel_klassenNetzUndBitsUNDAnzahl
-		// KlassenNetz
-		for (int i = 1; i < 4; i++) {
-			classID_a[i] = 0 + "";
-			classSNM_a[i] = 0 + "";
-		}
-		
-		// snm_erlaubt=0,128,192,224,240,248,252,254,255
-		// Klassengrenzen:/8,/16,/24
-		
-		CountOfHosts = (int) (Math.pow(2, zero_count) - 2);
-		CountOfHosts_s = "2^" + zero_count + "-2 = " + (int) (Math.pow(2, zero_count) - 2);
-		
-		if (Integer.parseInt(IP_a[0]) >= 0) {
-			classID_a[0] = IP_a[0];
-			classSNM_a[0] = 255 + "";
-			if (Integer.parseInt(IP_a[0]) > 127) {
-				classID_a[1] = IP_a[1];
-				classSNM_a[1] = 255 + "";
-				if (Integer.parseInt(IP_a[0]) > 191) {
-					classID_a[2] = IP_a[2];
-					classSNM_a[2] = 255 + "";
-					if (Integer.parseInt(IP_a[0]) > 223) {// Klasse D & E; ab 224
-						if (Integer.parseInt(IP_a[0]) > 223) {
-							classChar = 'D';
-						} else if (Integer.parseInt(IP_a[0]) > 239) {
-							classChar = 'E';
-						}
-						
-						Netbits_s = (32 - zero_count) + "";// ?
-						Subnetbits_s = 0 + "";
-						Hostbits_s = zero_count + "";
-						
-						CountOfSubnets = (int) (Math.pow(2, 0));
-						CountOfSubnets_s = "2^" + 0 + " = " + (int) (Math.pow(2, 0));
-					} else {// SUPERNETTING : NUR wenn 192-223 (Klasse C)
-						classChar = 'C';
-						if ((8 - zero_count) < 0) {
-							// supernetting = true;
-							
-							Netbits_s = (32 - zero_count) + " (24)";
-							Subnetbits_s = "0 (" + (8 - zero_count) + ")";
-							Hostbits_s = zero_count + " ";
-						} else {
-							Netbits_s = 24 + "";
-							Subnetbits_s = (8 - zero_count) + " ";
-							Hostbits_s = zero_count + " ";
-						}
-						
-						CountOfSubnets = (int) (Math.pow(2, (8 - zero_count)));
-						CountOfSubnets_s = "2^" + (8 - zero_count) + " = " + (int) (Math.pow(2, (8 - zero_count)));
-					}
-				} else {// NUR wenn 128-191 (Klasse B)
-					classChar = 'B';
-					if ((16 - zero_count) < 0) {
-						// supernetting=true;
-						
-						Netbits_s = (32 - zero_count) + " (16)";
-						Subnetbits_s = "0 (" + (16 - zero_count) + ")";
-						Hostbits_s = (zero_count) + " ";
-					} else {
-						Netbits_s = 16 + "";
-						Subnetbits_s = 16 - zero_count + " ";
-						Hostbits_s = (zero_count) + " ";
-					}
-					
-					CountOfSubnets = (int) (Math.pow(2, (16 - zero_count)));
-					CountOfSubnets_s = "2^" + (16 - zero_count) + " = " + (int) (Math.pow(2, (16 - zero_count)));
-				}
-			} else {// NUR wenn 0-127 (Klasse A)
-				classChar = 'A';
-				if ((24 - zero_count) < 0) {
-					// supernetting=true;
-					
-					Netbits_s = (32 - zero_count) + " (8)";
-					Subnetbits_s = "0 (" + (24 - zero_count) + ")";
-					Hostbits_s = zero_count + " ";
-				} else {
-					Netbits_s = 8 + "";
-					Subnetbits_s = 24 - zero_count + " ";
-					Hostbits_s = zero_count + " ";
-				}
-				
-				CountOfSubnets = (int) (Math.pow(2, (24 - zero_count)));
-				CountOfSubnets_s = "2^" + (24 - zero_count) + " = " + (int) (Math.pow(2, (24 - zero_count)));
-			}
-		}
-		
-		return true;
 	}
 	
 	/**
@@ -931,6 +771,184 @@ public class Subnet {
 		}// Ausgabe bei .18.128/25 - .20.0/24
 		Subnet erg = new Subnet(erg_IP, erg_SNM);
 		return erg;
+	}
+	
+	// TO DO calc
+	private boolean calc() {
+		// WILD SNM
+		for (int i = 0; i < 4; i++) {
+			WILD_a[i] = 255 - Integer.parseInt(SNM_a[i]) + "";
+			// Magic Number
+			setMagicNumber(i);
+		}
+		// SubnetID, firstAvailable, lastAvailable, Broadcast
+		calc_addresses();
+		
+		// nets, subnets, host
+		calc_bits();
+		
+		return true;
+	}
+	
+	private boolean calc_addresses() {
+		// 'reset' | default values
+		for (int i = 0; i < 4; i++) {
+			if (Integer.parseInt(SNM_a[i]) == 255 && i != IQ) {
+				subnetID_a[i] = IP_a[i];
+				firstAvailableIP_a[i] = IP_a[i];
+				lastAvailableIP_a[i] = IP_a[i];
+				broadCastIP_a[i] = IP_a[i];
+			}
+			if (i == 3) {
+				if (Integer.parseInt(SNM_a[2]) != 255 && Integer.parseInt(SNM_a[3]) != 255 && i != IQ) {// ==0?
+					subnetID_a[i] = 0 + "";
+					firstAvailableIP_a[i] = 1 + "";
+					lastAvailableIP_a[i] = 254 + "";
+					broadCastIP_a[i] = 255 + "";
+				}
+			}
+		}
+		
+		if (IQ == 1) {
+			subnetID_a[IQ] = MZ_min + "";
+			firstAvailableIP_a[IQ] = MZ_min + "";
+			lastAvailableIP_a[IQ] = MZ_max + "";
+			broadCastIP_a[IQ] = MZ_max + "";
+			broadCastIP_a[IQ + 1] = MZ_max + "";
+			
+			// +1
+			subnetID_a[IQ + 1] = 0 + "";
+			firstAvailableIP_a[IQ + 1] = 0 + "";
+			lastAvailableIP_a[IQ + 1] = 255 + "";
+			broadCastIP_a[IQ + 1] = 255 + "";
+		} else if (IQ == 2) {
+			subnetID_a[IQ] = MZ_min + "";
+			firstAvailableIP_a[IQ] = MZ_min + "";
+			lastAvailableIP_a[IQ] = MZ_max + "";
+			broadCastIP_a[IQ] = MZ_max + "";
+		} else if (IQ == 3) {
+			subnetID_a[IQ] = MZ_min + "";
+			if ((MZ_min + 1) < MZ_max) {
+				firstAvailableIP_a[IQ] = (MZ_min + 1) + "";
+			} else {
+				firstAvailableIP_a[IQ] = MZ_min + "";
+			}
+			
+			if ((MZ_max - 1) > 0) {
+				lastAvailableIP_a[IQ] = (MZ_max - 1) + "";
+			} else {
+				lastAvailableIP_a[IQ] = MZ_max + "";
+			}
+			
+			broadCastIP_a[IQ] = MZ_max + "";
+		}
+		
+		return true;
+	}
+	
+	private boolean calc_bits() {
+		for (int i = 3; i >= 0; i--) {
+			if (Integer.parseInt(SNM_a[i]) == 0) {
+				zero_count += 8;
+			} else if (Integer.parseInt(SNM_a[i]) != 255) {
+				String snmIQ = Integer.toBinaryString(Integer.parseInt(SNM_a[i])) + "";
+				for (int j = (snmIQ.length() - 1); j >= 0; j--) {
+					if (snmIQ.charAt(j) == '0') {
+						zero_count += 1;
+					}
+				}
+			}
+		}
+		
+		// makeTabel_klassenNetzUndBitsUNDAnzahl
+		// KlassenNetz
+		for (int i = 1; i < 4; i++) {
+			classID_a[i] = 0 + "";
+			classSNM_a[i] = 0 + "";
+		}
+		
+		// snm_erlaubt=0,128,192,224,240,248,252,254,255
+		// Klassengrenzen:/8,/16,/24
+		
+		CountOfHosts = (int) (Math.pow(2, zero_count) - 2);
+		CountOfHosts_s = "2^" + zero_count + "-2 = " + (int) (Math.pow(2, zero_count) - 2);
+		
+		if (Integer.parseInt(IP_a[0]) >= 0) {
+			classID_a[0] = IP_a[0];
+			classSNM_a[0] = 255 + "";
+			if (Integer.parseInt(IP_a[0]) > 127) {
+				classID_a[1] = IP_a[1];
+				classSNM_a[1] = 255 + "";
+				if (Integer.parseInt(IP_a[0]) > 191) {
+					classID_a[2] = IP_a[2];
+					classSNM_a[2] = 255 + "";
+					if (Integer.parseInt(IP_a[0]) > 223) {// Klasse D & E; ab 224
+						if (Integer.parseInt(IP_a[0]) > 223) {
+							classChar = 'D';
+						} else if (Integer.parseInt(IP_a[0]) > 239) {
+							classChar = 'E';
+						}
+						
+						Netbits_s = (32 - zero_count) + "";// ?
+						Subnetbits_s = 0 + "";
+						Hostbits_s = zero_count + "";
+						
+						CountOfSubnets = (int) (Math.pow(2, 0));
+						CountOfSubnets_s = "2^" + 0 + " = " + (int) (Math.pow(2, 0));
+					} else {// SUPERNETTING : NUR wenn 192-223 (Klasse C)
+						classChar = 'C';
+						if ((8 - zero_count) < 0) {
+							// supernetting = true;
+							
+							Netbits_s = (32 - zero_count) + " (24)";
+							Subnetbits_s = "0 (" + (8 - zero_count) + ")";
+							Hostbits_s = zero_count + " ";
+						} else {
+							Netbits_s = 24 + "";
+							Subnetbits_s = (8 - zero_count) + " ";
+							Hostbits_s = zero_count + " ";
+						}
+						
+						CountOfSubnets = (int) (Math.pow(2, (8 - zero_count)));
+						CountOfSubnets_s = "2^" + (8 - zero_count) + " = " + (int) (Math.pow(2, (8 - zero_count)));
+					}
+				} else {// NUR wenn 128-191 (Klasse B)
+					classChar = 'B';
+					if ((16 - zero_count) < 0) {
+						// supernetting=true;
+						
+						Netbits_s = (32 - zero_count) + " (16)";
+						Subnetbits_s = "0 (" + (16 - zero_count) + ")";
+						Hostbits_s = (zero_count) + " ";
+					} else {
+						Netbits_s = 16 + "";
+						Subnetbits_s = 16 - zero_count + " ";
+						Hostbits_s = (zero_count) + " ";
+					}
+					
+					CountOfSubnets = (int) (Math.pow(2, (16 - zero_count)));
+					CountOfSubnets_s = "2^" + (16 - zero_count) + " = " + (int) (Math.pow(2, (16 - zero_count)));
+				}
+			} else {// NUR wenn 0-127 (Klasse A)
+				classChar = 'A';
+				if ((24 - zero_count) < 0) {
+					// supernetting=true;
+					
+					Netbits_s = (32 - zero_count) + " (8)";
+					Subnetbits_s = "0 (" + (24 - zero_count) + ")";
+					Hostbits_s = zero_count + " ";
+				} else {
+					Netbits_s = 8 + "";
+					Subnetbits_s = 24 - zero_count + " ";
+					Hostbits_s = zero_count + " ";
+				}
+				
+				CountOfSubnets = (int) (Math.pow(2, (24 - zero_count)));
+				CountOfSubnets_s = "2^" + (24 - zero_count) + " = " + (int) (Math.pow(2, (24 - zero_count)));
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
