@@ -1259,8 +1259,8 @@ public class Subnet implements Comparable<Subnet> {
 	 * 
 	 * @return Set with all Subnets
 	 */
-	public Set<Subnet> getAllSubnets() {
-		return getAllNetworksFromTo(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
+	public Set<Subnet> getAllIPs() {
+		return getAllIPs(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
 	}
 	
 	/**
@@ -1271,7 +1271,7 @@ public class Subnet implements Comparable<Subnet> {
 	 * @param to network with stop IP
 	 * @return Set with all Subnets between
 	 */
-	protected static Set<Subnet> getAllNetworksFromTo(Subnet from, Subnet to) {
+	protected static Set<Subnet> getAllIPs(Subnet from, Subnet to) {
 		Set<Subnet> subnets = new TreeSet<>();
 		for (int from0 = Integer.parseInt(from.getIP_array()[0]); from0 <= Integer.parseInt(to.getIP_array()[0]); from0++) {
 			for (int from1 = Integer.parseInt(from.getIP_array()[1]); from1 <= Integer.parseInt(to.getIP_array()[1]); from1++) {
