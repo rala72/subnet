@@ -4,8 +4,8 @@ This code is used in ralas Subnettable project. (Android-App and Desktop applica
 
 ### How do I get set up? ###
 
-Easiest way: copy **Subnet.java** into your src folder.
-Recommended way: clone project and link to file (easy to update)
+1. Easiest way: copy **Subnet.java** into your src folder.
+2. Recommended way: clone project and link to file (easy to update)
 
 ### Who do I talk to? ###
 
