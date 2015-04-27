@@ -9,5 +9,5 @@ Recommended way: clone project and link to file (easy to update)
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* [javadoc](http://ralaweb.bplaced.net/java/JavaDoc)
+* [mail](mailto:ralaweb@gmx.at)
