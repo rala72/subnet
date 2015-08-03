@@ -34,6 +34,9 @@ public class Subnet implements Comparable<Subnet> {
 	private static final int[] snm_erlaubt_int = { 0, 128, 192, 224, 240, 248, 252, 254, 255, 256 };
 	// 255: keine nutzbaren Host, 256: nur 1 Host
 	
+	/**
+	 * easy to check with <i>startWith</i> and <i>endWith</i>
+	 */
 	public static final String Exception_message = "Subnet Error - ";
 	/**
 	 * ends with "true" = ip<br>
@@ -1239,15 +1242,15 @@ public class Subnet implements Comparable<Subnet> {
 		Set<Subnet> subnets = new TreeSet<>();
 		for (int iq_count = 0; iq_count <= 255; iq_count += getMagicNumber()) {
 			switch (getIQ()) {
-				case 1:
-					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", iq_count + "", "0", "0" }, getSNM_array()));
-					break;
-				case 2:
-					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", iq_count + "", "0" }, getSNM_array()));
-					break;
-				case 3:
-					subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", getIP_array()[2] + "", iq_count + "" }, getSNM_array()));
-					break;
+			case 1:
+				subnets.add(new Subnet(new String[] { getIP_array()[0] + "", iq_count + "", "0", "0" }, getSNM_array()));
+				break;
+			case 2:
+				subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", iq_count + "", "0" }, getSNM_array()));
+				break;
+			case 3:
+				subnets.add(new Subnet(new String[] { getIP_array()[0] + "", getIP_array()[1] + "", getIP_array()[2] + "", iq_count + "" }, getSNM_array()));
+				break;
 			}
 		}
 		return subnets;
