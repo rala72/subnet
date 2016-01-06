@@ -778,7 +778,7 @@ public class Subnet implements Comparable<Subnet> {
     private void checkEntry(String[] entry, boolean isIP) {
         boolean pr_b = false;
         for (int i = 0; i < 4; i++) {
-            if (entry[i].equalsIgnoreCase("") || entry[i].equalsIgnoreCase(" ")) {
+            if (entry[i].trim().equals("")) {
                 throw new IllegalArgumentException(IllegalArgument_EntryMissing + " " + isIP);
             }
             if (isIP) {
@@ -837,7 +837,7 @@ public class Subnet implements Comparable<Subnet> {
         if (!Test(pr_ss)) {
             throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + " " + false);
         }
-        if (pr_ss.equalsIgnoreCase("") || pr_ss.equalsIgnoreCase(" ")) {
+        if (pr_ss.trim().equals("")) {
             throw new IllegalArgumentException(IllegalArgument_EntryMissing + " " + false);
         }
         pr_length = Integer.parseInt(pr_ss);
@@ -959,6 +959,11 @@ public class Subnet implements Comparable<Subnet> {
         }
     }
 
+    /**
+     * counts zeros in snm
+     *
+     * @return zero count of snm
+     */
     private int getZero_count() {
         zero_count = 0;
         for (int i = 3; i >= 0; i--) {
@@ -1050,8 +1055,6 @@ public class Subnet implements Comparable<Subnet> {
         return subnets;
     }
 
-    // transform to binary
-
     /**
      * convert binary to decimal
      *
@@ -1081,7 +1084,7 @@ public class Subnet implements Comparable<Subnet> {
     // Test-s
     private static boolean Test(String text) {
         text = text.toLowerCase();
-        return text.matches("[\\w&.-]*");
+        return text.matches("[\\d./]*"); // \\\\ = \
     }
 
     private static boolean Test_B(long number) {
