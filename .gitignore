@@ -66,7 +66,6 @@ bin
 build
 lib/
 target
-.factorypath
 .springBeans
 interpolated*.xml
 dependency-reduced-pom.xml
@@ -78,10 +77,5 @@ MANIFEST.MF
 settings.xml
 activemq-data
 overridedb.*
-*.iml
-*.ipr
-*.iws
-.idea
 *.jar
 .DS_Store
-.factorypath
