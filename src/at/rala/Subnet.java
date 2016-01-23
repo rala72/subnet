@@ -167,7 +167,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param iP_a        IP-Address
      * @param reCalculate recalculate now or later..?
      * @return if entry is ok
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.0.0
      */
     public boolean setIP(String[] iP_a, boolean reCalculate) {
@@ -192,7 +192,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param iP_a        IP-Address
      * @param reCalculate recalculate now or later..?
      * @return if entry is ok
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.3.0
      */
     public boolean setIP(int[] iP_a, boolean reCalculate) {
@@ -201,7 +201,7 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * set subnetmask & recalculate table NOW<br>
+     * set subnetmask &amp; recalculate table NOW<br>
      *
      * @param sNM subnetmask
      * @return if entry is ok
@@ -221,11 +221,11 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * set subnetmask & recalculate table NOW<br>
+     * set subnetmask &amp; recalculate table NOW<br>
      *
      * @param sNM_a subnetmask Array [4]
      * @return if entry is ok
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.0.0
      */
     public boolean setSNM(String[] sNM_a) {
@@ -233,11 +233,11 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * set subnetmask & recalculate table NOW<br>
+     * set subnetmask &amp; recalculate table NOW<br>
      *
      * @param sNM_a subnetmask Array [4]
      * @return if entry is ok
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.3.0
      */
     public boolean setSNM(int[] sNM_a) {
@@ -1192,6 +1192,7 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
+     * @param detailed complete output or only ip &amp; snm
      * @return IP and Subnetmask and other infos
      * @since 1.0.0
      */
