@@ -457,7 +457,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getNetbits() {
-        return netbits;
+        return netbits = Integer.parseInt(getNetbitsString());
     }
 
     /**
@@ -473,7 +473,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getSubnetbits() {
-        return subnetbits;
+        return subnetbits = Integer.parseInt(getSubnetbitsString());
     }
 
     /**
@@ -489,7 +489,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getHostbits() {
-        return hostbits;
+        return hostbits = Integer.parseInt(getHostbitsString());
     }
 
     /**
