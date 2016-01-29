@@ -66,8 +66,11 @@ public class Subnet implements Comparable<Subnet> {
 
     private char classChar = ' ';
 
+    private int netbits;
     private String netbits_s = "";
+    private int subnetbits;
     private String subnetbits_s = "";
+    private int hostbits;
     private String hostbits_s = "";
     private int countOfSubnets;
     private String countOfSubnets_s = "";
@@ -452,7 +455,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getNetbits() {
-        return Integer.parseInt(getNetbitsString());
+        return netbits;
     }
 
     /**
@@ -468,7 +471,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getSubnetbits() {
-        return Integer.parseInt(getSubnetbitsString());
+        return subnetbits;
     }
 
     /**
@@ -484,7 +487,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public int getHostbits() {
-        return Integer.parseInt(getHostbitsString());
+        return hostbits;
     }
 
     /**
@@ -537,15 +540,15 @@ public class Subnet implements Comparable<Subnet> {
         if (Integer.parseInt(IP_a[0]) > 223) {// Class D & E; 224 and above: no supernet
             return false;
         } else if (Integer.parseInt(IP_a[0]) > 191) {// Class C: SUPERNETTING: only if 192-223
-            if ((8 - getZero_count()) < 0) {
+            if ((8 - getZeroCount()) < 0) {
                 return true;
             }
         } else if (Integer.parseInt(IP_a[0]) > 127) {// Class B: ONLY if 128-191
-            if ((16 - getZero_count()) < 0) {
+            if ((16 - getZeroCount()) < 0) {
                 return true;
             }
         } else {// Class A: ONLY if 0-127
-            if ((24 - getZero_count()) < 0) {
+            if ((24 - getZeroCount()) < 0) {
                 return true;
             }
         }
@@ -739,12 +742,14 @@ public class Subnet implements Comparable<Subnet> {
         // snm_allowed=0,128,192,224,240,248,252,254,255
         // KlassenGrenzen:/8,/16,/24
 
-        countOfHosts = (int) (Math.pow(2, getZero_count()) - 2);
-        countOfHosts_s = "2^" + getZero_count() + "-2 = " + (int) (Math.pow(2, getZero_count()) - 2);
+        countOfHosts = (int) (Math.pow(2, getZeroCount()) - 2);
+        countOfHosts_s = "2^" + getZeroCount() + "-2 = " + (int) (Math.pow(2, getZeroCount()) - 2);
 
         if (Integer.parseInt(IP_a[0]) >= 0) {
             classID_a[0] = IP_a[0];
             classSNM_a[0] = 255 + "";
+            hostbits = getZeroCount();
+            hostbits_s = hostbits + "";
             if (Integer.parseInt(IP_a[0]) > 127) {
                 classID_a[1] = IP_a[1];
                 classSNM_a[1] = 255 + "";
@@ -758,62 +763,69 @@ public class Subnet implements Comparable<Subnet> {
                             classChar = 'E';
                         }
 
-                        netbits_s = (32 - getZero_count()) + "";// ?
-                        subnetbits_s = 0 + "";
-                        hostbits_s = getZero_count() + "";
+                        netbits = 32 - getZeroCount();
+                        netbits_s = netbits + "";// ?
+                        subnetbits = 0;
+                        subnetbits_s = subnetbits + "";
 
                         countOfSubnets = (int) (Math.pow(2, 0));
-                        countOfSubnets_s = "2^" + 0 + " = " + (int) (Math.pow(2, 0));
+                        countOfSubnets_s = "2^" + subnetbits + " = " + countOfSubnets;
                     } else {// SUPERNETTING : NUR wenn 192-223 (Klasse C)
                         classChar = 'C';
-                        if ((8 - getZero_count()) < 0) {
+                        if ((8 - getZeroCount()) < 0) {
                             // supernetting = true;
 
-                            netbits_s = (32 - getZero_count()) + " (24)";
-                            subnetbits_s = "0 (" + (8 - getZero_count()) + ")";
-                            hostbits_s = getZero_count() + " ";
+                            netbits = 32 - getZeroCount();
+                            netbits_s = netbits + " (24)";
+                            subnetbits = 0;
+                            subnetbits_s = subnetbits + " (" + (8 - getZeroCount()) + ")";
                         } else {
-                            netbits_s = 24 + "";
-                            subnetbits_s = (8 - getZero_count()) + "";
-                            hostbits_s = getZero_count() + "";
+                            netbits = 24 - getZeroCount();
+                            netbits_s = netbits + "";
+                            subnetbits = 8 - getZeroCount();
+                            subnetbits_s = subnetbits + "";
                         }
 
-                        countOfSubnets = (int) (Math.pow(2, (8 - getZero_count())));
-                        countOfSubnets_s = "2^" + (8 - getZero_count()) + " = " + (int) (Math.pow(2, (8 - getZero_count())));
+                        countOfSubnets = (int) (Math.pow(2, subnetbits));
+                        countOfSubnets_s = "2^" + subnetbits + " = " + countOfSubnets;
                     }
                 } else {// NUR wenn 128-191 (Klasse B)
                     classChar = 'B';
-                    if ((16 - getZero_count()) < 0) {
+                    if ((16 - getZeroCount()) < 0) {
                         // supernetting=true;
 
-                        netbits_s = (32 - getZero_count()) + " (16)";
-                        subnetbits_s = "0 (" + (16 - getZero_count()) + ")";
-                        hostbits_s = (getZero_count()) + "";
+                        netbits = 32 - getZeroCount();
+                        netbits_s = netbits + " (16)";
+                        subnetbits = 0;
+                        subnetbits_s = subnetbits + " (" + (16 - getZeroCount()) + ")";
                     } else {
-                        netbits_s = 16 + "";
-                        subnetbits_s = 16 - getZero_count() + "";
-                        hostbits_s = (getZero_count()) + "";
+                        netbits = 16;
+                        netbits_s = netbits + "";
+                        subnetbits = 16 - getZeroCount();
+                        subnetbits_s = subnetbits + "";
                     }
 
-                    countOfSubnets = (int) (Math.pow(2, (16 - getZero_count())));
-                    countOfSubnets_s = "2^" + (16 - getZero_count()) + " = " + (int) (Math.pow(2, (16 - getZero_count())));
+                    countOfSubnets = (int) (Math.pow(2, subnetbits));
+                    countOfSubnets_s = "2^" + subnetbits + " = " + countOfSubnets;
                 }
             } else {// NUR wenn 0-127 (Klasse A)
                 classChar = 'A';
-                if ((24 - getZero_count()) < 0) {
+                if ((24 - getZeroCount()) < 0) {
                     // supernetting=true;
 
-                    netbits_s = (32 - getZero_count()) + " (8)";
-                    subnetbits_s = "0 (" + (24 - getZero_count()) + ")";
-                    hostbits_s = getZero_count() + "";
+                    netbits = (32 - getZeroCount());
+                    netbits_s = netbits + " (8)";
+                    subnetbits = 0;
+                    subnetbits_s = subnetbits + " (" + (24 - getZeroCount()) + ")";
                 } else {
-                    netbits_s = 8 + "";
-                    subnetbits_s = 24 - getZero_count() + "";
-                    hostbits_s = getZero_count() + "";
+                    netbits = 8;
+                    netbits_s = netbits + "";
+                    subnetbits = 24 - getZeroCount();
+                    subnetbits_s = subnetbits + "";
                 }
 
-                countOfSubnets = (int) (Math.pow(2, (24 - getZero_count())));
-                countOfSubnets_s = "2^" + (24 - getZero_count()) + " = " + (int) (Math.pow(2, (24 - getZero_count())));
+                countOfSubnets = (int) (Math.pow(2, subnetbits));
+                countOfSubnets_s = "2^" + (24 - getZeroCount()) + " = " + countOfSubnets;
             }
         }
     }
@@ -1046,7 +1058,7 @@ public class Subnet implements Comparable<Subnet> {
      *
      * @return zero count of snm
      */
-    private int getZero_count() {
+    private int getZeroCount() {
         int zero_count = 0;
         for (int i = 3; i >= 0; i--) {
             if (Integer.parseInt(SNM_a[i]) == 0) {
