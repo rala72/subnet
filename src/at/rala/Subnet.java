@@ -20,7 +20,7 @@ import java.util.TreeSet;
  *         <a href="www.at.rala.rala.io">www.at.rala.rala.io</a>
  * @version 1.3.0
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Subnet implements Comparable<Subnet> {
     private static final int errorNumber = 0xDEADBEEF;
     private static final int[] snm_allowed_int = {0, 128, 192, 224, 240, 248, 252, 254, 255, 256};
