@@ -15,9 +15,9 @@ import java.util.TreeSet;
  * <p>
  * <i>you should catch IllegalArgumentExceptions</i>
  *
- * @author at.rala.rala<br>
+ * @author rala<br>
  *         <a href="mailto:code@rala.io">code@at.rala.rala.io</a><br>
- *         <a href="www.at.rala.rala.io">www.at.rala.rala.io</a>
+ *         <a href="www.rala.io">www.rala.io</a>
  * @version 1.3.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
