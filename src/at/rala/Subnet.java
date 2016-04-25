@@ -18,7 +18,7 @@ import java.util.TreeSet;
  * @author rala<br>
  *         <a href="mailto:code@rala.io">code@rala.io</a><br>
  *         <a href="www.rala.io">www.rala.io</a>
- * @version 1.3.0
+ * @version 1.4.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Subnet implements Comparable<Subnet> {
@@ -156,7 +156,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public boolean setIP(String[] iP_a) {
-        return setIP(networkArrayToString(iP_a));
+        return setIP(convertNetworkArrayToString(iP_a));
     }
 
     /**
@@ -169,7 +169,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public boolean setIP(String[] iP_a, boolean reCalculate) {
-        String iP_s = networkArrayToString(iP_a);
+        String iP_s = convertNetworkArrayToString(iP_a);
         return setIP(iP_s, reCalculate);
     }
 
@@ -181,7 +181,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.3.0
      */
     public boolean setIP(int[] iP_a) {
-        return setIP(networkArrayToString(integerArrayToStringArray(iP_a)));
+        return setIP(convertNetworkArrayToString(convertIntegerArrayToStringArray(iP_a)));
     }
 
     /**
@@ -194,7 +194,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.3.0
      */
     public boolean setIP(int[] iP_a, boolean reCalculate) {
-        String iP_s = networkArrayToString(integerArrayToStringArray(iP_a));
+        String iP_s = convertNetworkArrayToString(convertIntegerArrayToStringArray(iP_a));
         return setIP(iP_s, reCalculate);
     }
 
@@ -227,7 +227,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public boolean setSNM(String[] sNM_a) {
-        return setSNM(networkArrayToString(sNM_a));
+        return setSNM(convertNetworkArrayToString(sNM_a));
     }
 
     /**
@@ -239,7 +239,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.3.0
      */
     public boolean setSNM(int[] sNM_a) {
-        return setSNM(networkArrayToString(integerArrayToStringArray(sNM_a)));
+        return setSNM(convertNetworkArrayToString(convertIntegerArrayToStringArray(sNM_a)));
     }
 
     /**
@@ -299,7 +299,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getWildmarkMask() {
-        return networkArrayToString(WILD_a);
+        return convertNetworkArrayToString(WILD_a);
     }
 
     /**
@@ -351,7 +351,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getSubnetID() {
-        return networkArrayToString(getSubnetID_array());
+        return convertNetworkArrayToString(getSubnetID_array());
     }
 
     /**
@@ -367,7 +367,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getFirstAvailableIP() {
-        return networkArrayToString(getFirstAvailableIP_array());
+        return convertNetworkArrayToString(getFirstAvailableIP_array());
     }
 
     /**
@@ -383,7 +383,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getLastAvailableIP() {
-        return networkArrayToString(getLastAvailableIP_array());
+        return convertNetworkArrayToString(getLastAvailableIP_array());
     }
 
     /**
@@ -399,7 +399,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getBroadCastIP() {
-        return networkArrayToString(getBroadCastIP_array());
+        return convertNetworkArrayToString(getBroadCastIP_array());
     }
 
     /**
@@ -415,7 +415,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getClassID() {
-        return networkArrayToString(getClassID_array());
+        return convertNetworkArrayToString(getClassID_array());
     }
 
     /**
@@ -431,7 +431,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getClassSNM() {
-        return networkArrayToString(getClassSNM_array());
+        return convertNetworkArrayToString(getClassSNM_array());
     }
 
     /**
@@ -556,33 +556,21 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * summarize current network with s
+     * summarize current network with other subnet
      *
      * @param s Subnet to add
      * @return the summarized network
      * @since 1.0.0
      */
     public Subnet summarize(Subnet s) {
-        return summarize(this, s);
-    }
-
-    /**
-     * summarize current network with subnet 2
-     *
-     * @param s1 current network
-     * @param s2 Subnet to add
-     * @return the summarized network
-     * @since 1.0.0
-     */
-    public static Subnet summarize(Subnet s1, Subnet s2) {
         String erg_IP = "";
         String erg_SNM = "";
-        if (s1.getIQ() == -1) {
+        if (this.getIQ() == -1) {
             return null;
-        } else if (s2.getIQ() == -1) {
+        } else if (s.getIQ() == -1) {
             return null;
         }
-        if (!s1.getIP_array()[0].equals(s2.getIP_array()[0])) {
+        if (!this.getIP_array()[0].equals(s.getIP_array()[0])) {
             throw new IllegalArgumentException(IllegalArgument_FirstQuadIsNotTheSame);
         }
 
@@ -591,8 +579,8 @@ public class Subnet implements Comparable<Subnet> {
         String s_IP1;
         String s_IP2;
         for (int i = 0; i < 4; i++) {
-            sa_IP1[i] = Integer.toBinaryString(Integer.parseInt(s1.getIP_array()[i]));
-            sa_IP2[i] = Integer.toBinaryString(Integer.parseInt(s2.getIP_array()[i]));
+            sa_IP1[i] = Integer.toBinaryString(Integer.parseInt(this.getIP_array()[i]));
+            sa_IP2[i] = Integer.toBinaryString(Integer.parseInt(s.getIP_array()[i]));
             for (int ii = sa_IP1[i].length(); ii < 8; ii++) {
                 sa_IP1[i] = "0" + sa_IP1[i];
             }
@@ -600,16 +588,12 @@ public class Subnet implements Comparable<Subnet> {
                 sa_IP2[i] = "0" + sa_IP2[i];
             }
         }
-        s_IP1 = networkArrayToString(sa_IP1);
-        s_IP2 = networkArrayToString(sa_IP2);
+        s_IP1 = convertNetworkArrayToString(sa_IP1);
+        s_IP2 = convertNetworkArrayToString(sa_IP2);
 
-        if (s_IP1.length() != 35) {
+        if (s_IP1.length() != 35 || s_IP2.length() != 35) {
             return null;
         }
-        if (s_IP2.length() != 35) {
-            return null;
-        }
-
 
         // TEST: 192.168.12.3 /23
         for (int i = 35; i > 0; i--) {
@@ -656,12 +640,22 @@ public class Subnet implements Comparable<Subnet> {
                     snmS[ii] = Subnet.convertBinaryToDecimal(Long.parseLong(zwSNMa[ii])) + "";
                 }
 
-                erg_IP = networkArrayToString(ipS);
-                erg_SNM = networkArrayToString(snmS);
+                erg_IP = convertNetworkArrayToString(ipS);
+                erg_SNM = convertNetworkArrayToString(snmS);
                 break;
             }
         }
         return new Subnet(erg_IP, erg_SNM);
+    }
+
+    /**
+     * @param s other subnet
+     * @return if current subnet contains other subnet
+     * @since 1.4.0
+     */
+    public boolean contains(Subnet s) {
+        return Integer.parseInt(s.getSubnetID_array()[this.getIQ()]) <= Integer.parseInt(this.getIP_array()[this.getIQ()]) &&
+                   Integer.parseInt(s.getBroadCastIP_array()[this.getIQ()]) >= Integer.parseInt(this.getIP_array()[this.getIQ()]);
     }
 
     private void calc() {
@@ -876,14 +870,14 @@ public class Subnet implements Comparable<Subnet> {
                 throw new IllegalArgumentException(IllegalArgument_EntryMissing + where);
             }
             if (isIP) {
-                if (!Test(entry[i]) || entry[i].contains("/")) {
+                if (!testNumber(entry[i]) || entry[i].contains("/")) {
                     throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + where);
                 }
                 if (Integer.parseInt(entry[i]) > 255) {
                     throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + where);
                 }
             } else {
-                if (!Test(entry[i])) {
+                if (!testNumber(entry[i])) {
                     throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + where);
                 } else if (i == 0 && entry[0].charAt(0) == '/') {
                     pr_b = true;
@@ -928,7 +922,7 @@ public class Subnet implements Comparable<Subnet> {
 
         String pr_ss = sa[0].replace("/", "");
 
-        if (!Test(pr_ss)) {
+        if (!testNumber(pr_ss)) {
             throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + " [SNM]");
         }
         if (pr_ss.trim().equals("")) {
@@ -962,7 +956,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param i     current Array (max 3) index
      */
     private void binarySNM(String[] a_snm, int i) {
-        if (a_snm[i].length() >= 4 && Test_B(Integer.parseInt(a_snm[i])) && Integer.parseInt(a_snm[i]) != 0) {
+        if (a_snm[i].length() >= 4 && testBinary(Integer.parseInt(a_snm[i])) && Integer.parseInt(a_snm[i]) != 0) {
             if (8 > a_snm[i].length()) {
                 String n = "0";
                 int p = 8 - a_snm.length;
@@ -978,11 +972,11 @@ public class Subnet implements Comparable<Subnet> {
                 throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + " [SNM]");
             }
         } else {// Binär:Fehler_l_ oder bereits richtiges Format
-            if (!Test(a_snm[i])) {
+            if (!testNumber(a_snm[i])) {
                 throw new IllegalArgumentException(IllegalArgument_EntryNotSupported);
             } else if (Integer.parseInt(a_snm[i]) > 256) {
                 throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge);
-            } else if (Test_B(Integer.parseInt(a_snm[i]))) {
+            } else if (testBinary(Integer.parseInt(a_snm[i]))) {
                 if (!a_snm[i].contains("1")) {
                     a_snm[i] = "0";// 8mal 0 ausbessern
                 }
@@ -991,7 +985,7 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * test subnetmask
+     * testNumber subnetmask
      *
      * @param a_snm Subnetmask String Array
      * @param i     actual array (max 3) index
@@ -1081,7 +1075,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param array Array
      * @return String
      */
-    private static String networkArrayToString(String[] array) {
+    private static String convertNetworkArrayToString(String[] array) {
         String s = "";
         for (int i = 0; i < array.length; i++) {
             if (i < array.length - 1) {
@@ -1125,8 +1119,8 @@ public class Subnet implements Comparable<Subnet> {
      * @return Set with all Subnets
      * @since 1.2.0
      */
-    public Set<Subnet> getAllSubnets() {
-        return getAllSubnets(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
+    public Set<Subnet> getSubSubnets() {
+        return getSubnets(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
     }
 
     /**
@@ -1138,7 +1132,7 @@ public class Subnet implements Comparable<Subnet> {
      * @return Set with all Subnets between
      * @since 1.2.0
      */
-    protected static Set<Subnet> getAllSubnets(Subnet from, Subnet to) {
+    protected static Set<Subnet> getSubnets(Subnet from, Subnet to) {
         Set<Subnet> subnets = new TreeSet<>();
         for (int from0 = Integer.parseInt(from.getIP_array()[0]); from0 <= Integer.parseInt(to.getIP_array()[0]); from0++) {
             for (int from1 = Integer.parseInt(from.getIP_array()[1]); from1 <= Integer.parseInt(to.getIP_array()[1]); from1++) {
@@ -1157,40 +1151,42 @@ public class Subnet implements Comparable<Subnet> {
      *
      * @param b binary number
      * @return decimal number
+     * @see Long#parseLong(String, int)
      * @since 1.0.0
      */
     public static long convertBinaryToDecimal(long b) {
-        if (!Test_B(b)) {
-            return errorNumber;
-        }
-
-        String erg;
-        String zw = b + "";
-
-        double m = 0;
-        long e = 0;
-        for (int i = zw.length() - 1; i >= 0; i--) {
-            if (zw.charAt(i) == '1') {
-                e += Math.pow(2.0, m);
-            }
-            m++;
-        }
-        erg = e + "";
-        return Integer.parseInt(erg);
+        return Long.parseLong(b + "", 2);
     }
 
-    public static String[] integerArrayToStringArray(int[] ints) {
+    /**
+     * convert decimal to binary
+     *
+     * @param d decimal number
+     * @return binary number
+     * @see Long#toBinaryString(long)
+     * @since 1.4.0
+     */
+    public static long convertDecimalToBinary(long d) {
+        return Long.parseLong(Long.toBinaryString(d));
+    }
+
+    /**
+     * @param ints int array
+     * @return string array
+     * @since 1.1.0
+     */
+    public static String[] convertIntegerArrayToStringArray(int[] ints) {
         return Arrays.toString(ints).replaceAll("[\\[\\]]", "").split("\\s*,\\s*");
     }
 
-    // Test-s
-    private static boolean Test(String text) {
+    // testNumber-s
+    private static boolean testNumber(String text) {
         text = text.toLowerCase();
         return text.matches("[\\d./]*"); // \\\\ = \
     }
 
-    private static boolean Test_B(long number) {
-        boolean t = Test(number + "");
+    private static boolean testBinary(long number) {
+        boolean t = testNumber(number + "");
         if (t) {
             String numb = number + "";
             return numb.matches("[01]*");
@@ -1231,6 +1227,11 @@ public class Subnet implements Comparable<Subnet> {
         return IP + " " + SNM;
     }
 
+    /**
+     * @param s other subnet
+     * @return difference between ip and if equal snm
+     * @since 1.1.0
+     */
     @Override
     public int compareTo(Subnet s) {
         for (int i = 0; i < 4; i++) {
@@ -1246,5 +1247,18 @@ public class Subnet implements Comparable<Subnet> {
             }
         }
         return 0;
+    }
+
+    /**
+     * @param obj has to be subnet
+     * @return if subnet ip and snm is equal
+     * @since 1.4.0
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Subnet)
+            return compareTo((Subnet) obj) == 0;
+        else
+            return false;
     }
 }
