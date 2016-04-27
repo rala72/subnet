@@ -9,5 +9,5 @@ This code is used in ralas Subnettable project. (Android-App and Desktop applica
 
 ### Who do I talk to? ###
 
-* [javadoc](http://ralaweb.bplaced.net/java/JavaDoc)
-* [mail](mailto:ralaweb@gmx.at)
+* [javadoc](http://rala.io/java/JavaDoc)
+* [mail](mailto:code@rala.io)
