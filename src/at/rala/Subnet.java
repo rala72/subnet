@@ -654,8 +654,20 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.4.0
      */
     public boolean contains(Subnet s) {
-        return Integer.parseInt(s.getSubnetID_array()[this.getIQ()]) <= Integer.parseInt(this.getIP_array()[this.getIQ()]) &&
-                   Integer.parseInt(s.getBroadCastIP_array()[this.getIQ()]) >= Integer.parseInt(this.getIP_array()[this.getIQ()]);
+        // missing: +-1
+        for (int i = 0; i < this.getIQ(); i++) {
+            if (!this.getSubnetID_array()[i].equals(s.getIP_array()[i])) {
+                return false;
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            if (!(Integer.parseInt(this.getSNM_array()[i]) <= Integer.parseInt(s.getSNM_array()[i]))) {
+                return false;
+            }
+        }
+        return
+            Integer.parseInt(this.getSubnetID_array()[this.getIQ()]) <= Integer.parseInt(s.getIP_array()[this.getIQ()]) &&
+                Integer.parseInt(this.getBroadCastIP_array()[this.getIQ()]) >= Integer.parseInt(s.getIP_array()[this.getIQ()]);
     }
 
     private void calc() {
