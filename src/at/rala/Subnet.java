@@ -498,7 +498,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getCountOfSubnets_calc() {
-        return countOfSubnets_s;
+        return countOfSubnets_s = countOfSubnets_s.trim();
     }
 
     /**
@@ -514,7 +514,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String getCountOfHosts_calc() {
-        return countOfHosts_s;
+        return countOfHosts_s = countOfHosts_s.trim();
     }
 
     /**
@@ -868,7 +868,7 @@ public class Subnet implements Comparable<Subnet> {
                 if ((24 - getZeroCount()) < 0) {
                     // supernetting=true;
 
-                    netbits = (32 - getZeroCount());
+                    netbits = 32 - getZeroCount();
                     netbits_s = netbits + " (8)";
                     subnetbits = 0;
                     subnetbits_s = subnetbits + " (" + (24 - getZeroCount()) + ")";

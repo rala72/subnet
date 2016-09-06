@@ -1,13 +1,13 @@
-# Subnet #
+# Subnet
 
-This code is used in ralas Subnettable project. (Android-App and Desktop application)
+This code is used in rala's [Subnettable](http://www.rala.io/#/app/subnettable) project.<br>
+_(Android-App and Desktop application)_
 
-### How do I get set up? ###
+## Docs
 
-1. Easiest way: copy **Subnet.java** into your src folder.
-2. Recommended way: clone project and link to file (easy to update)
+* [examples](http://www.rala.io/#/library/subnet)
+* [javadoc](http://javadoc.rala.io)
 
-### Who do I talk to? ###
+## Contact
 
-* [javadoc](http://rala.io/java/JavaDoc)
-* [mail](mailto:code@rala.io)
+E-Mail: [code@rala.io](mailto:code@rala.io)
