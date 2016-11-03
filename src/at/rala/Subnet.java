@@ -1271,7 +1271,7 @@ public class Subnet implements Comparable<Subnet> {
 
     /**
      * @param obj has to be subnet
-     * @return if subnet ip and snm is equal
+     * @return if subnet ip and snm are equal
      * @since 1.4.0
      */
     @Override
