@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 // mini bug: toString: " \t" between -> tab removed
+// possible to do: inner classes for IP and SNM
 
 /**
  * IP-Address and Subnetmask needed to get a Subnet<br>
