@@ -18,7 +18,7 @@ import java.util.TreeSet;
  * @author rala<br>
  *         <a href="mailto:code@rala.io">code@rala.io</a><br>
  *         <a href="www.rala.io">www.rala.io</a>
- * @version 1.4.0
+ * @version 1.5.0
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Subnet implements Comparable<Subnet> {
@@ -76,66 +76,108 @@ public class Subnet implements Comparable<Subnet> {
     private String countOfHosts_s = "";
 
     /**
+     * generate a Subnet<br>
+     * uses Subnetmask based on ip Class
+     *
+     * @param ip ip-Address
+     * @since 1.5.0
+     */
+    public Subnet(String ip) {
+        setIP(ip, false);
+        if (IP_a[0] < 128) setSNM("/8");
+        else if (IP_a[0] < 192) setSNM("/16");
+        else setSNM("/24");
+    }
+
+    /**
      * generate a Subnet
      *
-     * @param IP  IP-Address
-     * @param SNM Subnetmask
+     * @param ip  ip-Address
+     * @param snm Subnetmask
      * @since 1.0.0
      */
-    public Subnet(String IP, String SNM) {
-        setIP(IP, false);
-        setSNM(SNM);
+    public Subnet(String ip, String snm) {
+        setIP(ip, false);
+        setSNM(snm);
+    }
+
+    /**
+     * generate a Subnet<br>
+     * uses Subnetmask based on ip Class
+     *
+     * @param ip ip-Address
+     * @since 1.5.0
+     */
+    public Subnet(String[] ip) {
+        setIP(ip, false);
+        if (IP_a[0] < 128) setSNM("/8");
+        else if (IP_a[0] < 192) setSNM("/16");
+        else setSNM("/24");
     }
 
     /**
      * generate a Subnet with Arrays
      *
-     * @param IP  IP-Address [4]
-     * @param SNM Subnetmask [4]
+     * @param ip  ip-Address [4]
+     * @param snm Subnetmask [4]
      * @since 1.0.0
      */
-    public Subnet(String[] IP, String[] SNM) {
-        setIP(IP, false);
-        setSNM(SNM);
+    public Subnet(String[] ip, String[] snm) {
+        setIP(ip, false);
+        setSNM(snm);
+    }
+
+    /**
+     * generate a Subnet<br>
+     * uses Subnetmask based on ip Class
+     *
+     * @param ip ip-Address
+     * @since 1.5.0
+     */
+    public Subnet(int[] ip) {
+        setIP(ip, false);
+        if (IP_a[0] < 128) setSNM("/8");
+        else if (IP_a[0] < 192) setSNM("/16");
+        else setSNM("/24");
     }
 
     /**
      * generate a Subnet with Arrays
      *
-     * @param IP  IP-Address [4]
-     * @param SNM Subnetmask [4]
+     * @param ip  ip-Address [4]
+     * @param snm Subnetmask [4]
      * @since 1.3.0
      */
-    public Subnet(int[] IP, int[] SNM) {
-        setIP(IP, false);
-        setSNM(Arrays.toString(SNM).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
+    public Subnet(int[] ip, int[] snm) {
+        setIP(ip, false);
+        setSNM(Arrays.toString(snm).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
     }
 
     /**
-     * set IP to <i>iP</i><br>
+     * set IP to <i>ip</i><br>
      * and recalculate
      *
-     * @param iP IP-Address
+     * @param ip IP-Address
      * @since 1.0.0
      */
-    public void setIP(String iP) {
-        setIP(iP, true);
+    public void setIP(String ip) {
+        setIP(ip, true);
     }
 
     /**
-     * set IP to <i>iP</i>
+     * set IP to <i>ip</i>
      *
-     * @param iP          IP-Address
+     * @param ip          IP-Address
      * @param reCalculate recalculate now or later..?
      * @since 1.0.0
      */
-    public void setIP(String iP, boolean reCalculate) {
-        if (iP.trim().equals("")) {
+    public void setIP(String ip, boolean reCalculate) {
+        if (ip.trim().equals("")) {
             throw new IllegalArgumentException(IllegalArgument_EntryMissing + " [IP]");
         }
-        iP = clearAndAdd0(iP);
+        ip = clearAndAdd0(ip);
 
-        String[] stringArray = iP.split("\\.");
+        String[] stringArray = ip.split("\\.");
         checkEntryAndConvertSnm(stringArray, true);
         for (int i = 0; i < stringArray.length; i++) {
             IP_a[i] = Integer.parseInt(stringArray[i]);
@@ -148,85 +190,85 @@ public class Subnet implements Comparable<Subnet> {
     /**
      * set IP-Address
      *
-     * @param iP_a IP-Address Array [4]
+     * @param ip_a IP-Address Array [4]
      * @since 1.0.0
      */
-    public void setIP(String[] iP_a) {
-        setIP(convertNetworkArrayToString(iP_a));
+    public void setIP(String[] ip_a) {
+        setIP(convertNetworkArrayToString(ip_a));
     }
 
     /**
-     * set IP to <i>iP</i>
+     * set IP to <i>ip</i>
      *
-     * @param iP_a        IP-Address
+     * @param ip_a        IP-Address
      * @param reCalculate recalculate now or later..?
      * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.0.0
      */
-    public void setIP(String[] iP_a, boolean reCalculate) {
-        String iP_s = convertNetworkArrayToString(iP_a);
-        setIP(iP_s, reCalculate);
+    public void setIP(String[] ip_a, boolean reCalculate) {
+        String ip_s = convertNetworkArrayToString(ip_a);
+        setIP(ip_s, reCalculate);
     }
 
     /**
      * set IP-Address
      *
-     * @param iP_a IP-Address Array [4]
+     * @param ip_a IP-Address Array [4]
      * @since 1.3.0
      */
-    public void setIP(int[] iP_a) {
-        setIP(convertNetworkArrayToString(iP_a));
+    public void setIP(int[] ip_a) {
+        setIP(convertNetworkArrayToString(ip_a));
     }
 
     /**
-     * set IP to <i>iP</i>
+     * set IP to <i>ip</i>
      *
-     * @param iP_a        IP-Address
+     * @param ip_a        IP-Address
      * @param reCalculate recalculate now or later..?
      * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.3.0
      */
-    public void setIP(int[] iP_a, boolean reCalculate) {
-        String iP_s = convertNetworkArrayToString(iP_a);
-        setIP(iP_s, reCalculate);
+    public void setIP(int[] ip_a, boolean reCalculate) {
+        String ip_s = convertNetworkArrayToString(ip_a);
+        setIP(ip_s, reCalculate);
     }
 
     /**
      * set subnetmask &amp; recalculate table NOW<br>
      *
-     * @param sNM subnetmask
+     * @param snm subnetmask
      * @since 1.0.0
      */
-    public void setSNM(String sNM) {
-        if (sNM.trim().equals("")) {
+    public void setSNM(String snm) {
+        if (snm.trim().equals("")) {
             throw new IllegalArgumentException(IllegalArgument_EntryMissing + " [SNM]");
         }
-        sNM = clearAndAdd0(sNM);
+        snm = clearAndAdd0(snm);
 
-        checkEntryAndConvertSnm(sNM.split("\\."), false);
+        checkEntryAndConvertSnm(snm.split("\\."), false);
         calc();
     }
 
     /**
      * set subnetmask &amp; recalculate table NOW<br>
      *
-     * @param sNM_a subnetmask Array [4]
+     * @param snm_a subnetmask Array [4]
      * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.0.0
      */
-    public void setSNM(String[] sNM_a) {
-        setSNM(convertNetworkArrayToString(sNM_a));
+    public void setSNM(String[] snm_a) {
+        setSNM(convertNetworkArrayToString(snm_a));
     }
 
     /**
      * set subnetmask &amp; recalculate table NOW<br>
      *
-     * @param sNM_a subnetmask Array [4]
+     * @param snm_a subnetmask Array [4]
      * @throws IllegalArgumentException if there are wrong parameters
      * @since 1.3.0
      */
-    public void setSNM(int[] sNM_a) {
-        setSNM(convertNetworkArrayToString(sNM_a));
+    public void setSNM(int[] snm_a) {
+        setSNM(convertNetworkArrayToString(snm_a));
     }
 
     /**
@@ -812,11 +854,8 @@ public class Subnet implements Comparable<Subnet> {
                     classID_a[2] = IP_a[2];
                     classSNM_a[2] = 255;
                     if (IP_a[0] > 223) {// Klasse D & E; ab 224
-                        if (IP_a[0] > 223) {
-                            classChar = 'D';
-                        } else if (IP_a[0] > 239) {
-                            classChar = 'E';
-                        }
+                        if (IP_a[0] > 223) classChar = 'D';
+                        else if (IP_a[0] > 239) classChar = 'E';
 
                         netbits = 32 - getZeroCount();
                         netbits_s = netbits + "";// ?
