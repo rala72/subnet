@@ -21,7 +21,7 @@ import java.util.TreeSet;
  *         <a href="www.rala.io">www.rala.io</a>
  * @version 1.5.0
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "SameParameterValue"})
 public class Subnet implements Comparable<Subnet> {
     private static final int errorNumber = 0xDEADBEEF;
     private static final int[] snm_allowed_int = {0, 128, 192, 224, 240, 248, 252, 254, 255, 256};
@@ -984,18 +984,25 @@ public class Subnet implements Comparable<Subnet> {
                 } else if (!pr_b && Integer.parseInt(entry[i]) > 11111111) {
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
                 }
+                int[] intArray;
 
-                int[] intArray = new int[entry.length];
-                if (i == 0)
-                    if (pr_b) intArray = prefixTest(entry);
+                if (i == 0) {
+                    if (pr_b) intArray = convertPrefixAndValidate(entry);
                     else intArray = convertStringArrayToIntegerArray(entry);
-                System.arraycopy(intArray, 0, SNM_a, 0, SNM_a.length);
+                } else intArray = convertStringArrayToIntegerArray(entry);
 
                 // TO DO: snm converted in checkEntryAndConvertSnm
-                convertBinarySnmToDecimal(SNM_a, i);
+                convertBinarySnmToDecimal(intArray, i);
 
                 // SubnetmaskCheck
-                isSubnetOk(SNM_a, i);
+                isSubnetOk(intArray, i);
+
+                // maybe not most efficient way
+                if (i == 3)
+                    for (int j = 0; i < SNM_a.length; i++) {
+                        SNM_a[j] = intArray[j];
+                    }
+                else entry = convertIntegerArrayToStringArray(intArray);
             }
         }
     }
@@ -1006,7 +1013,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm_a Subnetmask String Array
      * @return Converted subnetmask array
      */
-    private int[] prefixTest(String[] snm_a) {
+    private int[] convertPrefixAndValidate(String[] snm_a) {
         final String SNM_error = " [SNM]";
         int pr_length;
         String s_snm_pr = "";
