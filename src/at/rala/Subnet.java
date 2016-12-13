@@ -36,17 +36,17 @@ public class Subnet implements Comparable<Subnet> {
      * if the SNM throws the error: message ends with "[SNM]"
      * </p>
      */
-    public static final String Exception_message = "Subnet Error - ";
-    public static final String IllegalArgument_EntryMissing = Exception_message + "Entry missing - maybe the entry is \"\" or \" \"";
-    public static final String IllegalArgument_EntryNotSupported = Exception_message + "Entry not supported / probably contains wrong characters: check it again!";
-    public static final String IllegalArgument_EntrySizeToSmall = Exception_message + "Size of the entry is to small";
-    public static final String IllegalArgument_EntrySizeToLarge = Exception_message + "Size of the entry is to large";
+    public static final String EXCEPTION_MESSAGE = "Subnet Error - ";
+    public static final String ILLEGAL_ARGUMENT_ENTRY_MISSING = EXCEPTION_MESSAGE + "Entry missing - maybe the entry is \"\" or \" \"";
+    public static final String ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED = EXCEPTION_MESSAGE + "Entry not supported / probably contains wrong characters: check it again!";
+    public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL = EXCEPTION_MESSAGE + "Size of the entry is to small";
+    public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE = EXCEPTION_MESSAGE + "Size of the entry is to large";
 
-    public static final String IllegalArgument_SubnetmaskFirstQuadIsInteresting = "First Quad is not allowed to be the interesting one";
-    public static final String IllegalArgument_SubnetmaskContainsWrongNumber = "Subnetmask contains wrong number";
-    public static final String IllegalArgument_Subnetmask255to0 = "Subnetmask: unequal 255 -> next has to be 0";
+    public static final String ILLEGAL_ARGUMENT_SUBNETMASK_FIRST_QUAD_IS_INTERESTING = "First Quad is not allowed to be the interesting one";
+    public static final String ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER = "Subnetmask contains wrong number";
+    public static final String ILLEGAL_ARGUMENT_SUBNETMASK_255_TO_0 = "Subnetmask: unequal 255 -> next has to be 0";
 
-    public static final String IllegalArgument_FirstQuadIsNotTheSame = Exception_message + "Summarize Exception: please make sure that both have the same Network (1. Quad)";
+    public static final String ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME = EXCEPTION_MESSAGE + "Summarize Exception: please make sure that both have the same Network (1. Quad)";
 
     private final int[] IP_a = new int[4];
     private final int[] SNM_a = new int[4];
@@ -174,7 +174,7 @@ public class Subnet implements Comparable<Subnet> {
      */
     public void setIP(String ip, boolean reCalculate) {
         if (ip.trim().equals("")) {
-            throw new IllegalArgumentException(IllegalArgument_EntryMissing + " [IP]");
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + " [IP]");
         }
         ip = clearAndAdd0(ip);
 
@@ -242,7 +242,7 @@ public class Subnet implements Comparable<Subnet> {
      */
     public void setSNM(String snm) {
         if (snm.trim().equals("")) {
-            throw new IllegalArgumentException(IllegalArgument_EntryMissing + " [SNM]");
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + " [SNM]");
         }
         snm = clearAndAdd0(snm);
 
@@ -601,7 +601,7 @@ public class Subnet implements Comparable<Subnet> {
             return null;
         }
         if (!(this.getIP_array()[0] == (s.getIP_array()[0]))) {
-            throw new IllegalArgumentException(IllegalArgument_FirstQuadIsNotTheSame);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
         }
 
         String sa_IP1[] = new String[4];
@@ -969,20 +969,20 @@ public class Subnet implements Comparable<Subnet> {
         boolean pr_b = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
             if (entry[i].trim().equals("")) {
-                throw new IllegalArgumentException(IllegalArgument_EntryMissing + where);
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + where);
             }
             if (isIP) {
                 if (!testNumber(entry[i]) || entry[i].contains("/")) {
-                    throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
                 }
                 if (Integer.parseInt(entry[i]) > 255) {
-                    throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
                 }
             } else {
                 if (!testNumber(entry[i])) {
-                    throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
                 } else if (!pr_b && Integer.parseInt(entry[i]) > 11111111) {
-                    throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
                 }
 
                 int[] intArray = new int[entry.length];
@@ -1014,16 +1014,16 @@ public class Subnet implements Comparable<Subnet> {
         String pr_ss = snm_a[0].replace("/", "");
 
         if (!testNumber(pr_ss)) {
-            throw new IllegalArgumentException(IllegalArgument_EntryNotSupported + SNM_error);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + SNM_error);
         }
         if (pr_ss.trim().equals("")) {
-            throw new IllegalArgumentException(IllegalArgument_EntryMissing + SNM_error);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + SNM_error);
         }
         pr_length = Integer.parseInt(pr_ss);
         if (pr_length < 8) {
-            throw new IllegalArgumentException(IllegalArgument_EntrySizeToSmall + SNM_error);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + SNM_error);
         } else if (pr_length > 31) {
-            throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + SNM_error);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + SNM_error);
         }
         for (int j = 0; j < pr_length; j++) {
             s_snm_pr += "1";
@@ -1056,13 +1056,13 @@ public class Subnet implements Comparable<Subnet> {
             snm_array[i] = (int) convertBinaryToDecimal(snm_array[i]);
 
             if (snm_array[i] > 256) {// must NEVER be true!
-                throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge + " [SNM]");
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + " [SNM]");
             }
         } else {
             if (!testNumber(String.valueOf(snm_array[i]))) {
-                throw new IllegalArgumentException(IllegalArgument_EntryNotSupported);
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
             } else if (snm_array[i] > 256) {
-                throw new IllegalArgumentException(IllegalArgument_EntrySizeToLarge);
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE);
             } else if (testBinary(snm_array[i])) {
                 if (!String.valueOf(snm_array[i]).contains("1")) {
                     snm_array[i] = 0;// 8 times 0 becomes only one
@@ -1085,7 +1085,7 @@ public class Subnet implements Comparable<Subnet> {
             }
         }
         if (!snm_allowed_b) {
-            throw new IllegalArgumentException(IllegalArgument_SubnetmaskContainsWrongNumber);
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
         }
 
         if (i != 3) {
@@ -1099,7 +1099,7 @@ public class Subnet implements Comparable<Subnet> {
                 }
 
                 if (!only0) {
-                    throw new IllegalArgumentException(IllegalArgument_Subnetmask255to0);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_255_TO_0);
                 }
             }
         }
@@ -1120,7 +1120,7 @@ public class Subnet implements Comparable<Subnet> {
         if (SNM_a[quad] != 255) {// Magische Zahl
             MZ = 256 - SNM_a[quad];
             IQ = quad;
-            if (IQ == 0) throw new IllegalArgumentException(IllegalArgument_SubnetmaskFirstQuadIsInteresting);
+            if (IQ == 0) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_FIRST_QUAD_IS_INTERESTING);
         }
 
         if (IQ != -1) {
