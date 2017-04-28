@@ -1,7 +1,10 @@
 # Subnet
 
-This code is used in rala's [Subnettable](http://www.rala.io/#/app/subnettable) project.<br>
-_(Android-App and Desktop application)_
+This code is used in rala's projects:
+
+* [Subnettable (Android)](http://www.rala.io/#/app/subnettable)
+* [Subnettable (Desktop)](http://www.rala.io/#/programs/subnettable)
+
 
 ## Docs
 
