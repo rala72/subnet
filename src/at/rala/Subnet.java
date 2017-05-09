@@ -631,17 +631,19 @@ public class Subnet implements Comparable<Subnet> {
                 String zwIpSub = s_IP1.substring(0, i);
                 zwIpSub = zwIpSub.replace(".", "");
                 int len = zwIpSub.length();
-                for (int ii = zwIpSub.length(); ii < 33; ii++) {
-                    zwIpSub += "0";
+                StringBuilder zwIpSubBuilder = new StringBuilder(zwIpSub);
+                for (int ii = zwIpSubBuilder.length(); ii < 33; ii++) {
+                    zwIpSubBuilder.append("0");
                 }
-                String zwIpSubF = "";
+                zwIpSub = zwIpSubBuilder.toString();
+                StringBuilder zwIpSubF = new StringBuilder();
                 for (int ii = 0; ii < 32; ii++) {
-                    zwIpSubF += zwIpSub.charAt(ii);
+                    zwIpSubF.append(zwIpSub.charAt(ii));
                     if ((ii + 1) % 8 == 0) {
-                        zwIpSubF += ".";
+                        zwIpSubF.append(".");
                     }
                     if (ii == 31) {
-                        zwIpSub = zwIpSubF;
+                        zwIpSub = zwIpSubF.toString();
                     }
                 }
                 String[] zwIpSubA = zwIpSub.split("\\.");
@@ -653,18 +655,18 @@ public class Subnet implements Comparable<Subnet> {
                 if (len == 32) {
                     len = 8;
                 }
-                String zwSNM = "";
+                StringBuilder zwSNM = new StringBuilder();
                 for (int ii = 0; ii < 32; ii++) {
                     if (ii < len) {
-                        zwSNM += "1";
+                        zwSNM.append("1");
                     } else {
-                        zwSNM += "0";
+                        zwSNM.append("0");
                     }
                     if ((ii + 1) % 8 == 0 && ii < 31) {
-                        zwSNM += ".";
+                        zwSNM.append(".");
                     }
                 }
-                String[] zwSNMa = zwSNM.split("\\.");
+                String[] zwSNMa = zwSNM.toString().split("\\.");
                 String[] snmS = new String[4];
                 for (int ii = 0; ii < 4; ii++) {
                     snmS[ii] = Subnet.convertBinaryToDecimal(Long.parseLong(zwSNMa[ii])) + "";
@@ -954,9 +956,11 @@ public class Subnet implements Comparable<Subnet> {
                 anzPoints++;
             }
         }
+        StringBuilder sBuilder = new StringBuilder(s);
         for (int i = anzPoints; i < 3; i++) {
-            s += ".0";
+            sBuilder.append(".0");
         }
+        s = sBuilder.toString();
         return s;
     }
 
@@ -1016,7 +1020,7 @@ public class Subnet implements Comparable<Subnet> {
     private int[] convertPrefixAndValidate(String[] snm_a) {
         final String SNM_error = " [SNM]";
         int pr_length;
-        String s_snm_pr = "";
+        StringBuilder s_snm_pr = new StringBuilder();
 
         String pr_ss = snm_a[0].replace("/", "");
 
@@ -1033,18 +1037,18 @@ public class Subnet implements Comparable<Subnet> {
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + SNM_error);
         }
         for (int j = 0; j < pr_length; j++) {
-            s_snm_pr += "1";
+            s_snm_pr.append("1");
             if ((j + 1) % 8 == 0) {
-                s_snm_pr += ".";
+                s_snm_pr.append(".");
             }
         }
         for (int j = pr_length; j < 32; j++) {
-            s_snm_pr += "0";
+            s_snm_pr.append("0");
             if ((j + 1) % 8 == 0 && (j + 1) != 32) {
-                s_snm_pr += ".";
+                s_snm_pr.append(".");
             }
         }
-        return convertStringArrayToIntegerArray(s_snm_pr.split("\\."));
+        return convertStringArrayToIntegerArray(s_snm_pr.toString().split("\\."));
     }
 
     /**
@@ -1172,15 +1176,15 @@ public class Subnet implements Comparable<Subnet> {
      * @return String
      */
     private static String convertNetworkArrayToString(String[] array) {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (i < array.length - 1) {
-                s += array[i] + ".";
+                s.append(array[i]).append(".");
             } else {
-                s += array[i];
+                s.append(array[i]);
             }
         }
-        return s;
+        return s.toString();
     }
 
     /**
