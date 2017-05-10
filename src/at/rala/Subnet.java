@@ -922,8 +922,10 @@ public class Subnet implements Comparable<Subnet> {
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
                 else if (!isPrefix && Integer.parseInt(entry[i]) > 11111111)
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
-                if (isPrefix) entry = convertPrefixAndValidate(entry);
-                // TO DO: snm converted in checkEntryAndConvertSnm
+                if (isPrefix && i == 0) {
+                    String[] stringArray = convertPrefixAndValidate(entry);
+                    for (int j = 0; j < entry.length; j++) entry[j] = stringArray[j];
+                }
                 entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i])));
                 // SubnetmaskCheck
                 isSubnetOk(convertStringArrayToIntegerArray(entry), i);
@@ -932,7 +934,7 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * convert Prefix to decimal subnetmask
+     * convert Prefix to binary subnetmask
      *
      * @param snm_a Subnetmask String Array
      * @return Converted subnetmask array
