@@ -924,7 +924,7 @@ public class Subnet implements Comparable<Subnet> {
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
                 if (isPrefix && i == 0) {
                     String[] stringArray = convertPrefixAndValidate(entry);
-                    for (int j = 0; j < entry.length; j++) entry[j] = stringArray[j];
+                    System.arraycopy(stringArray, 0, entry, 0, entry.length);
                 }
                 entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i])));
                 // SubnetmaskCheck
