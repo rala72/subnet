@@ -238,7 +238,10 @@ public class Subnet implements Comparable<Subnet> {
         if (snm.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + " [SNM]");
         snm = clearAndAdd0(snm);
 
-        checkEntryAndConvertSnm(snm.split("\\."), false);
+        String[] stringArray = snm.split("\\.");
+        checkEntryAndConvertSnm(stringArray, false);
+        for (int i = 0; i < stringArray.length; i++) SNM_a[i] = Integer.parseInt(stringArray[i]);
+
         calc();
     }
 
@@ -905,7 +908,7 @@ public class Subnet implements Comparable<Subnet> {
      */
     private void checkEntryAndConvertSnm(String[] entry, boolean isIP) {
         final String where = isIP ? " [IP]" : " [SNM]";
-        boolean pr_b = entry[0].charAt(0) == '/';
+        boolean isPrefix = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
             if (entry[i].trim().equals(""))
                 throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + where);
@@ -915,30 +918,15 @@ public class Subnet implements Comparable<Subnet> {
                 if (Integer.parseInt(entry[i]) > 255)
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
             } else {
-                if (!testNumber(entry[i])) {
+                if (!testNumber(entry[i]))
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
-                } else if (!pr_b && Integer.parseInt(entry[i]) > 11111111) {
+                else if (!isPrefix && Integer.parseInt(entry[i]) > 11111111)
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
-                }
-                int[] intArray;
-
-                if (i == 0) {
-                    if (pr_b) intArray = convertPrefixAndValidate(entry);
-                    else intArray = convertStringArrayToIntegerArray(entry);
-                } else intArray = convertStringArrayToIntegerArray(entry);
-
+                if (isPrefix) entry = convertPrefixAndValidate(entry);
                 // TO DO: snm converted in checkEntryAndConvertSnm
-                convertBinarySnmToDecimal(intArray, i);
-
+                entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i])));
                 // SubnetmaskCheck
-                isSubnetOk(intArray, i);
-
-                // maybe not most efficient way
-                if (i == 3)
-                    for (int j = 0; i < SNM_a.length; i++) {
-                        SNM_a[j] = intArray[j];
-                    }
-                else entry = convertIntegerArrayToStringArray(intArray);
+                isSubnetOk(convertStringArrayToIntegerArray(entry), i);
             }
         }
     }
@@ -949,7 +937,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm_a Subnetmask String Array
      * @return Converted subnetmask array
      */
-    private int[] convertPrefixAndValidate(String[] snm_a) {
+    private String[] convertPrefixAndValidate(String[] snm_a) {
         final String SNM_error = " [SNM]";
         int pr_length;
         StringBuilder s_snm_pr = new StringBuilder();
@@ -969,38 +957,31 @@ public class Subnet implements Comparable<Subnet> {
             s_snm_pr.append("0");
             if ((j + 1) % 8 == 0 && (j + 1) != 32) s_snm_pr.append(".");
         }
-        return convertStringArrayToIntegerArray(s_snm_pr.toString().split("\\."));
+        return s_snm_pr.toString().split("\\.");
     }
 
     /**
      * convert binary Subnetmask to decimal
      *
-     * @param snm_array subnetmask String Array
-     * @param i         current Array (max 3) index
+     * @param snm subnetmask part
+     * @return new snm part
      */
-    private void convertBinarySnmToDecimal(int[] snm_array, int i) {
-        if (String.valueOf(snm_array[i]).length() >= 4 && testBinary(snm_array[i]) && snm_array[i] != 0) {
+    private int convertBinarySnmToDecimal(int snm) {
+        if (String.valueOf(snm).length() >= 4 && testBinary(snm) && snm != 0) {
             // fill zeros to 8
-            while (String.valueOf(snm_array[i]).length() < 8) {
-                snm_array[i] *= 10;
-            }
-
-            snm_array[i] = (int) convertBinaryToDecimal(snm_array[i]);
-
-            if (snm_array[i] > 256) {// must NEVER be true!
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + " [SNM]");
-            }
+            while (String.valueOf(snm).length() < 8) snm *= 10;
+            snm = (int) convertBinaryToDecimal(snm);
+            // must NEVER be true!
+            if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + " [SNM]");
         } else {
-            if (!testNumber(String.valueOf(snm_array[i]))) {
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
-            } else if (snm_array[i] > 256) {
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE);
-            } else if (testBinary(snm_array[i])) {
-                if (!String.valueOf(snm_array[i]).contains("1")) {
-                    snm_array[i] = 0;// 8 times 0 becomes only one
-                }
+            if (!testNumber(String.valueOf(snm))) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
+            else if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE);
+            else if (testBinary(snm)) {
+                // 8 times 0 becomes only one
+                if (!String.valueOf(snm).contains("1")) snm = 0;
             }
         }
+        return snm;
     }
 
     /**
