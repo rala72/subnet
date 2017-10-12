@@ -803,8 +803,8 @@ public class Subnet implements Comparable<Subnet> {
                     classID_a[2] = IP_a[2];
                     classSNM_a[2] = 255;
                     if (IP_a[0] > 223) {// Klasse D & E; ab 224
-                        if (IP_a[0] > 223) classChar = 'D';
-                        else if (IP_a[0] > 239) classChar = 'E';
+                        if (IP_a[0] > 239) classChar = 'E';
+                        else classChar = 'E';
 
                         netbits = 32 - getZeroCount();
                         netbits_s = netbits + "";// ?
