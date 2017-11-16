@@ -294,7 +294,7 @@ public class Subnet implements Comparable<Subnet> {
 
     /**
      * @return subnetmask
-     * @see Subnet#getSubnetmask()
+     * @see Subnet#getSNM()
      * @since 1.0.0
      */
     public String getSubnetmask() {
@@ -312,7 +312,7 @@ public class Subnet implements Comparable<Subnet> {
 
     /**
      * @return subnetmask as array
-     * @see Subnet#getSubnetmask_array()
+     * @see Subnet#getSNM_array()
      * @since 1.0.0
      */
     public int[] getSubnetmask_array() {
