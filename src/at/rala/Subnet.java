@@ -1166,7 +1166,7 @@ public class Subnet implements Comparable<Subnet> {
         String s = "\nSubnet-INFO:\n";
         s += getIP() + "\t" + getSNM() + "\t(" + getWildmarkMask() + ")\tQuad: " + getIQ() + supernetting + "\n";
         s += "mz:" + getMagicNumber() + "\t\tmz:min:" + getMagicNumber_min() + "\tmz:max:" + getMagicNumber_max() + "\n";
-        s += "subnet ID: \t" + getFirstAvailableIP() + "\nBroadcast: \t" + getLastAvailableIP() + "\n";
+        s += "subnet ID: \t" + getSubnetID() + "\nBroadcast: \t" + getBroadCastIP() + "\n";
         s += "first available IP: \t" + getFirstAvailableIP() + "\nlast available IP: \t" + getLastAvailableIP() + "\n";
         s += "class: \t" + getClassChar() + "\nclass ID: \t" + getClassID() + "\nclass SNM: \t" + getClassSNM() + "\n";
         s += "netbits: " + getNetbitsString() + " \t\tsubnetbits: " + getSubnetbitsString() + " \thostbits: " + getHostbitsString() + "\n";
