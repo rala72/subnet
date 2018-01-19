@@ -23,9 +23,7 @@ import java.util.TreeSet;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class Subnet implements Comparable<Subnet> {
-    private static final int[] snm_allowed_int = {0, 128, 192, 224, 240, 248, 252, 254, 255};
-    // last Quad: 254+ no usable host (in general)
-
+    //region error messages & valid snm entries
     /**
      * <p>
      * easy to check with <i>{@link String#startsWith(String)}</i> and <i>{@link String#endsWith(String)}</i>
@@ -49,6 +47,11 @@ public class Subnet implements Comparable<Subnet> {
 
     public static final String ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME = EXCEPTION_MESSAGE + "Summarize Exception: please make sure that both have the same Network (1. Quad)";
 
+    private static final int[] SNM_ALLOWED = {0, 128, 192, 224, 240, 248, 252, 254, 255};
+    // last Quad: 254+ no usable host (in general)
+    //endregion
+
+    //region subnet members
     private final int[] IP_a = new int[4];
     private final int[] SNM_a = new int[4];
     private final int[] WILD_a = new int[4];
@@ -76,6 +79,9 @@ public class Subnet implements Comparable<Subnet> {
     private String countOfSubnets_s = "";
     private int countOfHosts;
     private String countOfHosts_s = "";
+    //endregion
+
+    //region constructors
 
     /**
      * generate a Subnet<br>
@@ -154,6 +160,9 @@ public class Subnet implements Comparable<Subnet> {
         setIP(ip, false);
         setSNM(Arrays.toString(snm).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
     }
+    //endregion
+
+    //region setter
 
     /**
      * set IP to <i>ip</i><br>
@@ -267,6 +276,9 @@ public class Subnet implements Comparable<Subnet> {
     public void setSNM(int[] snm_a) {
         setSNM(convertNetworkArrayToString(snm_a));
     }
+    //endregion setter
+
+    //region getter (basic)
 
     /**
      * @return IP-Address
@@ -573,6 +585,9 @@ public class Subnet implements Comparable<Subnet> {
             return (24 - getZeroCount()) < 0;
         }
     }
+    //endregion
+
+    //region extras: summarize, subnets, contains
 
     /**
      * summarize current network with other subnet
@@ -708,8 +723,9 @@ public class Subnet implements Comparable<Subnet> {
             this.getSubnetID_array()[this.getIQ()] <= s.getIP_array()[this.getIQ()] &&
                 this.getBroadCastIP_array()[this.getIQ()] >= s.getIP_array()[this.getIQ()];
     }
+    //endregion
 
-    // calc
+    //region calc
     private void calc() {
         // WILD SNM
         for (int i = 0; i < 4; i++) WILD_a[i] = 255 - SNM_a[i];
@@ -850,6 +866,9 @@ public class Subnet implements Comparable<Subnet> {
             }
         }
     }
+    //endregion
+
+    //region valid checks and other internal methods
 
     /**
      * check if entry is valid
@@ -968,7 +987,7 @@ public class Subnet implements Comparable<Subnet> {
      */
     private void isSubnetOk(int[] a_snm, int i) {
         boolean snm_allowed_b = false;
-        for (int snm_allowed_int_ : snm_allowed_int)
+        for (int snm_allowed_int_ : SNM_ALLOWED)
             if (a_snm[i] == snm_allowed_int_) snm_allowed_b = true;
         if (!snm_allowed_b) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
 
@@ -1032,6 +1051,9 @@ public class Subnet implements Comparable<Subnet> {
         }
         return zero_count;
     }
+    //endregion
+
+    //region convert...
 
     /**
      * convert IP or SNM Array to String with '.' separator
@@ -1101,6 +1123,9 @@ public class Subnet implements Comparable<Subnet> {
         for (int i = 0; i < strings.length; i++) intArray[i] = Integer.parseInt(strings[i]);
         return intArray;
     }
+    //endregion
+
+    //region testNumber, testBinary
 
     /**
      * tests if {@link String} is valid number
@@ -1121,6 +1146,9 @@ public class Subnet implements Comparable<Subnet> {
     private static boolean testBinary(long number) {
         return testNumber(String.valueOf(number)) && String.valueOf(number).matches("[01]*");
     }
+    //endregion
+
+    //region toString, compareTo, equals
 
     /**
      * @param detailed complete output or only ip &amp; snm
@@ -1178,4 +1206,5 @@ public class Subnet implements Comparable<Subnet> {
     public boolean equals(Object obj) {
         return obj instanceof Subnet && compareTo((Subnet) obj) == 0;
     }
+    //endregion
 }
