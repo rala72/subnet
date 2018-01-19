@@ -908,21 +908,20 @@ public class Subnet implements Comparable<Subnet> {
      * and converts snm to correct decimal format
      */
     private void checkEntryAndConvertSnm(String[] entry, boolean isIP) {
-        final String where = isIP ? ERROR_IP : ERROR_SNM;
         boolean isPrefix = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
             if (entry[i].trim().equals(""))
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + where);
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + (isIP ? ERROR_IP : ERROR_SNM));
             if (isIP) {
                 if (!testNumber(entry[i]) || entry[i].contains("/"))
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_IP);
                 if (Integer.parseInt(entry[i]) > 255)
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_IP);
             } else {
                 if (!testNumber(entry[i]))
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_SNM);
                 else if (!isPrefix && Integer.parseInt(entry[i]) > 11111111)
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + where);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
                 if (isPrefix && i == 0) {
                     String[] stringArray = convertPrefixAndValidate(entry);
                     System.arraycopy(stringArray, 0, entry, 0, entry.length);
