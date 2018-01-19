@@ -567,13 +567,12 @@ public class Subnet implements Comparable<Subnet> {
         if (IP_a[0] > 223) {// Class D & E; 224 and above: no supernet
             return false;
         } else if (IP_a[0] > 191) {// Class C: SUPERNETTING: only if 192-223
-            if ((8 - getZeroCount()) < 0) return true;
+            return (8 - getZeroCount()) < 0;
         } else if (IP_a[0] > 127) {// Class B: ONLY if 128-191
-            if ((16 - getZeroCount()) < 0) return true;
+            return (16 - getZeroCount()) < 0;
         } else {// Class A: ONLY if 0-127
-            if ((24 - getZeroCount()) < 0) return true;
+            return (24 - getZeroCount()) < 0;
         }
-        return false;
     }
 
     /**
