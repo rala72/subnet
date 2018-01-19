@@ -976,7 +976,7 @@ public class Subnet implements Comparable<Subnet> {
             if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
         } else {
             if (!testNumber(String.valueOf(snm))) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
-            else if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE);
+            else if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
             else if (testBinary(snm)) {
                 // 8 times 0 becomes only one
                 if (!String.valueOf(snm).contains("1")) snm = 0;
