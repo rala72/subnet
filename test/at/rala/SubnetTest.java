@@ -28,6 +28,7 @@ public class SubnetTest {
         subnet3 = new Subnet("10", "255.255");
         if (printAll) {
             printAll = false;
+            // System.out.println(new Subnet("192.168.12.3", "/23").toString(printAllDetailed));
             System.out.println(subnet1.toString(printAllDetailed));
             System.out.println(subnet2.toString(printAllDetailed));
             System.out.println(subnet3.toString(printAllDetailed));
