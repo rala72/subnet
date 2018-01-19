@@ -24,8 +24,8 @@ import java.util.TreeSet;
 @SuppressWarnings({"unused", "WeakerAccess", "SameParameterValue"})
 public class Subnet implements Comparable<Subnet> {
     private static final int errorNumber = 0xDEADBEEF;
-    private static final int[] snm_allowed_int = {0, 128, 192, 224, 240, 248, 252, 254, 255, 256};
-    // 255: no usable hosts, 256: only 1 host
+    private static final int[] snm_allowed_int = {0, 128, 192, 224, 240, 248, 252, 254, 255};
+    // last Quad: 254+ no usable host (in general)
 
     /**
      * <p>
@@ -771,7 +771,6 @@ public class Subnet implements Comparable<Subnet> {
             if ((MZ_min + 1) < MZ_max) firstAvailableIP_a[IQ] = (MZ_min + 1);
             else firstAvailableIP_a[IQ] = MZ_min;
 
-
             if ((MZ_max - 1) > 0) lastAvailableIP_a[IQ] = (MZ_max - 1);
             else lastAvailableIP_a[IQ] = MZ_max;
 
@@ -918,15 +917,16 @@ public class Subnet implements Comparable<Subnet> {
                 if (Integer.parseInt(entry[i]) > 255)
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_IP);
             } else {
+                boolean lastQuad = i == 3;
                 if (!testNumber(entry[i]))
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_SNM);
-                else if (!isPrefix && Integer.parseInt(entry[i]) > 11111111)
+                else if (!isPrefix && (Integer.parseInt(entry[i]) > 11111111 || (lastQuad && Integer.parseInt(entry[i]) > 11111100)))
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
                 if (isPrefix && i == 0) {
                     String[] stringArray = convertPrefixAndValidate(entry);
                     System.arraycopy(stringArray, 0, entry, 0, entry.length);
                 }
-                entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i])));
+                entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i]), lastQuad));
                 // SubnetmaskCheck
                 isSubnetOk(convertStringArrayToIntegerArray(entry), i);
             }
@@ -949,7 +949,7 @@ public class Subnet implements Comparable<Subnet> {
         if (pr_ss.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_SNM);
         pr_length = Integer.parseInt(pr_ss);
         if (pr_length < 8) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + ERROR_SNM);
-        else if (pr_length > 31) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+        else if (pr_length > 30) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
         for (int j = 0; j < pr_length; j++) {
             s_snm_pr.append("1");
             if ((j + 1) % 8 == 0) s_snm_pr.append(".");
@@ -967,16 +967,16 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm subnetmask part
      * @return new snm part
      */
-    private int convertBinarySnmToDecimal(int snm) {
+    private int convertBinarySnmToDecimal(int snm, boolean lastQuad) {
         if (String.valueOf(snm).length() >= 4 && testBinary(snm) && snm != 0) {
             // fill zeros to 8
             while (String.valueOf(snm).length() < 8) snm *= 10;
             snm = (int) convertBinaryToDecimal(snm);
             // must NEVER be true!
-            if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+            if (snm > 255) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
         } else {
             if (!testNumber(String.valueOf(snm))) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
-            else if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+            else if (snm > 255 || (lastQuad && snm > 252)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
             else if (testBinary(snm)) {
                 // 8 times 0 becomes only one
                 if (!String.valueOf(snm).contains("1")) snm = 0;
