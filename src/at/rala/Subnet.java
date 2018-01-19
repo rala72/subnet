@@ -41,6 +41,8 @@ public class Subnet implements Comparable<Subnet> {
     public static final String ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED = EXCEPTION_MESSAGE + "Entry not supported / probably contains wrong characters: check it again!";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL = EXCEPTION_MESSAGE + "Size of the entry is to small";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE = EXCEPTION_MESSAGE + "Size of the entry is to large";
+    private static final String ERROR_IP = " [IP]";
+    private static final String ERROR_SNM = " [SNM]";
 
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_FIRST_QUAD_IS_INTERESTING = "First Quad is not allowed to be the interesting one";
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER = "Subnetmask contains wrong number";
@@ -173,7 +175,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public void setIP(String ip, boolean reCalculate) {
-        if (ip.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + " [IP]");
+        if (ip.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_IP);
         ip = clearAndAdd0(ip);
 
         String[] stringArray = ip.split("\\.");
@@ -235,7 +237,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public void setSNM(String snm) {
-        if (snm.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + " [SNM]");
+        if (snm.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_SNM);
         snm = clearAndAdd0(snm);
 
         String[] stringArray = snm.split("\\.");
@@ -907,7 +909,7 @@ public class Subnet implements Comparable<Subnet> {
      * and converts snm to correct decimal format
      */
     private void checkEntryAndConvertSnm(String[] entry, boolean isIP) {
-        final String where = isIP ? " [IP]" : " [SNM]";
+        final String where = isIP ? ERROR_IP : ERROR_SNM;
         boolean isPrefix = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
             if (entry[i].trim().equals(""))
@@ -940,17 +942,16 @@ public class Subnet implements Comparable<Subnet> {
      * @return Converted subnetmask array
      */
     private String[] convertPrefixAndValidate(String[] snm_a) {
-        final String SNM_error = " [SNM]";
         int pr_length;
         StringBuilder s_snm_pr = new StringBuilder();
 
         String pr_ss = snm_a[0].replace("/", "");
 
-        if (!testNumber(pr_ss)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + SNM_error);
-        if (pr_ss.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + SNM_error);
+        if (!testNumber(pr_ss)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_SNM);
+        if (pr_ss.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_SNM);
         pr_length = Integer.parseInt(pr_ss);
-        if (pr_length < 8) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + SNM_error);
-        else if (pr_length > 31) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + SNM_error);
+        if (pr_length < 8) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + ERROR_SNM);
+        else if (pr_length > 31) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
         for (int j = 0; j < pr_length; j++) {
             s_snm_pr.append("1");
             if ((j + 1) % 8 == 0) s_snm_pr.append(".");
@@ -974,7 +975,7 @@ public class Subnet implements Comparable<Subnet> {
             while (String.valueOf(snm).length() < 8) snm *= 10;
             snm = (int) convertBinaryToDecimal(snm);
             // must NEVER be true!
-            if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + " [SNM]");
+            if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
         } else {
             if (!testNumber(String.valueOf(snm))) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
             else if (snm > 256) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE);
