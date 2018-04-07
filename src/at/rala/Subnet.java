@@ -1,5 +1,3 @@
-// ralaVersion 1.2.0
-// Methods from Subnettable 1.2.6 [origin: 1.1.8]
 package at.rala;
 
 import java.util.Arrays;
@@ -11,10 +9,8 @@ import java.util.TreeSet;
 
 /**
  * IP-Address and Subnetmask needed to get a Subnet<br>
- * <br>
- * this tool is in use from rala for his program: "Subnettable" (German: "Subnetztabelle")<br>
- * <p>
- * <i>you should catch IllegalArgumentExceptions</i>
+ *
+ * <i>you should catch IllegalArgumentExceptions (see: {@link #EXCEPTION_MESSAGE})</i>
  *
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
@@ -25,21 +21,22 @@ import java.util.TreeSet;
 public class Subnet implements Comparable<Subnet> {
     //region error messages & valid snm entries
     /**
-     * <p>
-     * easy to check with <i>{@link String#startsWith(String)}</i> and <i>{@link String#endsWith(String)}</i>
-     * </p>
-     * <p>
-     * if the IP throws the error: message ends with "[IP]"<br>
-     * if the SNM throws the error: message ends with "[SNM]"
-     * </p>
+     * <b>initial text for known exceptions handled by this class</b>
+     * <ul>
+     * <li>if the IP throws the error: message ends with {@link #EXCEPTION_MESSAGE_SUFFIX_IP}</li>
+     * <li>if the SNM throws the error: message ends with {@link #EXCEPTION_MESSAGE_SUFFIX_SNM}</li>
+     * </ul>
+     *
+     * @see String#startsWith(String)
+     * @see String#endsWith(String)
      */
     public static final String EXCEPTION_MESSAGE = "Subnet Error - ";
     public static final String ILLEGAL_ARGUMENT_ENTRY_MISSING = EXCEPTION_MESSAGE + "Entry missing - maybe the entry is \"\" or \" \"";
     public static final String ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED = EXCEPTION_MESSAGE + "Entry not supported / probably contains wrong characters: check it again!";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL = EXCEPTION_MESSAGE + "Size of the entry is to small";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE = EXCEPTION_MESSAGE + "Size of the entry is to large";
-    private static final String ERROR_IP = " [IP]";
-    private static final String ERROR_SNM = " [SNM]";
+    public static final String EXCEPTION_MESSAGE_SUFFIX_IP = " [IP]";
+    public static final String EXCEPTION_MESSAGE_SUFFIX_SNM = " [SNM]";
 
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_FIRST_QUAD_IS_INTERESTING = "First Quad is not allowed to be the interesting one";
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER = "Subnetmask contains wrong number";
@@ -183,7 +180,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public void setIP(String ip, boolean reCalculate) {
-        if (ip.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_IP);
+        if (ip.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_IP);
         ip = clearAndAdd0(ip);
 
         String[] stringArray = ip.split("\\.");
@@ -245,7 +242,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public void setSNM(String snm) {
-        if (snm.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_SNM);
+        if (snm.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
         snm = clearAndAdd0(snm);
 
         String[] stringArray = snm.split("\\.");
@@ -904,18 +901,18 @@ public class Subnet implements Comparable<Subnet> {
         boolean isPrefix = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
             if (entry[i].trim().equals(""))
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + (isIP ? ERROR_IP : ERROR_SNM));
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + (isIP ? EXCEPTION_MESSAGE_SUFFIX_IP : EXCEPTION_MESSAGE_SUFFIX_SNM));
             if (isIP) {
                 if (!testNumber(entry[i]) || entry[i].contains("/"))
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_IP);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + EXCEPTION_MESSAGE_SUFFIX_IP);
                 if (Integer.parseInt(entry[i]) > 255)
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_IP);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_IP);
             } else {
                 boolean lastQuad = i == 3;
                 if (!testNumber(entry[i]))
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_SNM);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + EXCEPTION_MESSAGE_SUFFIX_SNM);
                 else if (!isPrefix && (Integer.parseInt(entry[i]) > 11111111 || (lastQuad && Integer.parseInt(entry[i]) > 11111100)))
-                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+                    throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
                 if (isPrefix && i == 0) {
                     String[] stringArray = convertPrefixAndValidate(entry);
                     System.arraycopy(stringArray, 0, entry, 0, entry.length);
@@ -939,11 +936,11 @@ public class Subnet implements Comparable<Subnet> {
 
         String pr_ss = snm_a[0].replace("/", "");
 
-        if (!testNumber(pr_ss)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + ERROR_SNM);
-        if (pr_ss.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + ERROR_SNM);
+        if (!testNumber(pr_ss)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + EXCEPTION_MESSAGE_SUFFIX_SNM);
+        if (pr_ss.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
         pr_length = Integer.parseInt(pr_ss);
-        if (pr_length < 8) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + ERROR_SNM);
-        else if (pr_length > 30) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+        if (pr_length < 8) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + EXCEPTION_MESSAGE_SUFFIX_SNM);
+        else if (pr_length > 30) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
         for (int j = 0; j < pr_length; j++) {
             s_snm_pr.append("1");
             if ((j + 1) % 8 == 0) s_snm_pr.append(".");
@@ -967,10 +964,10 @@ public class Subnet implements Comparable<Subnet> {
             while (String.valueOf(snm).length() < 8) snm *= 10;
             snm = (int) convertBinaryToDecimal(snm);
             // must NEVER be true!
-            if (snm > 255) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+            if (snm > 255) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
         } else {
             if (!testNumber(String.valueOf(snm))) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
-            else if (snm > 255 || (lastQuad && snm > 252)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + ERROR_SNM);
+            else if (snm > 255 || (lastQuad && snm > 252)) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
             else if (testBinary(snm)) {
                 // 8 times 0 becomes only one
                 if (!String.valueOf(snm).contains("1")) snm = 0;
