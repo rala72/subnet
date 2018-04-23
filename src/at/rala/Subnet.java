@@ -950,14 +950,13 @@ public class Subnet implements Comparable<Subnet> {
      * @param s IP address or Subnetmask
      */
     private String clearAndAdd0(String s) {
-        int anzPoints = 0;
         while (s.contains("..")) s = s.replace("..", ".");
         if (s.endsWith(".")) s = s.substring(0, s.length() - 1);
-        for (int i = 0; i < s.length(); i++) if (s.charAt(i) == '.') anzPoints++;
-        StringBuilder sBuilder = new StringBuilder(s);
-        for (int i = anzPoints; i < 3; i++) sBuilder.append(".0");
-        s = sBuilder.toString();
-        return s;
+        int countDots = 0;
+        for (int i = 0; i < s.length(); i++) if (s.charAt(i) == '.') countDots++;
+        StringBuilder stringBuilder = new StringBuilder(s);
+        for (int i = countDots; i < 3; i++) stringBuilder.append(".0");
+        return stringBuilder.toString();
     }
 
     /**
