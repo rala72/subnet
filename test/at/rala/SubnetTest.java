@@ -10,12 +10,14 @@ import java.util.TreeSet;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class SubnetTest {
+    //region default config
     // maybe make more methods for same method with different cases
     private static final String NOT_CORRECT = "not correct";
     private static final String IP_NOT_CORRECT = "IP is " + NOT_CORRECT;
     private static final String SNM_NOT_CORRECT = "SNM is " + NOT_CORRECT;
     private static boolean printAll = true;
     private static boolean printAllDetailed = false;
+    //endregion
 
     private Subnet subnet1;
     private Subnet subnet2;
@@ -35,7 +37,9 @@ public class SubnetTest {
         }
     }
 
+    //region setter
     @Test
+    @SuppressWarnings("deprecation")
     public void setIP() {
         subnet1.setIP("10");
         subnet2.setIP("10", false);
@@ -60,7 +64,9 @@ public class SubnetTest {
         assert subnet2.getSNM().equals("255.0.0.0") : SNM_NOT_CORRECT;
         assert subnet3.getSNM().equals("255.0.0.0") : SNM_NOT_CORRECT;
     }
+    //endregion
 
+    //region getter (basic)
     @Test
     public void getIP() {
         assert subnet1.getIP().equals("192.168.50.20") : IP_NOT_CORRECT;
@@ -310,7 +316,9 @@ public class SubnetTest {
         assert subnet2.isSupernetting() : NOT_CORRECT;
         assert !subnet3.isSupernetting() : NOT_CORRECT;
     }
+    // endregion
 
+    //region extras: summarize, subnets, contains
     @Test
     public void summarize() {
         assert subnet1.summarize(subnet2).equals(new Subnet("192.168.50.0", "255.255.255.224")) : NOT_CORRECT;
@@ -339,12 +347,30 @@ public class SubnetTest {
     }
 
     @Test
-    public void contains() {
-        assert subnet1.contains(new Subnet("192.168.50.30", "/26")) : NOT_CORRECT;
-        assert subnet2.contains(new Subnet("192.168.50.77", "/22")) : NOT_CORRECT;
-        assert !subnet3.contains(new Subnet("11", "/24")) : NOT_CORRECT;
+    public void isSameSubnet() {
+        assert !subnet1.isSameSubnet(subnet2) : NOT_CORRECT;
+        assert !subnet2.isSameSubnet(subnet1) : NOT_CORRECT;
+        assert !subnet1.isSameSubnet(subnet3) : NOT_CORRECT;
+        assert !subnet3.isSameSubnet(subnet1) : NOT_CORRECT;
+
+        subnet1.setSNM("/24");
+        subnet2.setSNM("/24");
+        assert subnet1.isSameSubnet(subnet2) : NOT_CORRECT;
     }
 
+    @Test
+    public void contains() {
+        assert !subnet1.contains(subnet2) : NOT_CORRECT;
+        assert subnet2.contains(subnet1) : NOT_CORRECT;
+        assert !subnet3.contains(new Subnet("11", "/24")) : NOT_CORRECT;
+
+        subnet1.setSNM(subnet2.getSNM());
+        assert subnet1.contains(subnet2) : NOT_CORRECT;
+        assert subnet2.contains(subnet1) : NOT_CORRECT;
+    }
+    //endregion
+
+    //region convert
     @Test
     public void convertBinaryToDecimal() {
         assert Subnet.convertBinaryToDecimal(1) == 0b1 : NOT_CORRECT;
@@ -368,7 +394,9 @@ public class SubnetTest {
     public void convertStringArrayToIntegerArray() {
         assert Arrays.equals(Subnet.convertStringArrayToIntegerArray(new String[]{"0", "1", "2"}), new int[]{0, 1, 2}) : NOT_CORRECT;
     }
+    // endregion
 
+    //region toString, compareTo, ...
     @Test
     public void toStringTest() {
         assert subnet1.toString().equals("192.168.50.20 255.255.240.0") : NOT_CORRECT;
@@ -395,9 +423,21 @@ public class SubnetTest {
 
     @Test
     public void equals() {
+        assert subnet1.equals(new Subnet(subnet1.getIP(), subnet1.getSNM())) : NOT_CORRECT;
         assert !subnet1.equals(subnet2) : NOT_CORRECT;
         assert !subnet1.equals(subnet3) : NOT_CORRECT;
         assert !subnet2.equals(subnet3) : NOT_CORRECT;
     }
 
+    @Test
+    public void equalsDeep() {
+        subnet1.setSNM("/25");
+        subnet2.setSNM("/25");
+        subnet3.setIP("192.168.50.128");
+        subnet3.setSNM("/25");
+        assert subnet1.equals(subnet2, true) : NOT_CORRECT;
+        assert !subnet1.equals(subnet3, true) : NOT_CORRECT;
+        assert !subnet2.equals(subnet3, true) : NOT_CORRECT;
+    }
+    //endregion
 }

@@ -15,9 +15,9 @@ import java.util.TreeSet;
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
  * <a href="www.rala.io">www.rala.io</a>
- * @version 1.5.2
+ * @version 1.5.3
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "DeprecatedIsStillUsed"})
 public class Subnet implements Comparable<Subnet> {
     //region error messages & valid snm entries
     /**
@@ -87,11 +87,10 @@ public class Subnet implements Comparable<Subnet> {
      * @param ip IP address
      * @since 1.5.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(String ip) {
         setIP(ip, false);
-        if (IP_a[0] < 128) setSNM("/8");
-        else if (IP_a[0] < 192) setSNM("/16");
-        else setSNM("/24");
+        setSubnetmaskBasedOnClass();
     }
 
     /**
@@ -101,6 +100,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm Subnetmask
      * @since 1.0.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(String ip, String snm) {
         setIP(ip, false);
         setSNM(snm);
@@ -113,11 +113,10 @@ public class Subnet implements Comparable<Subnet> {
      * @param ip IP address
      * @since 1.5.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(String[] ip) {
         setIP(ip, false);
-        if (IP_a[0] < 128) setSNM("/8");
-        else if (IP_a[0] < 192) setSNM("/16");
-        else setSNM("/24");
+        setSubnetmaskBasedOnClass();
     }
 
     /**
@@ -127,6 +126,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm Subnetmask
      * @since 1.0.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(String[] ip, String[] snm) {
         setIP(ip, false);
         setSNM(snm);
@@ -139,11 +139,10 @@ public class Subnet implements Comparable<Subnet> {
      * @param ip IP address
      * @since 1.5.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(int[] ip) {
         setIP(ip, false);
-        if (IP_a[0] < 128) setSNM("/8");
-        else if (IP_a[0] < 192) setSNM("/16");
-        else setSNM("/24");
+        setSubnetmaskBasedOnClass();
     }
 
     /**
@@ -153,6 +152,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param snm Subnetmask
      * @since 1.3.0
      */
+    @SuppressWarnings("deprecation")
     public Subnet(int[] ip, int[] snm) {
         setIP(ip, false);
         setSNM(Arrays.toString(snm).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
@@ -167,6 +167,7 @@ public class Subnet implements Comparable<Subnet> {
      * @param ip IP address
      * @since 1.0.0
      */
+    @SuppressWarnings("deprecation")
     public void setIP(String ip) {
         setIP(ip, true);
     }
@@ -183,10 +184,15 @@ public class Subnet implements Comparable<Subnet> {
      * @see #setIP(String)
      * @see #recalculate()
      * @since 1.0.0
+     * @deprecated use {@link #setIP(String)}
      */
+    @Deprecated
     public void setIP(String ip, boolean recalculate) {
         if (ip.trim().equals("")) throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_IP);
         ip = clearAndAdd0(ip);
+
+        // probably not very efficient; but recalculate shouldn't be used anyway
+        if (recalculate && isSameSubnet(new Subnet(ip, getSNM()))) recalculate = false;
 
         String[] stringArray = ip.split("\\.");
         checkEntryAndConvertSnm(stringArray, true);
@@ -216,7 +222,9 @@ public class Subnet implements Comparable<Subnet> {
      * @see #setIP(String[])
      * @see #recalculate()
      * @since 1.0.0
+     * @deprecated use {@link #setIP(String[])}
      */
+    @Deprecated
     public void setIP(String[] ip, boolean recalculate) {
         setIP(convertNetworkArrayToString(ip), recalculate);
     }
@@ -243,7 +251,9 @@ public class Subnet implements Comparable<Subnet> {
      * @see #setIP(int[])
      * @see #recalculate()
      * @since 1.3.0
+     * @deprecated use {@link #setIP(int[])}
      */
+    @Deprecated
     public void setIP(int[] ip, boolean recalculate) {
         setIP(convertNetworkArrayToString(ip), recalculate);
     }
@@ -283,6 +293,12 @@ public class Subnet implements Comparable<Subnet> {
      */
     public void setSNM(int[] snm) {
         setSNM(convertNetworkArrayToString(snm));
+    }
+
+    public void setSubnetmaskBasedOnClass() {
+        if (IP_a[0] < 128) setSNM("/8");
+        else if (IP_a[0] < 192) setSNM("/16");
+        else setSNM("/24");
     }
     //endregion setter
 
@@ -717,20 +733,46 @@ public class Subnet implements Comparable<Subnet> {
 
     /**
      * @param s other Subnet
+     * @return if current Subnet is the same as other Subnet
+     * @see #contains(Subnet)
+     * @since 1.5.3
+     */
+    public boolean isSameSubnet(Subnet s) {
+        if (!isSameBeforeIQ(s)) return false;
+        for (int i = this.getIQ(); i < 4; i++) {
+            if (!(this.getSNM_array()[i] == s.getSNM_array()[i])) return false;
+        }
+        return isIPinIQinValidRange(s);
+    }
+
+    /**
+     * @param s other Subnet
      * @return if current Subnet contains other Subnet
+     * @see #isSameSubnet(Subnet)
      * @since 1.4.0
      */
     public boolean contains(Subnet s) {
         // missing: +-1
+        if (!isSameBeforeIQ(s)) return false;
+        for (int i = this.getIQ(); i < 4; i++) {
+            if (this.getSNM_array()[i] < s.getSNM_array()[i]) break;
+            else if (!(this.getSNM_array()[i] <= s.getSNM_array()[i])) return false;
+        }
+        return isIPinIQinValidRange(s);
+    }
+
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    private boolean isSameBeforeIQ(Subnet s) {
         for (int i = 0; i < this.getIQ(); i++) {
             if (!(this.getSubnetID_array()[i] == s.getIP_array()[i])) return false;
+            if (!(this.getSNM_array()[i] == s.getSNM_array()[i])) return false;
         }
-        for (int i = 0; i < 4; i++) {
-            if (!(this.getSNM_array()[i] <= s.getSNM_array()[i])) return false;
-        }
-        return
-            this.getSubnetID_array()[this.getIQ()] <= s.getIP_array()[this.getIQ()] &&
-                this.getBroadCastIP_array()[this.getIQ()] >= s.getIP_array()[this.getIQ()];
+        return true;
+    }
+
+    private boolean isIPinIQinValidRange(Subnet s) {
+        return this.getSubnetID_array()[this.getIQ()] <= s.getIP_array()[this.getIQ()] &&
+                   s.getIP_array()[this.getIQ()] <= this.getBroadCastIP_array()[this.getIQ()];
     }
     //endregion
 
@@ -741,7 +783,9 @@ public class Subnet implements Comparable<Subnet> {
      * recalculates everything
      *
      * @since 1.5.2
+     * @deprecated not necessary
      */
+    @Deprecated
     public void recalculate() {
         calc();
     }
@@ -1003,7 +1047,7 @@ public class Subnet implements Comparable<Subnet> {
      * testNumber Subnetmask
      *
      * @param snm Subnetmask String array
-     * @param i     actual array (max 3) index
+     * @param i   actual array (max 3) index
      */
     private void isSubnetOk(int[] snm, int i) {
         boolean snm_allowed_b = false;
@@ -1176,6 +1220,7 @@ public class Subnet implements Comparable<Subnet> {
      * @since 1.0.0
      */
     public String toString(boolean detailed) {
+        // TODO: reformat with String.format()
         if (!detailed) return toString();
         String supernetting = "";
         if (isSupernetting()) supernetting = "\t\tsupernetting";
@@ -1197,6 +1242,14 @@ public class Subnet implements Comparable<Subnet> {
      */
     public String toString() {
         return getIP() + " " + getSNM();
+    }
+
+    /**
+     * @return a copy of current Subnet based on IP address and SNM
+     * @since 1.5.3
+     */
+    public Subnet copy() {
+        return new Subnet(getIP(), getSNM());
     }
 
     /**
@@ -1225,6 +1278,24 @@ public class Subnet implements Comparable<Subnet> {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Subnet && compareTo((Subnet) obj) == 0;
+    }
+
+    /**
+     * like {@link #equals(Object)} but ignoring the IP address<br>
+     * can check if it takes any affect except on the IP if you used a setIP method and set recalculate to false
+     *
+     * @param obj  has to be Subnet
+     * @param deep if deep is <code>false</code> {@link #equals(Object)} is used
+     * @return if everything except the IP address is equal
+     * @see #equals(Object)
+     * @since 1.5.3
+     */
+    public boolean equals(Object obj, boolean deep) {
+        if (!deep) return equals(obj);
+        else if (!(obj instanceof Subnet)) return false;
+        Subnet subnet = (Subnet) obj;
+        if (!this.getSNM().equals(subnet.getSNM())) return false;
+        return this.getSubnetID().equals(subnet.getSubnetID()); // other values not required to check
     }
     //endregion
 }
