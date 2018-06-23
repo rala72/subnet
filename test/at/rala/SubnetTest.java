@@ -331,9 +331,9 @@ public class SubnetTest {
     public void getSubnets() {
         // ((\d+\.){3}\d+) ((\d+\.){3}\d+)
         // new Subnet\("$1", "$3"\)
-        Set<Subnet> s1 = new TreeSet<>(Arrays.asList(new Subnet("192.168.0.0", "255.255.240.0"), new Subnet("192.168.16.0", "255.255.240.0"), new Subnet("192.168.32.0", "255.255.240.0"), new Subnet("192.168.48.0", "255.255.240.0"), new Subnet("192.168.64.0", "255.255.240.0"), new Subnet("192.168.80.0", "255.255.240.0"), new Subnet("192.168.96.0", "255.255.240.0"), new Subnet("192.168.112.0", "255.255.240.0"), new Subnet("192.168.128.0", "255.255.240.0"), new Subnet("192.168.144.0", "255.255.240.0"), new Subnet("192.168.160.0", "255.255.240.0"), new Subnet("192.168.176.0", "255.255.240.0"), new Subnet("192.168.192.0", "255.255.240.0"), new Subnet("192.168.208.0", "255.255.240.0"), new Subnet("192.168.224.0", "255.255.240.0"), new Subnet("192.168.240.0", "255.255.240.0")));
-        Set<Subnet> s2 = new TreeSet<>(Arrays.asList(new Subnet("192.168.0.0", "255.255.224.0"), new Subnet("192.168.32.0", "255.255.224.0"), new Subnet("192.168.64.0", "255.255.224.0"), new Subnet("192.168.96.0", "255.255.224.0"), new Subnet("192.168.128.0", "255.255.224.0"), new Subnet("192.168.160.0", "255.255.224.0"), new Subnet("192.168.192.0", "255.255.224.0"), new Subnet("192.168.224.0", "255.255.224.0")));
-        Set<Subnet> s3 = Collections.singleton(new Subnet("10.0.0.0", "255.255.0.0"));
+        final Set<Subnet> s1 = new TreeSet<>(Arrays.asList(new Subnet("192.168.0.0", "255.255.240.0"), new Subnet("192.168.16.0", "255.255.240.0"), new Subnet("192.168.32.0", "255.255.240.0"), new Subnet("192.168.48.0", "255.255.240.0"), new Subnet("192.168.64.0", "255.255.240.0"), new Subnet("192.168.80.0", "255.255.240.0"), new Subnet("192.168.96.0", "255.255.240.0"), new Subnet("192.168.112.0", "255.255.240.0"), new Subnet("192.168.128.0", "255.255.240.0"), new Subnet("192.168.144.0", "255.255.240.0"), new Subnet("192.168.160.0", "255.255.240.0"), new Subnet("192.168.176.0", "255.255.240.0"), new Subnet("192.168.192.0", "255.255.240.0"), new Subnet("192.168.208.0", "255.255.240.0"), new Subnet("192.168.224.0", "255.255.240.0"), new Subnet("192.168.240.0", "255.255.240.0")));
+        final Set<Subnet> s2 = new TreeSet<>(Arrays.asList(new Subnet("192.168.0.0", "255.255.224.0"), new Subnet("192.168.32.0", "255.255.224.0"), new Subnet("192.168.64.0", "255.255.224.0"), new Subnet("192.168.96.0", "255.255.224.0"), new Subnet("192.168.128.0", "255.255.224.0"), new Subnet("192.168.160.0", "255.255.224.0"), new Subnet("192.168.192.0", "255.255.224.0"), new Subnet("192.168.224.0", "255.255.224.0")));
+        final Set<Subnet> s3 = Collections.singleton(new Subnet("10.0.0.0", "255.255.0.0"));
         assert subnet1.getSubnets().equals(s1) : NOT_CORRECT;
         assert subnet2.getSubnets().equals(s2) : NOT_CORRECT;
         assert subnet3.getSubnets().equals(s3) : NOT_CORRECT;
@@ -406,12 +406,19 @@ public class SubnetTest {
 
     @Test
     public void toStringDetailed() {
-        String s1 = "\nSubnet-INFO:\n192.168.50.20\t255.255.240.0\t(0.0.15.255)\tQuad: 2\t\tsupernetting\nmz:16\t\tmz:min:48\tmz:max:63\nsubnet ID: \t192.168.48.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.48.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 20 (24) \t\tsubnetbits: 0 (-4) \thostbits: 12\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^12-2 = 4094";
-        String s2 = "\nSubnet-INFO:\n192.168.50.0\t255.255.224.0\t(0.0.31.255)\tQuad: 2\t\tsupernetting\nmz:32\t\tmz:min:32\tmz:max:63\nsubnet ID: \t192.168.32.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.32.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 19 (24) \t\tsubnetbits: 0 (-5) \thostbits: 13\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^13-2 = 8190";
-        String s3 = "\nSubnet-INFO:\n10.0.0.0\t255.255.0.0\t(0.0.255.255)\tQuad: 2\nmz:256\t\tmz:min:0\tmz:max:255\nsubnet ID: \t10.0.0.0\nBroadcast: \t10.0.255.255\nfirst available IP: \t10.0.0.1\nlast available IP: \t10.0.255.254\nclass: \tA\nclass ID: \t10.0.0.0\nclass SNM: \t255.0.0.0\nnetbits: 8 \t\tsubnetbits: 8 \thostbits: 16\ncount of subnets: 2^8 = 256 \tcount of hosts: 2^16-2 = 65534";
+        final String s1 = "\nSubnet-INFO:\n192.168.50.20\t255.255.240.0\t(0.0.15.255)\tQuad: 2\t\tsupernetting\nmz:16\t\tmz:min:48\tmz:max:63\nsubnet ID: \t192.168.48.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.48.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 20 (24) \t\tsubnetbits: 0 (-4) \thostbits: 12\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^12-2 = 4094";
+        final String s2 = "\nSubnet-INFO:\n192.168.50.0\t255.255.224.0\t(0.0.31.255)\tQuad: 2\t\tsupernetting\nmz:32\t\tmz:min:32\tmz:max:63\nsubnet ID: \t192.168.32.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.32.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 19 (24) \t\tsubnetbits: 0 (-5) \thostbits: 13\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^13-2 = 8190";
+        final String s3 = "\nSubnet-INFO:\n10.0.0.0\t255.255.0.0\t(0.0.255.255)\tQuad: 2\nmz:256\t\tmz:min:0\tmz:max:255\nsubnet ID: \t10.0.0.0\nBroadcast: \t10.0.255.255\nfirst available IP: \t10.0.0.1\nlast available IP: \t10.0.255.254\nclass: \tA\nclass ID: \t10.0.0.0\nclass SNM: \t255.0.0.0\nnetbits: 8 \t\tsubnetbits: 8 \thostbits: 16\ncount of subnets: 2^8 = 256 \tcount of hosts: 2^16-2 = 65534";
         assert subnet1.toString(true).equals(s1) : NOT_CORRECT;
         assert subnet2.toString(true).equals(s2) : NOT_CORRECT;
         assert subnet3.toString(true).equals(s3) : NOT_CORRECT;
+    }
+
+    @Test
+    public void copy() {
+        assert subnet1.equals(subnet1.copy()) : NOT_CORRECT;
+        assert subnet2.equals(subnet2.copy()) : NOT_CORRECT;
+        assert subnet3.equals(subnet3.copy()) : NOT_CORRECT;
     }
 
     @Test
@@ -438,6 +445,26 @@ public class SubnetTest {
         assert subnet1.equals(subnet2, true) : NOT_CORRECT;
         assert !subnet1.equals(subnet3, true) : NOT_CORRECT;
         assert !subnet2.equals(subnet3, true) : NOT_CORRECT;
+    }
+
+    @Test
+    public void hashCodeTest() {
+        assert subnet1.hashCode() == 1104073200 : NOT_CORRECT;
+        assert subnet2.hashCode() == 753851720 : NOT_CORRECT;
+        assert subnet3.hashCode() == 337901538 : NOT_CORRECT;
+    }
+
+    @Test
+    public void iterator() {
+        final Set<Subnet> subnet1subnets = new TreeSet<>();
+        final Set<Subnet> subnet2subnets = new TreeSet<>();
+        final Set<Subnet> subnet3subnets = new TreeSet<>();
+        for (Subnet subnet : subnet1) subnet1subnets.add(subnet);
+        for (Subnet subnet : subnet2) subnet2subnets.add(subnet);
+        for (Subnet subnet : subnet3) subnet3subnets.add(subnet);
+        assert subnet1.getSubnets().equals(subnet1subnets) : NOT_CORRECT;
+        assert subnet2.getSubnets().equals(subnet2subnets) : NOT_CORRECT;
+        assert subnet3.getSubnets().equals(subnet3subnets) : NOT_CORRECT;
     }
     //endregion
 }

@@ -1,11 +1,11 @@
 package at.rala;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
 // mini bug: toString: " \t" between -> tab removed
-// possible TO DO [onHold]: inner classes for IP and SNM
 
 /**
  * IP address and Subnetmask needed to get a Subnet<br>
@@ -15,10 +15,10 @@ import java.util.TreeSet;
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
  * <a href="www.rala.io">www.rala.io</a>
- * @version 1.5.3
+ * @version 1.5.4
  */
 @SuppressWarnings({"unused", "WeakerAccess", "DeprecatedIsStillUsed"})
-public class Subnet implements Comparable<Subnet> {
+public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region error messages & valid snm entries
     /**
      * <b>initial text for known exceptions handled by this class</b>
@@ -1211,7 +1211,7 @@ public class Subnet implements Comparable<Subnet> {
     }
     //endregion
 
-    //region toString, compareTo, equals
+    //region toString, compareTo, ...
 
     /**
      * @param detailed complete output or only IP address &amp; Subnetmask
@@ -1244,14 +1244,6 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * @return a copy of current Subnet based on IP address and SNM
-     * @since 1.5.3
-     */
-    public Subnet copy() {
-        return new Subnet(getIP(), getSNM());
-    }
-
-    /**
      * @param s other Subnet
      * @return difference between IP addresses and if equal Subnetmask
      * @since 1.1.0
@@ -1270,31 +1262,58 @@ public class Subnet implements Comparable<Subnet> {
     }
 
     /**
-     * @param obj has to be Subnet
+     * @return a copy of current Subnet based on IP address and SNM
+     * @since 1.5.3
+     */
+    public Subnet copy() {
+        return new Subnet(getIP(), getSNM());
+    }
+
+    /**
+     * @param o has to be Subnet
      * @return if IP address and Subnetmask are equal
      * @since 1.4.0
      */
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Subnet && compareTo((Subnet) obj) == 0;
+    public boolean equals(Object o) {
+        return o instanceof Subnet && compareTo((Subnet) o) == 0;
     }
 
     /**
      * like {@link #equals(Object)} but ignoring the IP address<br>
      * can check if it takes any affect except on the IP if you used a setIP method and set recalculate to false
      *
-     * @param obj  has to be Subnet
+     * @param o    has to be Subnet
      * @param deep if deep is <code>false</code> {@link #equals(Object)} is used
      * @return if everything except the IP address is equal
      * @see #equals(Object)
      * @since 1.5.3
      */
-    public boolean equals(Object obj, boolean deep) {
-        if (!deep) return equals(obj);
-        else if (!(obj instanceof Subnet)) return false;
-        Subnet subnet = (Subnet) obj;
+    public boolean equals(Object o, boolean deep) {
+        if (!deep) return equals(o);
+        else if (!(o instanceof Subnet)) return false;
+        Subnet subnet = (Subnet) o;
         if (!this.getSNM().equals(subnet.getSNM())) return false;
         return this.getSubnetID().equals(subnet.getSubnetID()); // other values not required to check
+    }
+
+    /**
+     * @return hashCode is product of {@link #getIP()} and {@link #getSNM()}
+     * @since 1.5.4
+     */
+    @Override
+    public int hashCode() {
+        return getIP().hashCode() * getSNM().hashCode();
+    }
+
+    /**
+     * @return Iterator to go over all subnets with same
+     * @see #getSubnets()
+     * @since 1.5.4
+     */
+    @Override
+    public Iterator<Subnet> iterator() {
+        return getSubnets().iterator();
     }
     //endregion
 }
