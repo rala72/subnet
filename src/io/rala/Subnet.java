@@ -1,4 +1,4 @@
-package at.rala;
+package io.rala;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -15,7 +15,7 @@ import java.util.TreeSet;
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
  * <a href="www.rala.io">www.rala.io</a>
- * @version 1.5.4
+ * @version 1.0.0
  */
 @SuppressWarnings({"unused", "WeakerAccess", "DeprecatedIsStillUsed"})
 public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
@@ -85,7 +85,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("deprecation")
     public Subnet(String ip) {
@@ -111,7 +111,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("deprecation")
     public Subnet(String[] ip) {
@@ -137,7 +137,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
-     * @since 1.5.0
+     * @since 1.0.0
      */
     @SuppressWarnings("deprecation")
     public Subnet(int[] ip) {
@@ -150,7 +150,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      *
      * @param ip  IP address
      * @param snm Subnetmask
-     * @since 1.3.0
+     * @since 1.0.0
      */
     @SuppressWarnings("deprecation")
     public Subnet(int[] ip, int[] snm) {
@@ -233,7 +233,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * set IP address
      *
      * @param ip IP address array
-     * @since 1.3.0
+     * @since 1.0.0
      */
     public void setIP(int[] ip) {
         setIP(convertNetworkArrayToString(ip));
@@ -250,7 +250,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param recalculate recalculate now or later..?
      * @see #setIP(int[])
      * @see #recalculate()
-     * @since 1.3.0
+     * @since 1.0.0
      * @deprecated use {@link #setIP(int[])}
      */
     @Deprecated
@@ -289,7 +289,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * set Subnetmask &amp; recalculate table NOW
      *
      * @param snm Subnetmask array
-     * @since 1.3.0
+     * @since 1.0.0
      */
     public void setSNM(int[] snm) {
         setSNM(convertNetworkArrayToString(snm));
@@ -681,7 +681,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * <i>just compare the network with the first available IP address to check which Subnet is the current</i>
      *
      * @return Set with all Subnets
-     * @since 1.2.0
+     * @since 1.0.0
      */
     public Set<Subnet> getSubnets() {// see getAllNetworksFromTo
         Set<Subnet> subnets = new TreeSet<>();
@@ -706,7 +706,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * <b>NOTICE</b>: it can take a while to get all
      *
      * @return all Subnets
-     * @since 1.2.0
+     * @since 1.0.0
      */
     public Set<Subnet> getSubSubnets() {
         return getSubnets(new Subnet(getFirstAvailableIP(), getSNM()), new Subnet(getLastAvailableIP(), getSNM()));
@@ -719,7 +719,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param from network with start IP address (included)
      * @param to   network with stop IP address (included)
      * @return all Subnets between
-     * @since 1.2.0
+     * @since 1.0.0
      */
     protected static Set<Subnet> getSubnets(Subnet from, Subnet to) {
         Set<Subnet> subnets = new TreeSet<>();
@@ -735,7 +735,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param s other Subnet
      * @return if current Subnet is the same as other Subnet
      * @see #contains(Subnet)
-     * @since 1.5.3
+     * @since 1.0.0
      */
     public boolean isSameSubnet(Subnet s) {
         if (!isSameBeforeIQ(s)) return false;
@@ -749,7 +749,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param s other Subnet
      * @return if current Subnet contains other Subnet
      * @see #isSameSubnet(Subnet)
-     * @since 1.4.0
+     * @since 1.0.0
      */
     public boolean contains(Subnet s) {
         // missing: +-1
@@ -782,7 +782,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * use this method <b>only</b> if you used a setIP method and set recalculate to false<br>
      * recalculates everything
      *
-     * @since 1.5.2
+     * @since 1.0.0
      * @deprecated not necessary
      */
     @Deprecated
@@ -1161,7 +1161,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param d decimal number
      * @return binary number
      * @see Long#toBinaryString(long)
-     * @since 1.4.0
+     * @since 1.0.0
      */
     public static long convertDecimalToBinary(long d) {
         return Long.parseLong(Long.toBinaryString(d));
@@ -1170,7 +1170,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * @param ints int array
      * @return string array
-     * @since 1.1.0
+     * @since 1.0.0
      */
     public static String[] convertIntegerArrayToStringArray(int[] ints) {
         return Arrays.toString(ints).replaceAll("[\\[\\]]", "").split("\\s*,\\s*");
@@ -1179,7 +1179,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * @param strings {@link String} array
      * @return int array
-     * @since 1.4.0
+     * @since 1.0.0
      */
     public static int[] convertStringArrayToIntegerArray(String[] strings) {
         int[] intArray = new int[strings.length];
@@ -1246,7 +1246,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * @param s other Subnet
      * @return difference between IP addresses and if equal Subnetmask
-     * @since 1.1.0
+     * @since 1.0.0
      */
     @Override
     public int compareTo(Subnet s) {
@@ -1263,7 +1263,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @return a copy of current Subnet based on IP address and SNM
-     * @since 1.5.3
+     * @since 1.0.0
      */
     public Subnet copy() {
         return new Subnet(getIP(), getSNM());
@@ -1272,7 +1272,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * @param o has to be Subnet
      * @return if IP address and Subnetmask are equal
-     * @since 1.4.0
+     * @since 1.0.0
      */
     @Override
     public boolean equals(Object o) {
@@ -1287,7 +1287,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param deep if deep is <code>false</code> {@link #equals(Object)} is used
      * @return if everything except the IP address is equal
      * @see #equals(Object)
-     * @since 1.5.3
+     * @since 1.0.0
      */
     public boolean equals(Object o, boolean deep) {
         if (!deep) return equals(o);
@@ -1299,7 +1299,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @return hashCode is product of {@link #getIP()} and {@link #getSNM()}
-     * @since 1.5.4
+     * @since 1.0.0
      */
     @Override
     public int hashCode() {
@@ -1309,7 +1309,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * @return Iterator to go over all subnets with same
      * @see #getSubnets()
-     * @since 1.5.4
+     * @since 1.0.0
      */
     @Override
     public Iterator<Subnet> iterator() {

@@ -1,4 +1,4 @@
-package at.rala;
+package io.rala;
 
 import org.junit.Before;
 import org.junit.Test;
