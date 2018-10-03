@@ -421,7 +421,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Subnet ID
      * @since 1.0.0
      */
-    public String getSubnetID() {
+    public String getSubnetId() {
         return convertNetworkArrayToString(getSubnetIdAsArray());
     }
 
@@ -485,7 +485,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return class ID
      * @since 1.0.0
      */
-    public String getClassID() {
+    public String getClassId() {
         return convertNetworkArrayToString(getClassIdAsArray());
     }
 
@@ -1230,7 +1230,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         s += "\n";
 
         offset = -15;
-        s += formatString("subnet ID:", offset) + " " + getSubnetID();
+        s += formatString("subnet ID:", offset) + " " + getSubnetId();
         s += "\n";
         s += formatString("Broadcast:", offset) + " " + getBroadCastIp();
         s += "\n";
@@ -1243,7 +1243,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         offset = -15;
         s += formatString("class:", offset) + " " + getClassChar();
         s += "\n";
-        s += formatString("class ID:", offset) + " " + getClassID();
+        s += formatString("class ID:", offset) + " " + getClassId();
         s += "\n";
         s += formatString("class SNM:", offset) + " " + getClassSnm();
         s += "\n";
@@ -1326,7 +1326,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         Subnet subnet = (Subnet) o;
         if (!this.getSnm().equals(subnet.getSnm())) return false;
         // other values not required to check:
-        return this.getSubnetID().equals(subnet.getSubnetID());
+        return this.getSubnetId().equals(subnet.getSubnetId());
     }
 
     /**
