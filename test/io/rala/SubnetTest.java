@@ -406,9 +406,42 @@ public class SubnetTest {
 
     @Test
     public void toStringDetailed() {
-        final String s1 = "\nSubnet-INFO:\n192.168.50.20\t255.255.240.0\t(0.0.15.255)\tQuad: 2\t\tsupernetting\nmz:16\t\tmz:min:48\tmz:max:63\nsubnet ID: \t192.168.48.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.48.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 20 (24) \t\tsubnetbits: 0 (-4) \thostbits: 12\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^12-2 = 4094";
-        final String s2 = "\nSubnet-INFO:\n192.168.50.0\t255.255.224.0\t(0.0.31.255)\tQuad: 2\t\tsupernetting\nmz:32\t\tmz:min:32\tmz:max:63\nsubnet ID: \t192.168.32.0\nBroadcast: \t192.168.63.255\nfirst available IP: \t192.168.32.1\nlast available IP: \t192.168.63.254\nclass: \tC\nclass ID: \t192.168.50.0\nclass SNM: \t255.255.255.0\nnetbits: 19 (24) \t\tsubnetbits: 0 (-5) \thostbits: 13\ncount of subnets: 2^0 = 1 \tcount of hosts: 2^13-2 = 8190";
-        final String s3 = "\nSubnet-INFO:\n10.0.0.0\t255.255.0.0\t(0.0.255.255)\tQuad: 2\nmz:256\t\tmz:min:0\tmz:max:255\nsubnet ID: \t10.0.0.0\nBroadcast: \t10.0.255.255\nfirst available IP: \t10.0.0.1\nlast available IP: \t10.0.255.254\nclass: \tA\nclass ID: \t10.0.0.0\nclass SNM: \t255.0.0.0\nnetbits: 8 \t\tsubnetbits: 8 \thostbits: 16\ncount of subnets: 2^8 = 256 \tcount of hosts: 2^16-2 = 65534";
+        final String s1 = "Subnet-INFO:\n" +
+                              "192.168.50.20   255.255.240.0   (0.0.15.255)      Quad: 2       supernetting\n" +
+                              "mz: 16          mz:min: 48      mz:max: 63\n" +
+                              "subnet ID:      192.168.48.0\n" +
+                              "Broadcast:      192.168.63.255\n" +
+                              "first available IP:  192.168.48.1\n" +
+                              "last available IP:   192.168.63.254\n" +
+                              "class:          C\n" +
+                              "class ID:       192.168.50.0\n" +
+                              "class SNM:      255.255.255.0\n" +
+                              "netbits:        20 (24)         subnetbits:     0 (-4)          hostbits:       12\n" +
+                              "count of subnets:    2^0 = 1    count of hosts:      2^12-2 = 4094";
+        final String s2 = "Subnet-INFO:\n" +
+                              "192.168.50.0    255.255.224.0   (0.0.31.255)      Quad: 2       supernetting\n" +
+                              "mz: 32          mz:min: 32      mz:max: 63\n" +
+                              "subnet ID:      192.168.32.0\n" +
+                              "Broadcast:      192.168.63.255\n" +
+                              "first available IP:  192.168.32.1\n" +
+                              "last available IP:   192.168.63.254\n" +
+                              "class:          C\n" +
+                              "class ID:       192.168.50.0\n" +
+                              "class SNM:      255.255.255.0\n" +
+                              "netbits:        19 (24)         subnetbits:     0 (-5)          hostbits:       13\n" +
+                              "count of subnets:    2^0 = 1    count of hosts:      2^13-2 = 8190";
+        final String s3 = "Subnet-INFO:\n" +
+                              "10.0.0.0        255.255.0.0     (0.0.255.255)     Quad: 2\n" +
+                              "mz: 256         mz:min: 0       mz:max: 255\n" +
+                              "subnet ID:      10.0.0.0\n" +
+                              "Broadcast:      10.0.255.255\n" +
+                              "first available IP:  10.0.0.1\n" +
+                              "last available IP:   10.0.255.254\n" +
+                              "class:          A\n" +
+                              "class ID:       10.0.0.0\n" +
+                              "class SNM:      255.0.0.0\n" +
+                              "netbits:        8               subnetbits:     8               hostbits:       16\n" +
+                              "count of subnets:    2^8 = 256  count of hosts:      2^16-2 = 65534";
         assert subnet1.toString(true).equals(s1) : NOT_CORRECT;
         assert subnet2.toString(true).equals(s2) : NOT_CORRECT;
         assert subnet3.toString(true).equals(s3) : NOT_CORRECT;

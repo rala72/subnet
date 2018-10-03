@@ -1214,21 +1214,56 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      */
     public String toString(boolean detailed) {
-        // TODO: reformat with String.format()
         if (!detailed) return toString();
-        String supernetting = "";
-        if (isSupernetting()) supernetting = "\t\tsupernetting";
+        String s = Subnet.class.getSimpleName() + "-INFO:\n";
 
-        String s = "\nSubnet-INFO:\n";
-        s += getIp() + "\t" + getSnm() + "\t(" + getWildmarkMask() + ")\tQuad: " + getIq() + supernetting + "\n";
-        s += "mz:" + getMagicNumber() + "\t\tmz:min:" + getMagicNumberMin() + "\tmz:max:" + getMagicNumberMax() + "\n";
-        s += "subnet ID: \t" + getSubnetID() + "\nBroadcast: \t" + getBroadCastIp() + "\n";
-        s += "first available IP: \t" + getFirstAvailableIp() + "\nlast available IP: \t" + getLastAvailableIp() + "\n";
-        s += "class: \t" + getClassChar() + "\nclass ID: \t" + getClassID() + "\nclass SNM: \t" + getClassSnm() + "\n";
-        s += "netbits: " + getNetbitsString() + " \t\tsubnetbits: " + getSubnetbitsString() +
-                 " \thostbits: " + getHostbitsString() + "\n";
-        s += "count of subnets: " + getCountOfSubnetsCalc() + " \tcount of hosts: " + getCountOfHostsCalc();
+        int offset = -15;
+        s += formatString(getIp(), offset) + " ";
+        s += formatString(getSnm(), offset) + " ";
+        s += formatString("(" + getWildmarkMask() + ")", offset - 2) + " ";
+        s += "Quad: " + getIq();
+        s += isSupernetting() ? " " + formatString("supernetting", 3 + 15) : "";
+        s += "\n";
+        s += formatString("mz:", 3) + " " + formatString(String.valueOf(getMagicNumber()), -11) + " ";
+        s += formatString("mz:min:", 7) + " " + formatString(String.valueOf(getMagicNumberMin()), -7) + " ";
+        s += formatString("mz:max:", 7) + " " + getMagicNumberMax();
+        s += "\n";
+
+        offset = -15;
+        s += formatString("subnet ID:", offset) + " " + getSubnetID();
+        s += "\n";
+        s += formatString("Broadcast:", offset) + " " + getBroadCastIp();
+        s += "\n";
+        offset = -20;
+        s += formatString("first available IP:", offset) + " " + getFirstAvailableIp();
+        s += "\n";
+        s += formatString("last available IP:", offset) + " " + getLastAvailableIp();
+        s += "\n";
+
+        offset = -15;
+        s += formatString("class:", offset) + " " + getClassChar();
+        s += "\n";
+        s += formatString("class ID:", offset) + " " + getClassID();
+        s += "\n";
+        s += formatString("class SNM:", offset) + " " + getClassSnm();
+        s += "\n";
+        s += formatString("netbits:", offset) + " " + formatString(getNetbitsString(), offset) + " ";
+        s += formatString("subnetbits:", offset) + " " + formatString(getSubnetbitsString(), offset) + " ";
+        s += formatString("hostbits:", offset) + " " + getHostbitsString();
+        s += "\n";
+
+        offset = -20;
+        s += formatString("count of subnets:", offset) + " " + formatString(getCountOfSubnetsCalc(), offset / 2) + " ";
+        s += formatString("count of hosts:", offset) + " " + getCountOfHostsCalc();
         return s;
+    }
+
+    /**
+     * offset negative: text on start<br>
+     * offset positive: text on end
+     */
+    protected static String formatString(String string, long offset) {
+        return String.format("%1$" + offset + "s", string);
     }
 
     /**
