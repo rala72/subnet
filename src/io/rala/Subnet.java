@@ -850,12 +850,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     private void calcBits() {
         // ClassNet
-        for (int i = 1; i < 4; i++) {
-            classIdArray[i] = 0;
-            classSnmArray[i] = 0;
-        }
-        countOfHosts = (int) (Math.pow(2, getZeroCount()) - 2);
-        countOfHostsString = "2^" + getZeroCount() + "-2 = " + (int) (Math.pow(2, getZeroCount()) - 2);
+        for (int i = 1; i < 4; i++)
+            classIdArray[i] = classSnmArray[i] = 0;
         if (ipArray[0] >= 0) {
             classIdArray[0] = ipArray[0];
             classSnmArray[0] = 255;
@@ -922,9 +918,11 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     subnetbitsString = String.valueOf(subnetbits);
                 }
                 countOfSubnets = (int) (Math.pow(2, subnetbits));
-                countOfSubnetsString = "2^" + (24 - getZeroCount()) + " = " + countOfSubnets;
+                countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
             }
         }
+        countOfHosts = (int) (Math.pow(2, getZeroCount()) - 2);
+        countOfHostsString = "2^" + getZeroCount() + "-2 = " + countOfHosts;
     }
     //endregion
 
