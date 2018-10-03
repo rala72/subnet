@@ -41,25 +41,25 @@ public class SubnetTest {
     @Test
     @SuppressWarnings("deprecation")
     public void setIP() {
-        subnet1.setIP("10");
-        subnet2.setIP("10", false);
-        subnet3.setIP(new String[]{"10"});
-        assert subnet1.getIP().equals("10.0.0.0") : IP_NOT_CORRECT;
-        assert subnet2.getIP().equals("10.0.0.0") : IP_NOT_CORRECT;
-        assert subnet3.getIP().equals("10.0.0.0") : IP_NOT_CORRECT;
-        subnet1.setIP(new String[]{"15", "0", "0", "0"}, false);
-        subnet2.setIP(new int[]{15, 0, 0, 0});
-        subnet3.setIP(new int[]{15, 0, 0, 0}, false);
-        assert subnet1.getIP().equals("15.0.0.0") : IP_NOT_CORRECT;
-        assert subnet2.getIP().equals("15.0.0.0") : IP_NOT_CORRECT;
-        assert subnet3.getIP().equals("15.0.0.0") : IP_NOT_CORRECT;
+        subnet1.setIp("10");
+        subnet2.setIp("10", false);
+        subnet3.setIp(new String[]{"10"});
+        assert subnet1.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
+        assert subnet2.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
+        assert subnet3.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
+        subnet1.setIp(new String[]{"15", "0", "0", "0"}, false);
+        subnet2.setIp(new int[]{15, 0, 0, 0});
+        subnet3.setIp(new int[]{15, 0, 0, 0}, false);
+        assert subnet1.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
+        assert subnet2.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
+        assert subnet3.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
     }
 
     @Test
     public void setSNM() {
-        subnet1.setSNM("255");
-        subnet2.setSNM(new String[]{"255"});
-        subnet3.setSNM(new int[]{255});
+        subnet1.setSnm("255");
+        subnet2.setSnm(new String[]{"255"});
+        subnet3.setSnm(new int[]{255});
         assert subnet1.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
         assert subnet2.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
         assert subnet3.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
@@ -69,9 +69,9 @@ public class SubnetTest {
     //region getter (basic)
     @Test
     public void getIP() {
-        assert subnet1.getIP().equals("192.168.50.20") : IP_NOT_CORRECT;
-        assert subnet2.getIP().equals("192.168.50.0") : IP_NOT_CORRECT;
-        assert subnet3.getIP().equals("10.0.0.0") : IP_NOT_CORRECT;
+        assert subnet1.getIp().equals("192.168.50.20") : IP_NOT_CORRECT;
+        assert subnet2.getIp().equals("192.168.50.0") : IP_NOT_CORRECT;
+        assert subnet3.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
     }
 
     @Test
@@ -132,16 +132,16 @@ public class SubnetTest {
 
     @Test
     public void getMagicNumber_min() {
-        assert subnet1.getMagicNumber_min() == 48 : NOT_CORRECT;
-        assert subnet2.getMagicNumber_min() == 32 : NOT_CORRECT;
-        assert subnet3.getMagicNumber_min() == 0 : NOT_CORRECT;
+        assert subnet1.getMagicNumberMin() == 48 : NOT_CORRECT;
+        assert subnet2.getMagicNumberMin() == 32 : NOT_CORRECT;
+        assert subnet3.getMagicNumberMin() == 0 : NOT_CORRECT;
     }
 
     @Test
     public void getMagicNumber_max() {
-        assert subnet1.getMagicNumber_max() == 63 : NOT_CORRECT;
-        assert subnet2.getMagicNumber_max() == 63 : NOT_CORRECT;
-        assert subnet3.getMagicNumber_max() == 255 : NOT_CORRECT;
+        assert subnet1.getMagicNumberMax() == 63 : NOT_CORRECT;
+        assert subnet2.getMagicNumberMax() == 63 : NOT_CORRECT;
+        assert subnet3.getMagicNumberMax() == 255 : NOT_CORRECT;
     }
 
     @Test
@@ -188,9 +188,9 @@ public class SubnetTest {
 
     @Test
     public void getBroadCastIP() {
-        assert subnet1.getBroadCastIP().equals("192.168.63.255") : NOT_CORRECT;
-        assert subnet2.getBroadCastIP().equals("192.168.63.255") : NOT_CORRECT;
-        assert subnet3.getBroadCastIP().equals("10.0.255.255") : NOT_CORRECT;
+        assert subnet1.getBroadCastIp().equals("192.168.63.255") : NOT_CORRECT;
+        assert subnet2.getBroadCastIp().equals("192.168.63.255") : NOT_CORRECT;
+        assert subnet3.getBroadCastIp().equals("10.0.255.255") : NOT_CORRECT;
     }
 
     @Test
@@ -216,9 +216,9 @@ public class SubnetTest {
 
     @Test
     public void getClassSNM() {
-        assert subnet1.getClassSNM().equals("255.255.255.0") : NOT_CORRECT;
-        assert subnet2.getClassSNM().equals("255.255.255.0") : NOT_CORRECT;
-        assert subnet3.getClassSNM().equals("255.0.0.0") : NOT_CORRECT;
+        assert subnet1.getClassSnm().equals("255.255.255.0") : NOT_CORRECT;
+        assert subnet2.getClassSnm().equals("255.255.255.0") : NOT_CORRECT;
+        assert subnet3.getClassSnm().equals("255.0.0.0") : NOT_CORRECT;
     }
 
     @Test
@@ -290,9 +290,9 @@ public class SubnetTest {
     @Test
     @SuppressWarnings("AssertWithSideEffects")
     public void getCountOfSubnets_calc() {
-        assert subnet1.getCountOfSubnets_calc().equals("2^0 = 1") : NOT_CORRECT;
-        assert subnet2.getCountOfSubnets_calc().equals("2^0 = 1") : NOT_CORRECT;
-        assert subnet3.getCountOfSubnets_calc().equals("2^8 = 256") : NOT_CORRECT;
+        assert subnet1.getCountOfSubnetsCalc().equals("2^0 = 1") : NOT_CORRECT;
+        assert subnet2.getCountOfSubnetsCalc().equals("2^0 = 1") : NOT_CORRECT;
+        assert subnet3.getCountOfSubnetsCalc().equals("2^8 = 256") : NOT_CORRECT;
     }
 
     @Test
@@ -305,9 +305,9 @@ public class SubnetTest {
     @Test
     @SuppressWarnings("AssertWithSideEffects")
     public void getCountOfHosts_calc() {
-        assert subnet1.getCountOfHosts_calc().equals("2^12-2 = 4094") : NOT_CORRECT;
-        assert subnet2.getCountOfHosts_calc().equals("2^13-2 = 8190") : NOT_CORRECT;
-        assert subnet3.getCountOfHosts_calc().equals("2^16-2 = 65534") : NOT_CORRECT;
+        assert subnet1.getCountOfHostsCalc().equals("2^12-2 = 4094") : NOT_CORRECT;
+        assert subnet2.getCountOfHostsCalc().equals("2^13-2 = 8190") : NOT_CORRECT;
+        assert subnet3.getCountOfHostsCalc().equals("2^16-2 = 65534") : NOT_CORRECT;
     }
 
     @Test
@@ -353,8 +353,8 @@ public class SubnetTest {
         assert !subnet1.isSameSubnet(subnet3) : NOT_CORRECT;
         assert !subnet3.isSameSubnet(subnet1) : NOT_CORRECT;
 
-        subnet1.setSNM("/24");
-        subnet2.setSNM("/24");
+        subnet1.setSnm("/24");
+        subnet2.setSnm("/24");
         assert subnet1.isSameSubnet(subnet2) : NOT_CORRECT;
     }
 
@@ -364,7 +364,7 @@ public class SubnetTest {
         assert subnet2.contains(subnet1) : NOT_CORRECT;
         assert !subnet3.contains(new Subnet("11", "/24")) : NOT_CORRECT;
 
-        subnet1.setSNM(subnet2.getSnm());
+        subnet1.setSnm(subnet2.getSnm());
         assert subnet1.contains(subnet2) : NOT_CORRECT;
         assert subnet2.contains(subnet1) : NOT_CORRECT;
     }
@@ -430,7 +430,7 @@ public class SubnetTest {
 
     @Test
     public void equals() {
-        assert subnet1.equals(new Subnet(subnet1.getIP(), subnet1.getSnm())) : NOT_CORRECT;
+        assert subnet1.equals(new Subnet(subnet1.getIp(), subnet1.getSnm())) : NOT_CORRECT;
         assert !subnet1.equals(subnet2) : NOT_CORRECT;
         assert !subnet1.equals(subnet3) : NOT_CORRECT;
         assert !subnet2.equals(subnet3) : NOT_CORRECT;
@@ -438,10 +438,10 @@ public class SubnetTest {
 
     @Test
     public void equalsDeep() {
-        subnet1.setSNM("/25");
-        subnet2.setSNM("/25");
-        subnet3.setIP("192.168.50.128");
-        subnet3.setSNM("/25");
+        subnet1.setSnm("/25");
+        subnet2.setSnm("/25");
+        subnet3.setIp("192.168.50.128");
+        subnet3.setSnm("/25");
         assert subnet1.equals(subnet2, true) : NOT_CORRECT;
         assert !subnet1.equals(subnet3, true) : NOT_CORRECT;
         assert !subnet2.equals(subnet3, true) : NOT_CORRECT;
