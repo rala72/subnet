@@ -60,9 +60,9 @@ public class SubnetTest {
         subnet1.setSNM("255");
         subnet2.setSNM(new String[]{"255"});
         subnet3.setSNM(new int[]{255});
-        assert subnet1.getSNM().equals("255.0.0.0") : SNM_NOT_CORRECT;
-        assert subnet2.getSNM().equals("255.0.0.0") : SNM_NOT_CORRECT;
-        assert subnet3.getSNM().equals("255.0.0.0") : SNM_NOT_CORRECT;
+        assert subnet1.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
+        assert subnet2.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
+        assert subnet3.getSnm().equals("255.0.0.0") : SNM_NOT_CORRECT;
     }
     //endregion
 
@@ -76,30 +76,30 @@ public class SubnetTest {
 
     @Test
     public void getIP_array() {
-        assert Arrays.equals(subnet1.getIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "20"})) : IP_NOT_CORRECT;
-        assert Arrays.equals(subnet2.getIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : IP_NOT_CORRECT;
-        assert Arrays.equals(subnet3.getIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : IP_NOT_CORRECT;
+        assert Arrays.equals(subnet1.getIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "20"})) : IP_NOT_CORRECT;
+        assert Arrays.equals(subnet2.getIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : IP_NOT_CORRECT;
+        assert Arrays.equals(subnet3.getIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : IP_NOT_CORRECT;
     }
 
     @Test
     public void getSNM() { // includes also getSubnetmask()
-        assert subnet1.getSNM().equals("255.255.240.0") : SNM_NOT_CORRECT;
-        assert subnet2.getSNM().equals("255.255.224.0") : SNM_NOT_CORRECT;
-        assert subnet3.getSNM().equals("255.255.0.0") : SNM_NOT_CORRECT;
+        assert subnet1.getSnm().equals("255.255.240.0") : SNM_NOT_CORRECT;
+        assert subnet2.getSnm().equals("255.255.224.0") : SNM_NOT_CORRECT;
+        assert subnet3.getSnm().equals("255.255.0.0") : SNM_NOT_CORRECT;
     }
 
     @Test
     public void getSNM_array() {
-        assert Arrays.equals(subnet1.getSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "240", "0"})) : SNM_NOT_CORRECT;
-        assert Arrays.equals(subnet2.getSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "224", "0"})) : SNM_NOT_CORRECT;
-        assert Arrays.equals(subnet3.getSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "0", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet1.getSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "240", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet2.getSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "224", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet3.getSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "0", "0"})) : SNM_NOT_CORRECT;
     }
 
     @Test
     public void getSubnetmask_array() {
-        assert Arrays.equals(subnet1.getSubnetmask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "240", "0"})) : SNM_NOT_CORRECT;
-        assert Arrays.equals(subnet2.getSubnetmask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "224", "0"})) : SNM_NOT_CORRECT;
-        assert Arrays.equals(subnet3.getSubnetmask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "0", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet1.getSubnetmaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "240", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet2.getSubnetmaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "224", "0"})) : SNM_NOT_CORRECT;
+        assert Arrays.equals(subnet3.getSubnetmaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "0", "0"})) : SNM_NOT_CORRECT;
     }
 
     @Test
@@ -111,16 +111,16 @@ public class SubnetTest {
 
     @Test
     public void getWildmarkMask_array() {
-        assert Arrays.equals(subnet1.getWildmarkMask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "15", "255"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getWildmarkMask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "31", "255"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getWildmarkMask_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "255", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getWildmarkMaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "15", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getWildmarkMaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "31", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getWildmarkMaskAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"0", "0", "255", "255"})) : NOT_CORRECT;
     }
 
     @Test
     public void getIQ() {
-        assert subnet1.getIQ() == 2 : NOT_CORRECT;
-        assert subnet2.getIQ() == 2 : NOT_CORRECT;
-        assert subnet3.getIQ() == 2 : NOT_CORRECT;
+        assert subnet1.getIq() == 2 : NOT_CORRECT;
+        assert subnet2.getIq() == 2 : NOT_CORRECT;
+        assert subnet3.getIq() == 2 : NOT_CORRECT;
     }
 
     @Test
@@ -153,37 +153,37 @@ public class SubnetTest {
 
     @Test
     public void getSubnetID_array() {
-        assert Arrays.equals(subnet1.getSubnetID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "48", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getSubnetID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "32", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getSubnetID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getSubnetIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "48", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getSubnetIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "32", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getSubnetIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : NOT_CORRECT;
     }
 
     @Test
     public void getFirstAvailableIP() {
-        assert subnet1.getFirstAvailableIP().equals("192.168.48.1") : NOT_CORRECT;
-        assert subnet2.getFirstAvailableIP().equals("192.168.32.1") : NOT_CORRECT;
-        assert subnet3.getFirstAvailableIP().equals("10.0.0.1") : NOT_CORRECT;
+        assert subnet1.getFirstAvailableIp().equals("192.168.48.1") : NOT_CORRECT;
+        assert subnet2.getFirstAvailableIp().equals("192.168.32.1") : NOT_CORRECT;
+        assert subnet3.getFirstAvailableIp().equals("10.0.0.1") : NOT_CORRECT;
     }
 
     @Test
     public void getFirstAvailableIP_array() {
-        assert Arrays.equals(subnet1.getFirstAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "48", "1"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getFirstAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "32", "1"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getFirstAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "1"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getFirstAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "48", "1"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getFirstAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "32", "1"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getFirstAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "1"})) : NOT_CORRECT;
     }
 
     @Test
     public void getLastAvailableIP() {
-        assert subnet1.getLastAvailableIP().equals("192.168.63.254") : NOT_CORRECT;
-        assert subnet2.getLastAvailableIP().equals("192.168.63.254") : NOT_CORRECT;
-        assert subnet3.getLastAvailableIP().equals("10.0.255.254") : NOT_CORRECT;
+        assert subnet1.getLastAvailableIp().equals("192.168.63.254") : NOT_CORRECT;
+        assert subnet2.getLastAvailableIp().equals("192.168.63.254") : NOT_CORRECT;
+        assert subnet3.getLastAvailableIp().equals("10.0.255.254") : NOT_CORRECT;
     }
 
     @Test
     public void getLastAvailableIP_array() {
-        assert Arrays.equals(subnet1.getLastAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "254"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getLastAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "254"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getLastAvailableIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "255", "254"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getLastAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "254"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getLastAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "254"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getLastAvailableIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "255", "254"})) : NOT_CORRECT;
     }
 
     @Test
@@ -195,9 +195,9 @@ public class SubnetTest {
 
     @Test
     public void getBroadCastIP_array() {
-        assert Arrays.equals(subnet1.getBroadCastIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "255"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getBroadCastIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "255"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getBroadCastIP_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "255", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getBroadCastIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getBroadCastIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "63", "255"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getBroadCastIpAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "255", "255"})) : NOT_CORRECT;
     }
 
     @Test
@@ -209,9 +209,9 @@ public class SubnetTest {
 
     @Test
     public void getClassID_array() {
-        assert Arrays.equals(subnet1.getClassID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getClassID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getClassID_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getClassIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getClassIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"192", "168", "50", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getClassIdAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"10", "0", "0", "0"})) : NOT_CORRECT;
     }
 
     @Test
@@ -223,9 +223,9 @@ public class SubnetTest {
 
     @Test
     public void getClassSNM_array() {
-        assert Arrays.equals(subnet1.getClassSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "255", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet2.getClassSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "255", "0"})) : NOT_CORRECT;
-        assert Arrays.equals(subnet3.getClassSNM_array(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "0", "0", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet1.getClassSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "255", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet2.getClassSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "255", "255", "0"})) : NOT_CORRECT;
+        assert Arrays.equals(subnet3.getClassSnmAsArray(), Subnet.convertStringArrayToIntegerArray(new String[]{"255", "0", "0", "0"})) : NOT_CORRECT;
     }
 
     @Test
@@ -364,7 +364,7 @@ public class SubnetTest {
         assert subnet2.contains(subnet1) : NOT_CORRECT;
         assert !subnet3.contains(new Subnet("11", "/24")) : NOT_CORRECT;
 
-        subnet1.setSNM(subnet2.getSNM());
+        subnet1.setSNM(subnet2.getSnm());
         assert subnet1.contains(subnet2) : NOT_CORRECT;
         assert subnet2.contains(subnet1) : NOT_CORRECT;
     }
@@ -430,7 +430,7 @@ public class SubnetTest {
 
     @Test
     public void equals() {
-        assert subnet1.equals(new Subnet(subnet1.getIP(), subnet1.getSNM())) : NOT_CORRECT;
+        assert subnet1.equals(new Subnet(subnet1.getIP(), subnet1.getSnm())) : NOT_CORRECT;
         assert !subnet1.equals(subnet2) : NOT_CORRECT;
         assert !subnet1.equals(subnet3) : NOT_CORRECT;
         assert !subnet2.equals(subnet3) : NOT_CORRECT;
