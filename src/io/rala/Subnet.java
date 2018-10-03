@@ -690,7 +690,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Set with all Subnets
      * @since 1.2.0
      */
-    public Set<Subnet> getSubnets() {// see getAllNetworksFromTo
+    public Set<Subnet> getSubnets() {// see getSubnets(from, to)
         Set<Subnet> subnets = new TreeSet<>();
         for (int iqCount = 0; iqCount <= 255; iqCount += getMagicNumber()) {
             switch (getIq()) {
@@ -828,7 +828,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
             lastAvailableIpArray[iq] = mzMax;
             broadCastIpArray[iq] = mzMax;
             broadCastIpArray[iq + 1] = mzMax;
-            // +1
             subnetIdArray[iq + 1] = 0;
             firstAvailableIpArray[iq + 1] = 0;
             lastAvailableIpArray[iq + 1] = 255;
@@ -849,7 +848,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     private void calcBits() {
-        // ClassNet
         for (int i = 1; i < 4; i++)
             classIdArray[i] = classSnmArray[i] = 0;
         if (ipArray[0] >= 0) {
@@ -980,7 +978,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     System.arraycopy(stringArray, 0, entry, 0, entry.length);
                 }
                 entry[i] = String.valueOf(convertBinarySnmToDecimal(Integer.parseInt(entry[i]), lastQuad));
-                // SubnetmaskCheck
                 isSubnetOk(convertStringArrayToIntegerArray(entry), i);
             }
         }
@@ -1261,6 +1258,10 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * offset negative: text on start<br>
      * offset positive: text on end
+     *
+     * @param string string to format
+     * @param offset offset after/before text
+     * @return formatted string
      */
     protected static String formatString(String string, long offset) {
         return String.format("%1$" + offset + "s", string);

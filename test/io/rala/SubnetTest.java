@@ -10,8 +10,9 @@ import java.util.TreeSet;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class SubnetTest {
+    // currently just basic cases
+
     //region default config
-    // maybe make more methods for same method with different cases
     private static final String NOT_CORRECT = "not correct";
     private static final String IP_NOT_CORRECT = "IP is " + NOT_CORRECT;
     private static final String SNM_NOT_CORRECT = "SNM is " + NOT_CORRECT;
@@ -30,7 +31,6 @@ public class SubnetTest {
         subnet3 = new Subnet("10", "255.255");
         if (printAll) {
             printAll = false;
-            // System.out.println(new Subnet("192.168.12.3", "/23").toString(printAllDetailed));
             System.out.println(subnet1.toString(printAllDetailed));
             System.out.println(subnet2.toString(printAllDetailed));
             System.out.println(subnet3.toString(printAllDetailed));
@@ -332,8 +332,6 @@ public class SubnetTest {
 
     @Test
     public void getSubnets() {
-        // ((\d+\.){3}\d+) ((\d+\.){3}\d+)
-        // new Subnet\("$1", "$3"\)
         final Set<Subnet> s1 = new TreeSet<>(Arrays.asList(
             new Subnet("192.168.0.0", "255.255.240.0"),
             new Subnet("192.168.16.0", "255.255.240.0"),
@@ -364,13 +362,6 @@ public class SubnetTest {
         assert subnet1.getSubnets().equals(s1) : NOT_CORRECT;
         assert subnet2.getSubnets().equals(s2) : NOT_CORRECT;
         assert subnet3.getSubnets().equals(s3) : NOT_CORRECT;
-    }
-
-    // @Test
-    public void getSubSubnets() {
-        // ((\d+\.){3}\d+) ((\d+\.){3}\d+)
-        // new Subnet\("$1", "$3"\)
-        // WARNING: Java Code too large for current objects
     }
 
     @Test
