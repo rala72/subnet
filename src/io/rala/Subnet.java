@@ -91,6 +91,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
+     * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
     @SuppressWarnings("deprecation")
@@ -117,6 +118,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
+     * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
     @SuppressWarnings("deprecation")
@@ -143,6 +145,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * uses Subnetmask based on IP class
      *
      * @param ip IP address
+     * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
     @SuppressWarnings("deprecation")
@@ -190,8 +193,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code><br>
-     * use this method only if you set an Subnetmask directly afterwards
+     * not suggested to set <code>recalculate</code> to <code>false</code>
      * </b></p>
      * set IP address
      *
@@ -230,8 +232,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code><br>
-     * use this method only if you set an Subnetmask directly afterwards
+     * not suggested to set <code>recalculate</code> to <code>false</code>
      * </b></p>
      * set IP address
      *
@@ -259,8 +260,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code><br>
-     * use this method only if you set an Subnetmask directly afterwards
+     * not suggested to set <code>recalculate</code> to <code>false</code>
      * </b></p>
      * set IP address
      *
@@ -347,7 +347,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @return Subnetmask
-     * @see Subnet#getSubnetmask()
      * @since 1.0.0
      */
     public String getSubnetmask() {
@@ -356,7 +355,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @return Subnetmask as array
-     * @see Subnet#getSubnetmaskAsArray()
      * @since 1.0.0
      */
     public int[] getSubnetmaskAsArray() {
@@ -364,7 +362,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return wildmarkMask
+     * @return WildmarkMask
      * @since 1.0.0
      */
     public String getWildmarkMask() {
@@ -372,7 +370,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return wildmarkMask as array
+     * @return WildmarkMask as array
      * @since 1.0.0
      */
     public int[] getWildmarkMaskAsArray() {
@@ -380,7 +378,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return iq from array (0-3 NOT 1-4!!)
+     * @return IQ from array (0-3 NOT 1-4!!)
      * @since 1.0.0
      */
     public int getIq() {
@@ -388,7 +386,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return magic number
+     * @return Magic Number
      * @since 1.0.0
      */
     public int getMagicNumber() {
@@ -398,7 +396,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * <b><i>use it only if you know what you do!</i></b>
      *
-     * @return magic number - minimum
+     * @return Magic Number - minimum
      * @since 1.0.0
      */
     public int getMagicNumberMin() {
@@ -408,7 +406,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * <b><i>use it only if you know what you do!</i></b>
      *
-     * @return magic number - maximum
+     * @return Magic Number - maximum
      * @since 1.0.0
      */
     public int getMagicNumberMax() {
@@ -464,7 +462,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return broadcast IP address
+     * @return Broadcast IP address
      * @since 1.0.0
      */
     public String getBroadCastIp() {
@@ -472,7 +470,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return broadcast IP address as array
+     * @return Broadcast IP address as array
      * @since 1.0.0
      */
     public int[] getBroadCastIpAsArray() {
@@ -480,7 +478,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return class ID
+     * @return Class ID
      * @since 1.0.0
      */
     public String getClassId() {
@@ -488,7 +486,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return class ID as array
+     * @return Class ID as array
      * @since 1.0.0
      */
     public int[] getClassIdAsArray() {
@@ -496,7 +494,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return class Subnetmask
+     * @return Class Subnetmask
      * @since 1.0.0
      */
     public String getClassSubnetmask() {
@@ -504,7 +502,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return class Subnetmask as array
+     * @return Class Subnetmask as array
      * @since 1.0.0
      */
     public int[] getClassSubnetmaskAsArray() {
@@ -512,7 +510,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return character of the class
+     * @return Character of the Class
      * @since 1.0.0
      */
     public char getClassChar() {
@@ -520,7 +518,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of netbits
+     * @return Count of netbits
      * @since 1.0.0
      */
     public int getNetbits() {
@@ -528,7 +526,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of netbits with calculated number if negative
+     * @return Count of Netbits (with calculated number)
      * @since 1.0.0
      */
     public String getNetbitsString() {
@@ -536,7 +534,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of subnetbits
+     * @return Count of Subnetbits
      * @since 1.0.0
      */
     public int getSubnetbits() {
@@ -544,7 +542,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of subnetbits with calculated number if negative
+     * @return Count of Subnetbits (with calculated number)
      * @since 1.0.0
      */
     public String getSubnetbitsString() {
@@ -552,7 +550,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of hostbits
+     * @return Count of Hostbits
      * @since 1.0.0
      */
     public int getHostbits() {
@@ -560,7 +558,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of hostbits with calculated number if negative
+     * @return Count of Hostbits (with calculated number)
      * @since 1.0.0
      */
     public String getHostbitsString() {
@@ -568,7 +566,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of subnets
+     * @return Count of Subnets
      * @since 1.0.0
      */
     public int getCountOfSubnets() {
@@ -576,7 +574,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of subnets with calculation
+     * @return Count of Subnets with calculation
      * @since 1.0.0
      */
     public String getCountOfSubnetsCalc() {
@@ -584,7 +582,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of hosts in a Subnet
+     * @return Count of Hosts in a Subnet
      * @since 1.0.0
      */
     public int getCountOfHosts() {
@@ -592,7 +590,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return count of hosts in a Subnet
+     * @return Count of Hosts in a Subnet
      * @since 1.0.0
      */
     public String getCountOfHostsCalc() {
@@ -602,7 +600,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * check current network if it is super-netting
      *
-     * @return if this Subnet is super-netting
+     * @return <code>true</code> if this Subnet is super-netting
      * @since 1.0.0
      */
     public boolean isSupernetting() {
@@ -710,7 +708,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * returns Subnets from current network<br>
      * <b>NOTICE</b>: it can take a while to get all
      *
-     * @return all Subnets
+     * @return Set with all SubSubnets
+     * @see #getSubnets(Subnet, Subnet)
      * @since 1.2.0
      */
     public Set<Subnet> getSubSubnets() {
@@ -719,11 +718,12 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * returns Subnets from <i>IP address</i> to <i>IP address</i><br>
+     * <b>NOTICE</b>: it can take a while to get all<br>
      * Subnetmask is taken from first network
      *
      * @param from network with start IP address (included)
      * @param to   network with stop IP address (included)
-     * @return all Subnets between
+     * @return all Subnets from to
      * @since 1.2.0
      */
     protected static Set<Subnet> getSubnets(Subnet from, Subnet to) {
@@ -738,7 +738,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param s other Subnet
-     * @return if current Subnet is the same as other Subnet
+     * @return <code>true</code> if current Subnet is the same as other Subnet
      * @see #contains(Subnet)
      * @since 1.5.3
      */
@@ -751,7 +751,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param s other Subnet
-     * @return if current Subnet contains other Subnet
+     * @return <code>true</code> if current Subnet contains other Subnet
      * @see #isSameSubnet(Subnet)
      * @since 1.4.0
      */
@@ -787,7 +787,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * recalculates everything
      *
      * @since 1.5.2
-     * @deprecated not necessary
+     * @deprecated use methods without the recalculate parameter
      */
     @Deprecated
     public void recalculate() {
@@ -928,14 +928,14 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * check if entry is valid
      *
      * @param s IP address or Subnetmask
-     * @return if entry exists
+     * @return <code>true</code> if entry exists
      */
     private boolean entryExists(String s) {
         return !s.replace(".", "").replace("/", "").trim().isEmpty();
     }
 
     /**
-     * add .0 if <b>s</b> isn't complete
+     * add .0 if <code>s</code> isn't complete
      *
      * @param s IP address or Subnetmask
      */
@@ -1109,7 +1109,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region convert...
 
     /**
-     * convert IP address or Subnetmask array to String with '.' separator
+     * converts array to String with '.' separator
      *
      * @param array array
      * @return String
@@ -1124,7 +1124,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * convert IP address or Subnetmask array to String with '.' separator
+     * converts array to String with '.' separator
      *
      * @param array array
      * @return String
@@ -1184,7 +1184,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * tests if text is valid number
      *
      * @param text text to check
-     * @return if number
+     * @return <code>true</code> if valid number
      */
     private static boolean testNumber(String text) {
         return text.toLowerCase().matches("[\\d./]*");
@@ -1194,7 +1194,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * tests if number is valid binary number
      *
      * @param number number to check
-     * @return if binary number
+     * @return <code>true</code> if valid binary number
      */
     private static boolean testBinary(long number) {
         return testNumber(String.valueOf(number)) && String.valueOf(number).matches("[01]*");
@@ -1205,7 +1205,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param detailed complete output or only IP address &amp; Subnetmask
-     * @return IP and Subnetmask and other information
+     * @return IP and Subnetmask and (optional) other information
      * @since 1.0.0
      */
     public String toString(boolean detailed) {
@@ -1301,7 +1301,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param o has to be Subnet
-     * @return if IP address and Subnetmask are equal
+     * @return <code>true</code> if IP address and Subnetmask are equal
      * @since 1.4.0
      */
     @Override
@@ -1315,7 +1315,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      *
      * @param o    has to be Subnet
      * @param deep if deep is <code>false</code> {@link #equals(Object)} is used
-     * @return if everything except the IP address is equal
+     * @return <code>true</code> if everything except the IP address is equal
      * @see #equals(Object)
      * @since 1.5.3
      */
@@ -1329,7 +1329,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return hashCode is product of {@link #getIp()} and {@link #getSubnetmask()}
+     * @return hashCode is product of hashCodes from {@link #getIp()} and {@link #getSubnetmask()}
      * @since 1.5.4
      */
     @Override
@@ -1338,7 +1338,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * @return Iterator to go over all subnets with same
+     * @return Iterator to go over all subnets in same network
      * @see #getSubnets()
      * @since 1.5.4
      */
