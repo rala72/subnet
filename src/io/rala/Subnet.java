@@ -14,7 +14,7 @@ import java.util.TreeSet;
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
  * <a href="www.rala.io">www.rala.io</a>
- * @version 2.0.1
+ * @version 2.0.2
  */
 @SuppressWarnings({"unused", "WeakerAccess", "DeprecatedIsStillUsed"})
 public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
