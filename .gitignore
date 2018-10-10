@@ -1,9 +1,6 @@
-# Java - rala v180624
+# Java - rala v181010
 
 # IntelliJ
 *.iml
 .idea/
-# .idea
-/out/
-content/
-javadoc/
+out/
