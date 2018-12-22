@@ -1290,23 +1290,24 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
+     * @return IP address and Subnetmask
+     * @since 1.0.0
+     */
+    public String toString() {
+        return getIp() + " " + getSubnetmask();
+    }
+
+    /**
      * offset negative: text on start<br>
      * offset positive: text on end
      *
      * @param string string to format
      * @param offset offset after/before text
      * @return formatted string
+     * @since 2.0.0
      */
     protected static String formatString(String string, long offset) {
         return String.format("%1$" + offset + "s", string);
-    }
-
-    /**
-     * @return IP address and Subnetmask
-     * @since 1.0.0
-     */
-    public String toString() {
-        return getIp() + " " + getSubnetmask();
     }
 
     /**
