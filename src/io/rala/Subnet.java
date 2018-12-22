@@ -673,7 +673,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                 for (int j = 0; j < 4; j++)
                     snm[j] = String.valueOf(Subnet.convertBinaryToDecimal(Long.parseLong(snmArray[j])));
 
-                return new Subnet(convertNetworkArrayToString(ip), convertNetworkArrayToString(snm));
+                return new Subnet(ip, snm);
             }
         }
         return null;
