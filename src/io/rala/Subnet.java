@@ -656,10 +656,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     if ((j + 1) % 8 == 0) ipSubF.append(".");
                     if (j == 31) ipSub = ipSubF.toString();
                 }
-                String[] ipArray = ipSub.split("\\.");
-                String[] ip = new String[4];
-                for (int j = 0; j < 4; j++)
-                    ip[j] = String.valueOf(Subnet.convertBinaryToDecimal(ipArray[j]));
+                String[] ip = convertBinaryNetworkAddressToDecimalStringArray(ipSub);
 
                 if (len == 32) len = 8;
                 StringBuilder snmStringBuilder = new StringBuilder();
@@ -668,10 +665,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     else snmStringBuilder.append("0");
                     if ((j + 1) % 8 == 0 && j < 31) snmStringBuilder.append(".");
                 }
-                String[] snmArray = snmStringBuilder.toString().split("\\.");
-                String[] snm = new String[4];
-                for (int j = 0; j < 4; j++)
-                    snm[j] = String.valueOf(Subnet.convertBinaryToDecimal(snmArray[j]));
+                String[] snm = convertBinaryNetworkAddressToDecimalStringArray(snmStringBuilder.toString());
 
                 return new Subnet(ip, snm);
             }
@@ -1131,6 +1125,20 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      */
     private static String convertNetworkArrayToString(int[] array) {
         return convertNetworkArrayToString(convertIntegerArrayToStringArray(array));
+    }
+
+    /**
+     * converts binary address to decimal array
+     *
+     * @param string address
+     * @return decimal array
+     */
+    private static String[] convertBinaryNetworkAddressToDecimalStringArray(String string) {
+        String[] split = string.split("\\.");
+        String[] address = new String[4];
+        for (int j = 0; j < 4; j++)
+            address[j] = String.valueOf(Subnet.convertBinaryToDecimal(split[j]));
+        return address;
     }
 
     /**
