@@ -630,8 +630,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         if (!(this.getIpAsArray()[0] == (s.getIpAsArray()[0])))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
 
-        String ip1_array[] = new String[4];
-        String ip2_array[] = new String[4];
+        String[] ip1_array = new String[4];
+        String[] ip2_array = new String[4];
         for (int i = 0; i < 4; i++) {
             ip1_array[i] = Integer.toBinaryString(this.getIpAsArray()[i]);
             ip2_array[i] = Integer.toBinaryString(s.getIpAsArray()[i]);
