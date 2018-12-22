@@ -659,7 +659,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                 String[] ipArray = ipSub.split("\\.");
                 String[] ip = new String[4];
                 for (int j = 0; j < 4; j++)
-                    ip[j] = String.valueOf(Subnet.convertBinaryToDecimal(Long.parseLong(ipArray[j])));
+                    ip[j] = String.valueOf(Subnet.convertBinaryToDecimal(ipArray[j]));
 
                 if (len == 32) len = 8;
                 StringBuilder snmStringBuilder = new StringBuilder();
@@ -671,7 +671,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                 String[] snmArray = snmStringBuilder.toString().split("\\.");
                 String[] snm = new String[4];
                 for (int j = 0; j < 4; j++)
-                    snm[j] = String.valueOf(Subnet.convertBinaryToDecimal(Long.parseLong(snmArray[j])));
+                    snm[j] = String.valueOf(Subnet.convertBinaryToDecimal(snmArray[j]));
 
                 return new Subnet(ip, snm);
             }
@@ -1139,10 +1139,24 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param b binary number
      * @return decimal number
      * @see Long#parseLong(String, int)
+     * @see #convertBinaryToDecimal(long)
+     * @since 2.0.3
+     */
+    public static long convertBinaryToDecimal(String b) {
+        return Long.parseLong(b, 2);
+    }
+
+    /**
+     * convert binary to decimal
+     *
+     * @param b binary number
+     * @return decimal number
+     * @see Long#parseLong(String, int)
+     * @see #convertBinaryToDecimal(String)
      * @since 1.0.0
      */
     public static long convertBinaryToDecimal(long b) {
-        return Long.parseLong(String.valueOf(b), 2);
+        return convertBinaryToDecimal(String.valueOf(b));
     }
 
     /**
@@ -1151,6 +1165,20 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param d decimal number
      * @return binary number
      * @see Long#toBinaryString(long)
+     * @see #convertDecimalToBinary(long)
+     * @since 2.0.3
+     */
+    public static long convertDecimalToBinary(String d) {
+        return convertDecimalToBinary(Long.parseLong(d));
+    }
+
+    /**
+     * convert decimal to binary
+     *
+     * @param d decimal number
+     * @return binary number
+     * @see Long#toBinaryString(long)
+     * @see #convertDecimalToBinary(String)
      * @since 1.4.0
      */
     public static long convertDecimalToBinary(long d) {
