@@ -45,23 +45,13 @@ public class SubnetTest {
 
     //region setter
     @Test
-    @SuppressWarnings("deprecation")
     public void setIp() {
-        subnet1.setIp("10");
-        subnet2.setIp("10", false);
+        subnet2.setIp("10");
         subnet3.setIp(new String[]{"10"});
-        subnet4.setIp(new String[]{"10"}, false);
-        assert subnet1.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
+        subnet4.setIp(new int[]{10, 0, 0, 0});
         assert subnet2.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
         assert subnet3.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
         assert subnet4.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
-
-        subnet1.setIp(new String[]{"15", "0", "0", "0"}, false);
-        subnet2.setIp(new int[]{15, 0, 0, 0});
-        subnet3.setIp(new int[]{15, 0, 0, 0}, false);
-        assert subnet1.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
-        assert subnet2.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
-        assert subnet3.getIp().equals("15.0.0.0") : IP_NOT_CORRECT;
     }
 
     @Test
@@ -626,6 +616,36 @@ public class SubnetTest {
         assert subnet1.getSubnets().equals(subnet1subnets) : NOT_CORRECT;
         assert subnet2.getSubnets().equals(subnet2subnets) : NOT_CORRECT;
         assert subnet3.getSubnets().equals(subnet3subnets) : NOT_CORRECT;
+    }
+    //endregion
+
+    //region deprecated
+    @Test
+    @SuppressWarnings("deprecation")
+    public void setIpDeprecation() {
+        subnet2.setIp("10", false);
+        assert subnet2.toString().equals("10.0.0.0 255.255.0.0") : NOT_CORRECT;
+        assert subnet2.getClassChar() == 'B' : NOT_CORRECT;
+
+        subnet2.setIp(new String[]{"11", "0", "0", "0"}, false);
+        assert subnet2.toString().equals("11.0.0.0 255.255.0.0") : NOT_CORRECT;
+        assert subnet2.getClassChar() == 'B' : NOT_CORRECT;
+
+        subnet2.setIp(new int[]{10, 0, 0, 0}, false);
+        assert subnet2.toString().equals("10.0.0.0 255.255.0.0") : NOT_CORRECT;
+        assert subnet2.getClassChar() == 'B' : NOT_CORRECT;
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void recalculateDeprecation() { // see also setIpDeprecation
+        subnet2.setIp("10", false);
+        assert subnet2.toString().equals("10.0.0.0 255.255.0.0") : NOT_CORRECT;
+        assert subnet2.getClassChar() == 'B' : NOT_CORRECT;
+
+        subnet2.recalculate();
+        assert subnet2.toString().equals("10.0.0.0 255.255.0.0") : NOT_CORRECT;
+        assert subnet2.getClassChar() == 'A' : NOT_CORRECT;
     }
     //endregion
 }
