@@ -1263,7 +1263,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         offset = -15;
         s += formatString("subnet ID:", offset) + " " + getSubnetId();
         s += "\n";
-        s += formatString("Broadcast:", offset) + " " + getBroadCastIp();
+        s += formatString("broadcast:", offset) + " " + getBroadCastIp();
         s += "\n";
         offset = -20;
         s += formatString("first available IP:", offset) + " " + getFirstAvailableIp();
