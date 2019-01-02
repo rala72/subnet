@@ -855,7 +855,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     classSubnetmaskArray[2] = 255;
                     if (ipArray[0] > 223) {// Class D & E; 224+
                         if (ipArray[0] > 239) classChar = 'E';
-                        else classChar = 'E';
+                        else classChar = 'D';
                         netbits = 32 - getZeroCount();
                         netbitsString = String.valueOf(netbits);
                         subnetbits = 0;
