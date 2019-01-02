@@ -10,8 +10,6 @@ import java.util.*;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class SubnetTest {
-    // currently just basic cases
-
     //region default config
     private static final String NOT_CORRECT = "not correct";
     private static final String IP_NOT_CORRECT = "IP is " + NOT_CORRECT;
@@ -20,11 +18,13 @@ public class SubnetTest {
     private static boolean printAllDetailed = false;
     //endregion
 
+    //region subnets
     private Subnet subnet1;
     private Subnet subnet2;
     private Subnet subnet3;
     private Subnet subnet4;
     private Subnet subnet5;
+    //endregion
 
     @Before
     public void setUp() {
@@ -43,6 +43,7 @@ public class SubnetTest {
         }
     }
 
+    //region constructors
     @Test
     public void constructors() {
         assert new Subnet(subnet1.getIp(), subnet1.getSubnetmask()).equals(subnet1) : NOT_CORRECT;
@@ -71,6 +72,7 @@ public class SubnetTest {
         assert loopback != null : "NO LOOPBACK";
         assert new Subnet(loopback).equals(new Subnet("127.0.0.1", "/8")) : NOT_CORRECT;
     }
+    //endregion
 
     //region setter
     @Test
