@@ -1029,16 +1029,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         if (!snm_allowed)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
 
-        if (i != 3 && (!(snm[i] == 255 || snm[i + 1] == 0 || snm[i + 1] == 0))) { // TODO: improve
-            boolean only0 = true;
-            for (int j = 0; j < String.valueOf(snm[i + 1]).length(); j++)
-                if (String.valueOf(snm[i + 1]).charAt(j) != '0') {
-                    only0 = false;
-                    break;
-                }
-            if (!only0)
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_255_TO_0);
-        }
+        if (i != 3 && snm[i] != 255 && snm[i + 1] != 0)
+            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_255_TO_0);
     }
 
     /**
