@@ -83,6 +83,11 @@ public class SubnetTest {
         assert subnet4.getIp().equals("10.0.0.0") : IP_NOT_CORRECT;
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void setIpEmpty() {
+        subnet1.setIp("");
+    }
+
     @Test
     public void setSubnetmask() {
         subnet1.setSubnetmask("255");
@@ -106,6 +111,11 @@ public class SubnetTest {
         assert subnet3.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
         assert subnet4.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
         assert subnet5.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setSubnetmaskEmpty() {
+        subnet1.setSubnetmask("");
     }
     //endregion
 
@@ -524,6 +534,78 @@ public class SubnetTest {
         subnet2.setIp("192.168.20");
         assert subnet2.contains(subnet3) : NOT_CORRECT;
         assert !subnet3.contains(subnet2) : NOT_CORRECT;
+    }
+    //endregion
+
+    //region validate
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithMissingIp() {
+        new Subnet("", "255");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithMissingSubnetmask() {
+        new Subnet("10", "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithInvalidIp() {
+        new Subnet("/10", "255");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithToLargeIp() {
+        new Subnet("256", "255");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithInvalidSubnetmask() {
+        new Subnet("10", "255,");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void checkEntryAndConvertSubnetmaskWithToLargeSubnetmask() {
+        new Subnet("10", "255.111111110");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void convertPrefixAndValidateWithMissingNumber() {
+        new Subnet("10", "/");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void convertPrefixAndValidateWithInvalidNumber() {
+        new Subnet("10", "/24,");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void convertPrefixAndValidateWithToLowNumber() {
+        new Subnet("10", "/1");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void convertPrefixAndValidateWithToHighNumber() {
+        new Subnet("10", "/32");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void convertBinarySubnetmaskToDecimalWithToLargeNumberInLastQuad() {
+        new Subnet("10", "255.255.255.255");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void isSubnetOkWithWrongSubnetmaskNumber() {
+        new Subnet("10", "10");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void isSubnetOkWithInvalidSubnetmaskPattern() {
+        new Subnet("10", "255.240.240");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void setMagicNumber() {
+        subnet1.setSubnetmask("128");
     }
     //endregion
 
