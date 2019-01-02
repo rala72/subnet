@@ -920,16 +920,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region valid checks and other internal methods
 
     /**
-     * check if entry is valid
-     *
-     * @param s IP address or Subnetmask
-     * @return <code>true</code> if entry exists
-     */
-    private boolean entryExists(String s) {
-        return !s.replace(".", "").replace("/", "").trim().isEmpty();
-    }
-
-    /**
      * add .0 if <code>s</code> isn't complete
      *
      * @param s IP address or Subnetmask
