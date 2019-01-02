@@ -3,10 +3,10 @@ package io.rala;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.*;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class SubnetTest {
@@ -43,6 +43,35 @@ public class SubnetTest {
         }
     }
 
+    @Test
+    public void constructors() {
+        assert new Subnet(subnet1.getIp(), subnet1.getSubnetmask()).equals(subnet1) : NOT_CORRECT;
+        assert new Subnet(subnet2.getIp().split("\\."), subnet2.getSubnetmask().split("\\.")).equals(subnet2) : NOT_CORRECT;
+        assert new Subnet(subnet3.getIpAsArray(), subnet3.getSubnetmaskAsArray()).equals(subnet3) : NOT_CORRECT;
+
+        assert new Subnet(subnet1.getIp()).equals(subnet1) : NOT_CORRECT;
+        assert new Subnet(subnet2.getIp().split("\\.")).equals(subnet2) : NOT_CORRECT;
+        assert new Subnet(subnet5.getIpAsArray()).equals(subnet5) : NOT_CORRECT;
+    }
+
+    @Test
+    public void constructorsInterfaceAddress() throws SocketException {
+        Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
+        ArrayList<NetworkInterface> networkInterfaces = Collections.list(networkInterfaceEnumeration);
+        InterfaceAddress loopback = null;
+
+        networkInterfaces:
+        for (NetworkInterface networkInterface : networkInterfaces)
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
+                if (interfaceAddress.getAddress().getHostAddress().equals("127.0.0.1")) {
+                    loopback = interfaceAddress;
+                    break networkInterfaces;
+                }
+
+        assert loopback != null : "NO LOOPBACK";
+        assert new Subnet(loopback).equals(new Subnet("127.0.0.1", "/8")) : NOT_CORRECT;
+    }
+
     //region setter
     @Test
     public void setIp() {
@@ -62,6 +91,21 @@ public class SubnetTest {
         assert subnet1.getSubnetmask().equals("255.0.0.0") : SNM_NOT_CORRECT;
         assert subnet2.getSubnetmask().equals("255.0.0.0") : SNM_NOT_CORRECT;
         assert subnet3.getSubnetmask().equals("255.0.0.0") : SNM_NOT_CORRECT;
+    }
+
+    @Test
+    public void setSubnetmaskBasedOnClass() {
+        subnet1.setSubnetmaskBasedOnClass();
+        subnet2.setSubnetmaskBasedOnClass();
+        subnet3.setSubnetmaskBasedOnClass();
+        subnet4.setSubnetmaskBasedOnClass();
+        subnet5.setSubnetmaskBasedOnClass();
+
+        assert subnet1.getSubnetmask().equals("255.0.0.0") : SNM_NOT_CORRECT;
+        assert subnet2.getSubnetmask().equals("255.255.0.0") : SNM_NOT_CORRECT;
+        assert subnet3.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
+        assert subnet4.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
+        assert subnet5.getSubnetmask().equals("255.255.255.0") : SNM_NOT_CORRECT;
     }
     //endregion
 
@@ -432,6 +476,31 @@ public class SubnetTest {
     }
 
     @Test
+    public void getSubSubnets() {
+        // System.out.println(subnet1.getSubSubnets()); // takes to long
+        // System.out.println(subnet2.getSubSubnets()); // takes to long
+        // System.out.println(subnet3.getSubSubnets()); // takes to long
+        // System.out.println(subnet4.getSubSubnets()); // takes to long
+        // System.out.println(subnet5.getSubSubnets()); // acceptable - but still a long list
+        subnet5.setSubnetmask("/28");
+        Set<Subnet> s5 = new TreeSet<>(Arrays.asList(new Subnet("240.136.42.1", "255.255.255.240"),
+            new Subnet("240.136.42.2", "255.255.255.240"),
+            new Subnet("240.136.42.3", "255.255.255.240"),
+            new Subnet("240.136.42.4", "255.255.255.240"),
+            new Subnet("240.136.42.5", "255.255.255.240"),
+            new Subnet("240.136.42.6", "255.255.255.240"),
+            new Subnet("240.136.42.7", "255.255.255.240"),
+            new Subnet("240.136.42.8", "255.255.255.240"),
+            new Subnet("240.136.42.9", "255.255.255.240"),
+            new Subnet("240.136.42.10", "255.255.255.240"),
+            new Subnet("240.136.42.11", "255.255.255.240"),
+            new Subnet("240.136.42.12", "255.255.255.240"),
+            new Subnet("240.136.42.13", "255.255.255.240"),
+            new Subnet("240.136.42.14", "255.255.255.240")));
+        assert subnet5.getSubSubnets().equals(s5) : NOT_CORRECT;
+    }
+
+    @Test
     public void isSameSubnet() {
         assert !subnet1.isSameSubnet(subnet2) : NOT_CORRECT;
         assert !subnet2.isSameSubnet(subnet1) : NOT_CORRECT;
@@ -461,6 +530,10 @@ public class SubnetTest {
     //region convert
     @Test
     public void convertBinaryToDecimal() {
+        assert Subnet.convertBinaryToDecimal("1") == 0b1 : NOT_CORRECT;
+        assert Subnet.convertBinaryToDecimal("11") == 0b11 : NOT_CORRECT;
+        assert Subnet.convertBinaryToDecimal("111") == 0b111 : NOT_CORRECT;
+
         assert Subnet.convertBinaryToDecimal(1) == 0b1 : NOT_CORRECT;
         assert Subnet.convertBinaryToDecimal(11) == 0b11 : NOT_CORRECT;
         assert Subnet.convertBinaryToDecimal(111) == 0b111 : NOT_CORRECT;
@@ -468,6 +541,10 @@ public class SubnetTest {
 
     @Test
     public void convertDecimalToBinary() {
+        assert Subnet.convertDecimalToBinary("1") == 1 : NOT_CORRECT;
+        assert Subnet.convertDecimalToBinary("3") == 11 : NOT_CORRECT;
+        assert Subnet.convertDecimalToBinary("7") == 111 : NOT_CORRECT;
+
         assert Subnet.convertDecimalToBinary(0b1) == 1 : NOT_CORRECT;
         assert Subnet.convertDecimalToBinary(0b11) == 11 : NOT_CORRECT;
         assert Subnet.convertDecimalToBinary(0b111) == 111 : NOT_CORRECT;
@@ -475,13 +552,15 @@ public class SubnetTest {
 
     @Test
     public void convertIntegerArrayToStringArray() {
-        assert Arrays.equals(Subnet.convertIntegerArrayToStringArray(new int[]{0, 1, 2}),
+        assert Arrays.equals(Subnet.convertIntegerArrayToStringArray(
+            new int[]{0, 1, 2}),
             new String[]{"0", "1", "2"}) : NOT_CORRECT;
     }
 
     @Test
     public void convertStringArrayToIntegerArray() {
-        assert Arrays.equals(Subnet.convertStringArrayToIntegerArray(new String[]{"0", "1", "2"}),
+        assert Arrays.equals(Subnet.convertStringArrayToIntegerArray(
+            new String[]{"0", "1", "2"}),
             new int[]{0, 1, 2}) : NOT_CORRECT;
     }
     // endregion
