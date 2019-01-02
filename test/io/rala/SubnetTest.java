@@ -599,8 +599,13 @@ public class SubnetTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void isSubnetOkWithInvalidSubnetmaskPattern() {
+    public void isSubnetOkWithInvalidSubnetmaskPatternUnequal0() {
         new Subnet("10", "255.240.240");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void isSubnetOkWithInvalidSubnetmaskPatternAfter0() {
+        new Subnet("10", "255.0.255");
     }
 
     @Test(expected = IllegalArgumentException.class)
