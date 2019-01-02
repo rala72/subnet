@@ -618,7 +618,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region extras: summarize, subnets, contains
 
     /**
-     * summarize current network with other Subnet
+     * <p>summarize current network with other Subnet</p>
+     * <p>if {@link #getIp()} is the same, the subnetmask is set to <code>'/30'</code></p>
      *
      * @param s Subnet to summarize
      * @return the summarized network
@@ -629,6 +630,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         else if (s.getIq() == -1) return null;
         if (!(this.getIpAsArray()[0] == (s.getIpAsArray()[0])))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
+        if (getIp().equals(s.getIp())) return new Subnet(getIp(), "/30");
 
         String[] ip1_array = new String[4];
         String[] ip2_array = new String[4];
@@ -644,8 +646,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
         for (int i = 35; 0 < i; i--) {
             if (ip1.substring(0, i).equals(ip2.substring(0, i))) {
-                String ipSub = ip1.substring(0, i);
-                ipSub = ipSub.replace(".", "");
+                String ipSub = ip1.substring(0, i).replace(".", "");
                 int len = ipSub.length();
                 StringBuilder ipSubBuilder = new StringBuilder(ipSub);
                 for (int j = ipSubBuilder.length(); j < 33; j++) ipSubBuilder.append("0");
@@ -658,7 +659,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                 }
                 String[] ip = convertBinaryNetworkAddressToDecimalStringArray(ipSub);
 
-                if (len == 32) len = 8;
+                if (len == 32) len = 30; // calculation should be 31 - but no usable address
                 StringBuilder snmStringBuilder = new StringBuilder();
                 for (int j = 0; j < 32; j++) {
                     if (j < len) snmStringBuilder.append("1");

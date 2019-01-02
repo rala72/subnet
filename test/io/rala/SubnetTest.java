@@ -393,6 +393,7 @@ public class SubnetTest {
     public void summarize() {
         subnet2.setIp("192.168.20");
         assert subnet2.summarize(subnet3).equals(new Subnet("192.168.0.0", "255.255.192.0")) : NOT_CORRECT;
+        assert subnet3.summarize(subnet3).equals(new Subnet("192.168.50.0", "255.255.255.252")) : NOT_CORRECT;
     }
 
     @Test(expected = IllegalArgumentException.class)
