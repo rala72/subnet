@@ -942,9 +942,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     private void checkEntryAndConvertSubnetmask(String[] entry, boolean isIp) {
         boolean isPrefix = entry[0].charAt(0) == '/';
         for (int i = 0; i < 4; i++) {
-            if (entry[i].trim().equals(""))
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING +
-                                                       (isIp ? EXCEPTION_MESSAGE_SUFFIX_IP : EXCEPTION_MESSAGE_SUFFIX_SNM));
             if (isIp) {
                 if (!testNumber(entry[i]) || entry[i].contains("/"))
                     throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + EXCEPTION_MESSAGE_SUFFIX_IP);
@@ -974,8 +971,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      */
     private String[] convertPrefixAndValidate(String[] snm) {
         String prefix = snm[0].replace("/", "");
-        if (!testNumber(prefix))
-            throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED + EXCEPTION_MESSAGE_SUFFIX_SNM);
         if (prefix.trim().equals(""))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
 
@@ -1003,7 +998,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return new Subnetmask part
      */
     private int convertBinarySubnetmaskToDecimal(int snm, boolean lastQuad) {
-        if (4 <= String.valueOf(snm).length() && testBinary(snm) && snm != 0) {
+        if (3 < String.valueOf(snm).length() && testBinary(snm) && snm != 0) {
             // fill zeros to 8
             while (String.valueOf(snm).length() < 8) snm *= 10;
             snm = (int) convertBinaryToDecimal(snm);
@@ -1034,7 +1029,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         if (!snm_allowed)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
 
-        if (i != 3 && (!(snm[i] == 255 || snm[i + 1] == 0 || snm[i + 1] == 0))) {
+        if (i != 3 && (!(snm[i] == 255 || snm[i + 1] == 0 || snm[i + 1] == 0))) { // TODO: improve
             boolean only0 = true;
             for (int j = 0; j < String.valueOf(snm[i + 1]).length(); j++)
                 if (String.valueOf(snm[i + 1]).charAt(j) != '0') {
@@ -1214,7 +1209,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return <code>true</code> if valid number
      */
     private static boolean testNumber(String text) {
-        return text.toLowerCase().matches("[\\d./]*");
+        return text.toLowerCase().matches("/?[\\d.]*");
     }
 
     /**
