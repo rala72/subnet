@@ -30,25 +30,29 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see String#endsWith(String)
      */
     public static final String EXCEPTION_MESSAGE = "Subnet Error - ";
+    public static final String EXCEPTION_MESSAGE_SUFFIX_IP = " [IP]";
+    public static final String EXCEPTION_MESSAGE_SUFFIX_SNM = " [SNM]";
     public static final String ILLEGAL_ARGUMENT_ENTRY_MISSING =
         EXCEPTION_MESSAGE + "Entry missing - maybe the entry is \"\" or \" \"";
     public static final String ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED =
-        EXCEPTION_MESSAGE + "Entry not supported / probably contains wrong characters: check it again!";
+        EXCEPTION_MESSAGE + "Entry not supported / probably contains wrong characters";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL =
         EXCEPTION_MESSAGE + "Size of the entry is to small";
     public static final String ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE =
         EXCEPTION_MESSAGE + "Size of the entry is to large";
-    public static final String EXCEPTION_MESSAGE_SUFFIX_IP = " [IP]";
-    public static final String EXCEPTION_MESSAGE_SUFFIX_SNM = " [SNM]";
 
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_FIRST_QUAD_IS_INTERESTING =
-        "First Quad is not allowed to be the interesting one";
+        EXCEPTION_MESSAGE + "Subnetmask: first quad is not allowed to be the interesting one"
+            + EXCEPTION_MESSAGE_SUFFIX_SNM;
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER =
-        "Subnetmask contains wrong number";
+        EXCEPTION_MESSAGE + "Subnetmask: contains wrong number"
+            + EXCEPTION_MESSAGE_SUFFIX_SNM;
     public static final String ILLEGAL_ARGUMENT_SUBNETMASK_255_TO_0 =
-        "Subnetmask: unequal 255 -> next has to be 0";
+        EXCEPTION_MESSAGE + "Subnetmask: unequal 255 -> next has to be 0"
+            + EXCEPTION_MESSAGE_SUFFIX_SNM;
     public static final String ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME =
-        EXCEPTION_MESSAGE + "Summarize Exception: please make sure that both have the same Network (1. Quad)";
+        EXCEPTION_MESSAGE + "Summarization: please make sure that both have the same 1. quad"
+            + EXCEPTION_MESSAGE_SUFFIX_IP;
 
     private static final int[] SNM_ALLOWED = {0, 128, 192, 224, 240, 248, 252, 254, 255};
     // last Quad: 254+ no usable host (in general)
