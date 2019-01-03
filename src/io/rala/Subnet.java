@@ -1,10 +1,7 @@
 package io.rala;
 
 import java.net.InterfaceAddress;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * IP address and Subnetmask needed to get a Subnet<br>
@@ -627,6 +624,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      *
      * @param s Subnet to summarize
      * @return the summarized network
+     * @see #summarize(Subnet...)
+     * @see #summarize(Collection)
      * @since 1.0.0
      */
     public Subnet summarize(Subnet s) {
@@ -676,6 +675,37 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
             }
         }
         return null;
+    }
+
+    /**
+     * summarize current network with other Subnets
+     *
+     * @param s Subnets to summarize
+     * @return the summarized network
+     * @see #summarize(Subnet)
+     * @see #summarize(Collection)
+     * @since 2.0.5
+     */
+    public Subnet summarize(Subnet... s) {
+        Subnet summarized = this;
+        for (Subnet subnet : s)
+            if (this.getIpAsArray()[0] != subnet.getIpAsArray()[0])
+                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
+            else summarized = summarized.summarize(subnet);
+        return summarized;
+    }
+
+    /**
+     * summarize current network with other Subnets
+     *
+     * @param s Subnets to summarize
+     * @return the summarized network
+     * @see #summarize(Subnet)
+     * @see #summarize(Subnet...)
+     * @since 2.0.5
+     */
+    public Subnet summarize(Collection<Subnet> s) {
+        return summarize(s.toArray(new Subnet[0]));
     }
 
     /**

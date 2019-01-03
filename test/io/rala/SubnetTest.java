@@ -442,11 +442,31 @@ public class SubnetTest {
         assert subnet3.summarize(subnet3).equals(new Subnet("192.168.50.0", "255.255.255.252")) : NOT_CORRECT;
     }
 
+    @Test
+    public void summarizeDifferent() {
+        subnet2.setIp("192.167.20");
+        assert subnet2.summarize(subnet3).equals(new Subnet("192.160.0.0", "255.240.0.0")) : NOT_CORRECT;
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void summarizeWithException() {
         assert subnet1.summarize(subnet3) == null : NOT_CORRECT;
         assert subnet2.summarize(subnet3) == null : NOT_CORRECT;
         // all other combinations throw also an exception
+    }
+
+    @Test
+    public void summarizeMultiple() {
+        subnet1.setIp("192.168.0");
+        subnet2.setIp("192.168.20");
+        assert subnet1.summarize(subnet2, subnet3).equals(new Subnet("192.168.0.0", "255.255.192.0")) : NOT_CORRECT;
+    }
+
+    @Test
+    public void summarizeMultipleDifferent() {
+        subnet1.setIp("192.167.5");
+        subnet2.setIp("192.169.20");
+        assert subnet1.summarize(Arrays.asList(subnet2, subnet3)).equals(new Subnet("192.160.0.0", "255.240.0.0")) : NOT_CORRECT;
     }
 
     @Test
