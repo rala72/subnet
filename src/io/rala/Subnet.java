@@ -805,7 +805,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     private boolean isIpInIqInValidRange(Subnet s) {
         return this.getSubnetIdAsArray()[this.getIq()] <= s.getIpAsArray()[this.getIq()] &&
-                   s.getIpAsArray()[this.getIq()] <= this.getBroadCastIpAsArray()[this.getIq()];
+            s.getIpAsArray()[this.getIq()] <= this.getBroadCastIpAsArray()[this.getIq()];
     }
     //endregion
 

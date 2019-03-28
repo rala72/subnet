@@ -687,65 +687,65 @@ public class SubnetTest {
     @Test
     public void toStringDetailed() {
         final String s1 = "Subnet-INFO:\n" +
-                              "10.0.0.0        255.0.0.0       (0.255.255.255)   Quad: 1\n" +
-                              "mz: 256         mz:min: 0       mz:max: 255\n" +
-                              "subnet ID:      10.0.0.0\n" +
-                              "broadcast:      10.255.255.255\n" +
-                              "first available IP:  10.0.0.1\n" +
-                              "last available IP:   10.255.255.254\n" +
-                              "class:          A\n" +
-                              "class ID:       10.0.0.0\n" +
-                              "class SNM:      255.0.0.0\n" +
-                              "netbits:        8               subnetbits:     0               hostbits:       24\n" +
-                              "count of subnets:    2^0 = 1    count of hosts:      2^24-2 = 16777214";
+            "10.0.0.0        255.0.0.0       (0.255.255.255)   Quad: 1\n" +
+            "mz: 256         mz:min: 0       mz:max: 255\n" +
+            "subnet ID:      10.0.0.0\n" +
+            "broadcast:      10.255.255.255\n" +
+            "first available IP:  10.0.0.1\n" +
+            "last available IP:   10.255.255.254\n" +
+            "class:          A\n" +
+            "class ID:       10.0.0.0\n" +
+            "class SNM:      255.0.0.0\n" +
+            "netbits:        8               subnetbits:     0               hostbits:       24\n" +
+            "count of subnets:    2^0 = 1    count of hosts:      2^24-2 = 16777214";
         final String s2 = "Subnet-INFO:\n" +
-                              "128.245.97.0    255.255.0.0     (0.0.255.255)     Quad: 2\n" +
-                              "mz: 256         mz:min: 0       mz:max: 255\n" +
-                              "subnet ID:      128.245.0.0\n" +
-                              "broadcast:      128.245.255.255\n" +
-                              "first available IP:  128.245.0.1\n" +
-                              "last available IP:   128.245.255.254\n" +
-                              "class:          B\n" +
-                              "class ID:       128.245.0.0\n" +
-                              "class SNM:      255.255.0.0\n" +
-                              "netbits:        16              subnetbits:     0               hostbits:       16\n" +
-                              "count of subnets:    2^0 = 1    count of hosts:      2^16-2 = 65534";
+            "128.245.97.0    255.255.0.0     (0.0.255.255)     Quad: 2\n" +
+            "mz: 256         mz:min: 0       mz:max: 255\n" +
+            "subnet ID:      128.245.0.0\n" +
+            "broadcast:      128.245.255.255\n" +
+            "first available IP:  128.245.0.1\n" +
+            "last available IP:   128.245.255.254\n" +
+            "class:          B\n" +
+            "class ID:       128.245.0.0\n" +
+            "class SNM:      255.255.0.0\n" +
+            "netbits:        16              subnetbits:     0               hostbits:       16\n" +
+            "count of subnets:    2^0 = 1    count of hosts:      2^16-2 = 65534";
         final String s3 = "Subnet-INFO:\n" +
-                              "192.168.50.0    255.255.224.0   (0.0.31.255)      Quad: 2       supernetting\n" +
-                              "mz: 32          mz:min: 32      mz:max: 63\n" +
-                              "subnet ID:      192.168.32.0\n" +
-                              "broadcast:      192.168.63.255\n" +
-                              "first available IP:  192.168.32.1\n" +
-                              "last available IP:   192.168.63.254\n" +
-                              "class:          C\n" +
-                              "class ID:       192.168.50.0\n" +
-                              "class SNM:      255.255.255.0\n" +
-                              "netbits:        19 (24)         subnetbits:     0 (-5)          hostbits:       13\n" +
-                              "count of subnets:    2^0 = 1    count of hosts:      2^13-2 = 8190";
+            "192.168.50.0    255.255.224.0   (0.0.31.255)      Quad: 2       supernetting\n" +
+            "mz: 32          mz:min: 32      mz:max: 63\n" +
+            "subnet ID:      192.168.32.0\n" +
+            "broadcast:      192.168.63.255\n" +
+            "first available IP:  192.168.32.1\n" +
+            "last available IP:   192.168.63.254\n" +
+            "class:          C\n" +
+            "class ID:       192.168.50.0\n" +
+            "class SNM:      255.255.255.0\n" +
+            "netbits:        19 (24)         subnetbits:     0 (-5)          hostbits:       13\n" +
+            "count of subnets:    2^0 = 1    count of hosts:      2^13-2 = 8190";
         final String s4 = "Subnet-INFO:\n" +
-                              "224.62.83.0     255.255.240.0   (0.0.15.255)      Quad: 2\n" +
-                              "mz: 16          mz:min: 80      mz:max: 95\n" +
-                              "subnet ID:      224.62.80.0\n" +
-                              "broadcast:      224.62.95.255\n" +
-                              "first available IP:  224.62.80.1\n" +
-                              "last available IP:   224.62.95.254\n" +
-                              "class:          D\n" +
-                              "class ID:       224.62.83.0\n" +
-                              "class SNM:      255.255.255.0\n" +
-                              "netbits:        20              subnetbits:     0               hostbits:       12\n" +
-                              "count of subnets:    2^0 = 1    count of hosts:      2^12-2 = 4094";
+            "224.62.83.0     255.255.240.0   (0.0.15.255)      Quad: 2\n" +
+            "mz: 16          mz:min: 80      mz:max: 95\n" +
+            "subnet ID:      224.62.80.0\n" +
+            "broadcast:      224.62.95.255\n" +
+            "first available IP:  224.62.80.1\n" +
+            "last available IP:   224.62.95.254\n" +
+            "class:          D\n" +
+            "class ID:       224.62.83.0\n" +
+            "class SNM:      255.255.255.0\n" +
+            "netbits:        20              subnetbits:     0               hostbits:       12\n" +
+            "count of subnets:    2^0 = 1    count of hosts:      2^12-2 = 4094";
         final String s5 = "Subnet-INFO:\n" +
-                              "240.136.42.0    255.255.255.0   (0.0.0.255)       Quad: 3\n" +
-                              "mz: 256         mz:min: 0       mz:max: 255\n" +
-                              "subnet ID:      240.136.42.0\n" +
-                              "broadcast:      240.136.42.255\n" +
-                              "first available IP:  240.136.42.1\n" +
-                              "last available IP:   240.136.42.254\n" +
-                              "class:          E\n" +
-                              "class ID:       240.136.42.0\n" +
-                              "class SNM:      255.255.255.0\n" +
-                              "netbits:        24              subnetbits:     0               hostbits:       8\n" +
-                              "count of subnets:    2^0 = 1    count of hosts:      2^8-2 = 254";
+            "240.136.42.0    255.255.255.0   (0.0.0.255)       Quad: 3\n" +
+            "mz: 256         mz:min: 0       mz:max: 255\n" +
+            "subnet ID:      240.136.42.0\n" +
+            "broadcast:      240.136.42.255\n" +
+            "first available IP:  240.136.42.1\n" +
+            "last available IP:   240.136.42.254\n" +
+            "class:          E\n" +
+            "class ID:       240.136.42.0\n" +
+            "class SNM:      255.255.255.0\n" +
+            "netbits:        24              subnetbits:     0               hostbits:       8\n" +
+            "count of subnets:    2^0 = 1    count of hosts:      2^8-2 = 254";
         assert subnet1.toString(true).equals(s1) : NOT_CORRECT;
         assert subnet2.toString(true).equals(s2) : NOT_CORRECT;
         assert subnet3.toString(true).equals(s3) : NOT_CORRECT;
