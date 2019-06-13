@@ -652,7 +652,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                 String ipSub = ip1.substring(0, i).replace(".", "");
                 int len = ipSub.length();
                 StringBuilder ipSubBuilder = new StringBuilder(ipSub);
-                for (int j = ipSubBuilder.length(); j < 33; j++) ipSubBuilder.append("0");
+                ipSubBuilder.append("0".repeat(Math.max(0, 33 - ipSubBuilder.length())));
                 ipSub = ipSubBuilder.toString();
                 StringBuilder ipSubF = new StringBuilder();
                 for (int j = 0; j < 32; j++) {
@@ -964,9 +964,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         int countDots = 0;
         for (int i = 0; i < s.length(); i++)
             if (s.charAt(i) == '.') countDots++;
-        StringBuilder stringBuilder = new StringBuilder(s);
-        for (int i = countDots; i < 3; i++) stringBuilder.append(".0");
-        return stringBuilder.toString();
+        return s + ".0".repeat(Math.max(0, 3 - countDots));
     }
 
     /**
