@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SuppressWarnings("FieldCanBeLocal")
 class SubnetTest {
     //region default config
-    private static boolean printAll = true;
+    private static boolean printAll = false;
     private static boolean printAllDetailed = false;
     //endregion
 
