@@ -1057,7 +1057,10 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     private void isSubnetOk(int[] snm, int i) {
         boolean snm_allowed = false;
         for (int snmAllowed : SNM_ALLOWED)
-            if (snm[i] == snmAllowed) snm_allowed = true;
+            if (snm[i] == snmAllowed) {
+                snm_allowed = true;
+                break;
+            }
         if (!snm_allowed)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
 
