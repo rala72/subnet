@@ -198,7 +198,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      * @deprecated use {@link #setIp(String)}
      */
-    @Deprecated
+    @Deprecated(since = "1.5.3")
     public void setIp(String ip, boolean recalculate) {
         if (ip.trim().equals(""))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_IP);
@@ -237,7 +237,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      * @deprecated use {@link #setIp(String[])}
      */
-    @Deprecated
+    @Deprecated(since = "1.5.3")
     public void setIp(String[] ip, boolean recalculate) {
         setIp(convertNetworkArrayToString(ip), recalculate);
     }
@@ -265,7 +265,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.3.0
      * @deprecated use {@link #setIp(int[])}
      */
-    @Deprecated
+    @Deprecated(since = "1.5.3")
     public void setIp(int[] ip, boolean recalculate) {
         setIp(convertNetworkArrayToString(ip), recalculate);
     }
@@ -811,7 +811,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.5.2
      * @deprecated use methods without the recalculate parameter
      */
-    @Deprecated
+    @Deprecated(since = "1.5.3")
     public void recalculate() {
         calc();
     }
