@@ -95,7 +95,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(String ip) {
         setIp(ip, false);
         setSubnetmaskBasedOnClass();
@@ -108,7 +107,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param snm Subnetmask
      * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(String ip, String snm) {
         setIp(ip, false);
         setSubnetmask(snm);
@@ -122,7 +120,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(String[] ip) {
         setIp(ip, false);
         setSubnetmaskBasedOnClass();
@@ -135,7 +132,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param snm Subnetmask
      * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(String[] ip, String[] snm) {
         setIp(ip, false);
         setSubnetmask(snm);
@@ -149,7 +145,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(int[] ip) {
         setIp(ip, false);
         setSubnetmaskBasedOnClass();
@@ -162,7 +157,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param snm Subnetmask
      * @since 1.3.0
      */
-    @SuppressWarnings("deprecation")
     public Subnet(int[] ip, int[] snm) {
         setIp(ip, false);
         setSubnetmask(Arrays.toString(snm).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
@@ -187,7 +181,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param ip IP address
      * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public void setIp(String ip) {
         setIp(ip, true);
     }
