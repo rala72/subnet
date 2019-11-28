@@ -889,7 +889,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                         subnetbits = 0;
                         subnetbitsString = String.valueOf(subnetbits);
                         countOfSubnets = (int) (Math.pow(2, 0));
-                        countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
                     } else {// SUPERNETTING : ONLY if 192-223 (Class C)
                         classChar = 'C';
                         if ((8 - getZeroCount()) < 0) {
@@ -904,7 +903,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                             subnetbitsString = String.valueOf(subnetbits);
                         }
                         countOfSubnets = (int) (Math.pow(2, subnetbits));
-                        countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
                     }
                 } else {// ONLY if 128-191 (Class B)
                     classChar = 'B';
@@ -920,7 +918,6 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                         subnetbitsString = String.valueOf(subnetbits);
                     }
                     countOfSubnets = (int) (Math.pow(2, subnetbits));
-                    countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
                 }
             } else {// ONLY if 0-127 (Class A)
                 classChar = 'A';
@@ -936,8 +933,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
                     subnetbitsString = String.valueOf(subnetbits);
                 }
                 countOfSubnets = (int) (Math.pow(2, subnetbits));
-                countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
             }
+            countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
         }
         countOfHosts = (int) (Math.pow(2, getZeroCount()) - 2);
         countOfHostsString = "2^" + getZeroCount() + "-2 = " + countOfHosts;
