@@ -10,10 +10,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SuppressWarnings("FieldCanBeLocal")
 class SubnetTest {
     //region default config
     private static boolean printAll = false;
+    @SuppressWarnings("FieldCanBeLocal")
     private static boolean printAllDetailed = false;
     //endregion
 
