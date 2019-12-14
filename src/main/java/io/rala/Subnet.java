@@ -187,7 +187,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code>
+     * not suggested to set {@code recalculate</code> to <code>false}
      * </b></p>
      * set IP address
      *
@@ -226,7 +226,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code>
+     * not suggested to set {@code recalculate</code> to <code>false}
      * </b></p>
      * set IP address
      *
@@ -254,7 +254,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set <code>recalculate</code> to <code>false</code>
+     * not suggested to set {@code recalculate</code> to <code>false}
      * </b></p>
      * set IP address
      *
@@ -594,7 +594,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     /**
      * check current network if it is super-netting
      *
-     * @return <code>true</code> if this Subnet is super-netting
+     * @return {@code true} if this Subnet is super-netting
      * @since 1.0.0
      */
     public boolean isSupernetting() {
@@ -613,7 +613,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p>summarize current network with other Subnet</p>
-     * <p>if {@link #getIp()} is the same, the subnetmask is set to <code>'/30'</code></p>
+     * <p>if {@link #getIp()} is the same, the subnetmask is set to {@code '/30'}</p>
      *
      * @param s Subnet to summarize
      * @return the summarized network
@@ -760,7 +760,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param s other Subnet
-     * @return <code>true</code> if current Subnet is the same as other Subnet
+     * @return {@code true} if current Subnet is the same as other Subnet
      * @see #contains(Subnet)
      * @since 1.5.3
      */
@@ -773,7 +773,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param s other Subnet
-     * @return <code>true</code> if current Subnet contains other Subnet
+     * @return {@code true} if current Subnet contains other Subnet
      * @see #isSameSubnet(Subnet)
      * @since 1.4.0
      */
@@ -944,7 +944,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region valid checks and other internal methods
 
     /**
-     * add .0 if <code>s</code> isn't complete
+     * add .0 if {@code s} isn't complete
      *
      * @param s IP address or Subnetmask
      */
@@ -1223,7 +1223,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * tests if text is valid number
      *
      * @param text text to check
-     * @return <code>true</code> if valid number
+     * @return {@code true} if valid number
      */
     private static boolean testNumber(String text) {
         return text.toLowerCase().matches("/?[\\d.]*");
@@ -1233,7 +1233,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * tests if number is valid binary number
      *
      * @param number number to check
-     * @return <code>true</code> if valid binary number
+     * @return {@code true} if valid binary number
      */
     private static boolean testBinary(long number) {
         return testNumber(String.valueOf(number)) && String.valueOf(number).matches("[01]*");
@@ -1341,7 +1341,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * @param o has to be Subnet
-     * @return <code>true</code> if IP address and Subnetmask are equal
+     * @return {@code true} if IP address and Subnetmask are equal
      * @since 1.4.0
      */
     @Override
@@ -1354,8 +1354,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * can check if it takes any affect except on the IP if you used a setIp method and set recalculate to false
      *
      * @param o    has to be Subnet
-     * @param deep if deep is <code>false</code> {@link #equals(Object)} is used
-     * @return <code>true</code> if everything except the IP address is equal
+     * @param deep if deep is {@code false} {@link #equals(Object)} is used
+     * @return {@code true} if everything except the IP address is equal
      * @see #equals(Object)
      * @since 1.5.3
      */
