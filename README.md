@@ -1,4 +1,6 @@
 # Subnet
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.rala/subnet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.rala/subnet)
+[![javadoc](https://javadoc.io/badge2/io.rala/subnet/javadoc.svg)](https://javadoc.io/doc/io.rala/subnet)
 
 This library makes subnet-calculation easy.<br>
 The development of this class started back in 2014.
