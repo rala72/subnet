@@ -641,7 +641,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * <p>if {@link #getIp()} is the same, the subnetmask is set to {@code '/30'}</p>
      *
      * @param s Subnet to summarize
-     * @return the summarized network
+     * @return the summarized network or {@code null} if any {@link #getIq()} returns {@code -1}
+     * @throws IllegalArgumentException if first quad is not the same
      * @see #summarize(Subnet...)
      * @see #summarize(Collection)
      * @since 1.0.0
@@ -700,7 +701,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * summarize current network with other Subnets
      *
      * @param s Subnets to summarize
-     * @return the summarized network
+     * @return the summarized network or {@code null}
+     * @throws IllegalArgumentException if first quad is not the same
      * @see #summarize(Subnet)
      * @see #summarize(Collection)
      * @since 2.0.5
@@ -722,7 +724,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * summarize current network with other Subnets
      *
      * @param s Subnets to summarize
-     * @return the summarized network
+     * @return the summarized network or {@code null}
+     * @throws IllegalArgumentException if first quad is not the same
      * @see #summarize(Subnet)
      * @see #summarize(Subnet...)
      * @since 2.0.5
