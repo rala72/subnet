@@ -711,7 +711,10 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
         for (Subnet subnet : s)
             if (this.getIpAsArray()[0] != subnet.getIpAsArray()[0])
                 throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
-            else summarized = summarized.summarize(subnet);
+            else {
+                summarized = summarized.summarize(subnet);
+                if (summarized == null) return null;
+            }
         return summarized;
     }
 
