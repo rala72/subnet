@@ -189,7 +189,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set {@code recalculate</code> to <code>false}
+     * not suggested to set {@code recalculate} to {@code false}
      * </b></p>
      * set IP address
      *
@@ -228,7 +228,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set {@code recalculate</code> to <code>false}
+     * not suggested to set {@code recalculate} to {@code false}
      * </b></p>
      * set IP address
      *
@@ -256,7 +256,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
 
     /**
      * <p><b>
-     * not suggested to set {@code recalculate</code> to <code>false}
+     * not suggested to set {@code recalculate} to {@code false}
      * </b></p>
      * set IP address
      *
