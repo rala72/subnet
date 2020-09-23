@@ -202,7 +202,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      */
     @Deprecated(since = "1.5.3")
     public void setIp(@NotNull String ip, boolean recalculate) {
-        if (ip.trim().equals(""))
+        if (ip.isBlank())
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_IP);
         ip = clearAndAdd0(ip);
 
@@ -279,7 +279,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      */
     public void setSubnetmask(@NotNull String snm) {
-        if (snm.trim().equals(""))
+        if (snm.isBlank())
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
         snm = clearAndAdd0(snm);
 
@@ -1029,7 +1029,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     @NotNull
     private String[] convertPrefixAndValidate(@NotNull String[] snm) {
         String prefix = snm[0].replace("/", "");
-        if (prefix.trim().equals(""))
+        if (prefix.isBlank())
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
 
         int prefix_length = Integer.parseInt(prefix);
