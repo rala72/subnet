@@ -320,7 +320,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
     //endregion setter
 
-    //region getter (basic)
+    //region getter
 
     /**
      * @return IP address
