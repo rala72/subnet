@@ -302,7 +302,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     }
 
     /**
-     * set Subnetmask &amp; recalculate table NOW
+     * set Subnetmask &amp; recalculate
      *
      * @param snm Subnetmask array
      * @since 1.3.0
@@ -842,7 +842,8 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region calc
 
     /**
-     * use this method <b>only</b> if you used a setIp method and set recalculate to false<br>
+     * use this method <b>only</b> if you used a {@code setIp} method and
+     * set {@code recalculate} to {@code false}<br>
      * recalculates everything
      *
      * @since 1.5.2
