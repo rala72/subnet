@@ -200,7 +200,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      * @deprecated use {@link #setIp(String)}
      */
-    @Deprecated(since = "1.5.3")
+    @Deprecated(since = "1.5.3", forRemoval = true)
     public void setIp(@NotNull String ip, boolean recalculate) {
         if (ip.isBlank())
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_IP);
@@ -239,7 +239,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.0.0
      * @deprecated use {@link #setIp(String[])}
      */
-    @Deprecated(since = "1.5.3")
+    @Deprecated(since = "1.5.3", forRemoval = true)
     public void setIp(@NotNull String[] ip, boolean recalculate) {
         setIp(convertNetworkArrayToString(ip), recalculate);
     }
@@ -267,7 +267,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.3.0
      * @deprecated use {@link #setIp(int[])}
      */
-    @Deprecated(since = "1.5.3")
+    @Deprecated(since = "1.5.3", forRemoval = true)
     public void setIp(@NotNull int[] ip, boolean recalculate) {
         setIp(convertNetworkArrayToString(ip), recalculate);
     }
@@ -849,7 +849,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.5.2
      * @deprecated use methods without the recalculate parameter
      */
-    @Deprecated(since = "1.5.3")
+    @Deprecated(since = "1.5.3", forRemoval = true)
     public void recalculate() {
         calc();
     }

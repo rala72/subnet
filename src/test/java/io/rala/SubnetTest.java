@@ -799,9 +799,9 @@ class SubnetTest {
     }
     //endregion
 
-    //region deprecated
+    //region deprecated for removal
     @Test
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({"removal"})
     void setIpDeprecation() {
         subnet2.setIp("10", false);
         assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
@@ -817,7 +817,7 @@ class SubnetTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("removal")
     void recalculateDeprecation() { // see also setIpDeprecation
         subnet2.setIp("10", false);
         assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
