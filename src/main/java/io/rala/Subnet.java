@@ -13,7 +13,6 @@ import java.util.*;
  * <a href="www.rala.io">www.rala.io</a>
  * @version 2.0.5
  */
-@SuppressWarnings("DeprecatedIsStillUsed")
 public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
     //region error messages & valid snm entries
     /**
