@@ -329,6 +329,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return IP address
      * @since 1.0.0
      */
+    @NotNull
     public String getIp() {
         return convertNetworkArrayToString(getIpAsArray());
     }
@@ -337,6 +338,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return IP address as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getIpAsArray() {
         return ipArray;
     }
@@ -345,6 +347,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Subnetmask
      * @since 1.0.0
      */
+    @NotNull
     public String getSubnetmask() {
         return convertNetworkArrayToString(getSubnetmaskAsArray());
     }
@@ -353,6 +356,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Subnetmask as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getSubnetmaskAsArray() {
         return snmArray;
     }
@@ -361,6 +365,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return WildmarkMask
      * @since 1.0.0
      */
+    @NotNull
     public String getWildmarkMask() {
         return convertNetworkArrayToString(wildArray);
     }
@@ -369,6 +374,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return WildmarkMask as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getWildmarkMaskAsArray() {
         return wildArray;
     }
@@ -413,6 +419,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Subnet ID
      * @since 1.0.0
      */
+    @NotNull
     public String getSubnetId() {
         return convertNetworkArrayToString(getSubnetIdAsArray());
     }
@@ -421,6 +428,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Subnet ID as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getSubnetIdAsArray() {
         return subnetIdArray;
     }
@@ -429,6 +437,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return first available IP address
      * @since 1.0.0
      */
+    @NotNull
     public String getFirstAvailableIp() {
         return convertNetworkArrayToString(getFirstAvailableIpAsArray());
     }
@@ -437,6 +446,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return first available IP address as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getFirstAvailableIpAsArray() {
         return firstAvailableIpArray;
     }
@@ -445,6 +455,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return last available IP address
      * @since 1.0.0
      */
+    @NotNull
     public String getLastAvailableIp() {
         return convertNetworkArrayToString(getLastAvailableIpAsArray());
     }
@@ -453,6 +464,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return last available IP address as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getLastAvailableIpAsArray() {
         return lastAvailableIpArray;
     }
@@ -461,6 +473,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Broadcast IP address
      * @since 1.0.0
      */
+    @NotNull
     public String getBroadCastIp() {
         return convertNetworkArrayToString(getBroadCastIpAsArray());
     }
@@ -469,6 +482,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Broadcast IP address as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getBroadCastIpAsArray() {
         return broadCastIpArray;
     }
@@ -477,6 +491,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Class ID
      * @since 1.0.0
      */
+    @NotNull
     public String getClassId() {
         return convertNetworkArrayToString(getClassIdAsArray());
     }
@@ -485,6 +500,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Class ID as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getClassIdAsArray() {
         return classIdArray;
     }
@@ -493,6 +509,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Class Subnetmask
      * @since 1.0.0
      */
+    @NotNull
     public String getClassSubnetmask() {
         return convertNetworkArrayToString(getClassSubnetmaskAsArray());
     }
@@ -501,6 +518,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Class Subnetmask as array
      * @since 1.0.0
      */
+    @NotNull
     public int[] getClassSubnetmaskAsArray() {
         return classSubnetmaskArray;
     }
@@ -525,6 +543,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Count of Netbits (with calculated number)
      * @since 1.0.0
      */
+    @NotNull
     public String getNetbitsString() {
         return netbitsString = netbitsString.trim();
     }
@@ -541,6 +560,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Count of Subnetbits (with calculated number)
      * @since 1.0.0
      */
+    @NotNull
     public String getSubnetbitsString() {
         return subnetbitsString = subnetbitsString.trim();
     }
@@ -557,6 +577,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Count of Hostbits (with calculated number)
      * @since 1.0.0
      */
+    @NotNull
     public String getHostbitsString() {
         return hostbitsString = hostbitsString.trim();
     }
@@ -573,6 +594,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Count of Subnets with calculation
      * @since 1.0.0
      */
+    @NotNull
     public String getCountOfSubnetsCalc() {
         return countOfSubnetsString = countOfSubnetsString.trim();
     }
@@ -589,6 +611,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Count of Hosts in a Subnet
      * @since 1.0.0
      */
+    @NotNull
     public String getCountOfHostsCalc() {
         return countOfHostsString = countOfHostsString.trim();
     }
@@ -623,6 +646,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #summarize(Collection)
      * @since 1.0.0
      */
+    @Nullable
     public Subnet summarize(@NotNull Subnet s) {
         if (this.getIq() == -1) return null;
         else if (s.getIq() == -1) return null;
@@ -681,6 +705,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #summarize(Collection)
      * @since 2.0.5
      */
+    @Nullable
     public Subnet summarize(@NotNull Subnet... s) {
         Subnet summarized = this;
         for (Subnet subnet : s)
@@ -699,6 +724,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #summarize(Subnet...)
      * @since 2.0.5
      */
+    @Nullable
     public Subnet summarize(@NotNull Collection<Subnet> s) {
         return summarize(s.toArray(new Subnet[0]));
     }
@@ -710,6 +736,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return Set with all Subnets
      * @since 1.2.0
      */
+    @NotNull
     public Set<Subnet> getSubnets() {// see getSubnets(from, to)
         Set<Subnet> subnets = new TreeSet<>();
         for (int iqCount = 0; iqCount <= 255; iqCount += getMagicNumber()) {
@@ -736,6 +763,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @see #getSubnets(Subnet, Subnet)
      * @since 1.2.0
      */
+    @NotNull
     public Set<Subnet> getSubSubnets() {
         return getSubnets(new Subnet(getFirstAvailableIp(), getSubnetmask()), new Subnet(getLastAvailableIp(), getSubnetmask()));
     }
@@ -750,6 +778,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return all Subnets from to
      * @since 1.2.0
      */
+    @NotNull
     protected static Set<Subnet> getSubnets(@NotNull Subnet from, @NotNull Subnet to) {
         Set<Subnet> subnets = new TreeSet<>();
         for (int from0 = from.getIpAsArray()[0]; from0 <= to.getIpAsArray()[0]; from0++)
@@ -950,6 +979,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      *
      * @param s IP address or Subnetmask
      */
+    @NotNull
     private String clearAndAdd0(@NotNull String s) {
         while (s.contains("..")) s = s.replace("..", ".");
         if (s.endsWith(".")) s = s.substring(0, s.length() - 1);
@@ -993,6 +1023,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param snm Subnetmask String array
      * @return converted Subnetmask array
      */
+    @NotNull
     private String[] convertPrefixAndValidate(@NotNull String[] snm) {
         String prefix = snm[0].replace("/", "");
         if (prefix.trim().equals(""))
@@ -1113,6 +1144,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param array array
      * @return String
      */
+    @NotNull
     private static String convertNetworkArrayToString(@NotNull String[] array) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
@@ -1128,6 +1160,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param array array
      * @return String
      */
+    @NotNull
     private static String convertNetworkArrayToString(@NotNull int[] array) {
         return convertNetworkArrayToString(convertIntegerArrayToStringArray(array));
     }
@@ -1138,6 +1171,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @param string address
      * @return decimal array
      */
+    @NotNull
     private static String[] convertBinaryNetworkAddressToDecimalStringArray(@NotNull String string) {
         String[] split = string.split("\\.");
         String[] address = new String[4];
@@ -1203,6 +1237,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return string array
      * @since 1.1.0
      */
+    @NotNull
     public static String[] convertIntegerArrayToStringArray(@NotNull int[] ints) {
         return Arrays.toString(ints).replaceAll("[\\[\\]]", "").split("\\s*,\\s*");
     }
@@ -1212,6 +1247,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return int array
      * @since 1.4.0
      */
+    @NotNull
     public static int[] convertStringArrayToIntegerArray(@NotNull String[] strings) {
         int[] intArray = new int[strings.length];
         for (int i = 0; i < strings.length; i++) intArray[i] = Integer.parseInt(strings[i]);
@@ -1249,6 +1285,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return IP and Subnetmask and (optional) other information
      * @since 1.0.0
      */
+    @NotNull
     public String toString(boolean detailed) {
         if (!detailed) return toString();
         String s = Subnet.class.getSimpleName() + "-INFO:\n";
@@ -1298,6 +1335,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return IP address and Subnetmask
      * @since 1.0.0
      */
+    @NotNull
     public String toString() {
         return getIp() + " " + getSubnetmask();
     }
@@ -1311,6 +1349,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return formatted string
      * @since 2.0.0
      */
+    @NotNull
     protected static String formatString(@Nullable String string, long offset) {
         return String.format("%1$" + offset + "s", string);
     }
@@ -1337,6 +1376,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @return a copy of current Subnet based on IP address and SNM
      * @since 1.5.3
      */
+    @NotNull
     public Subnet copy() {
         return new Subnet(getIp(), getSubnetmask());
     }
