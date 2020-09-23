@@ -14,7 +14,7 @@ class SubnetTest {
     //region default config
     private static boolean printAll = false;
     @SuppressWarnings("FieldCanBeLocal")
-    private static boolean printAllDetailed = false;
+    private static final boolean printAllDetailed = false;
     //endregion
 
     //region subnets
