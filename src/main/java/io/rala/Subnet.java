@@ -13,7 +13,7 @@ import java.util.*;
  *
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
- * <a href="www.rala.io">www.rala.io</a>
+ * <a href="https://www.rala.io">www.rala.io</a>
  * @version 2.0.5
  */
 public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Subnet> {
