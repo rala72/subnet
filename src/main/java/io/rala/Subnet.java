@@ -16,7 +16,7 @@ import java.util.*;
  * <a href="www.rala.io">www.rala.io</a>
  * @version 2.0.5
  */
-public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
+public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Subnet> {
     //region error messages & valid snm entries
     /**
      * <b>initial text for known exceptions handled by this class</b>
@@ -731,7 +731,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 2.0.5
      */
     @Nullable
-    public Subnet summarize(@NotNull Collection<Subnet> s) {
+    public Subnet summarize(@NotNull Collection<@NotNull Subnet> s) {
         return summarize(s.toArray(new Subnet[0]));
     }
 
@@ -743,7 +743,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.2.0
      */
     @NotNull
-    public Set<Subnet> getSubnets() {// see getSubnets(from, to)
+    public Set<@NotNull Subnet> getSubnets() {// see getSubnets(from, to)
         Set<Subnet> subnets = new TreeSet<>();
         for (int iqCount = 0; iqCount <= 255; iqCount += getMagicNumber()) {
             switch (getIq()) {
@@ -770,7 +770,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.2.0
      */
     @NotNull
-    public Set<Subnet> getSubSubnets() {
+    public Set<@NotNull Subnet> getSubSubnets() {
         return getSubnets(new Subnet(getFirstAvailableIp(), getSubnetmask()), new Subnet(getLastAvailableIp(), getSubnetmask()));
     }
 
@@ -785,7 +785,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      * @since 1.2.0
      */
     @NotNull
-    protected static Set<Subnet> getSubnets(@NotNull Subnet from, @NotNull Subnet to) {
+    protected static Set<@NotNull Subnet> getSubnets(@NotNull Subnet from, @NotNull Subnet to) {
         Set<Subnet> subnets = new TreeSet<>();
         for (int from0 = from.getIpAsArray()[0]; from0 <= to.getIpAsArray()[0]; from0++)
             for (int from1 = from.getIpAsArray()[1]; from1 <= to.getIpAsArray()[1]; from1++)
@@ -1433,7 +1433,7 @@ public class Subnet implements Comparable<Subnet>, Iterable<Subnet> {
      */
     @Override
     @NotNull
-    public Iterator<Subnet> iterator() {
+    public Iterator<@NotNull Subnet> iterator() {
         return getSubnets().iterator();
     }
     //endregion
