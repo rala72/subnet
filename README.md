@@ -17,8 +17,8 @@ This code is used in rala's projects:
 
 ## Docs
 
-* [Examples](http://www.rala.io/library/subnet)
-* [javadoc](http://javadoc.rala.io)
+* [Examples & Changelog @ Homepage](http://www.rala.io/library/subnet)
+* [javadoc @ Homepage](http://javadoc.rala.io)
 
 ## Contact
 
