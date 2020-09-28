@@ -959,17 +959,10 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
                 }
             } else {// ONLY if 0-127 (Class A)
                 classChar = 'A';
-                if ((24 - getZeroCount()) < 0) {
-                    netbits = 32 - getZeroCount();
-                    netbitsString = netbits + " (8)";
-                    subnetbits = 0;
-                    subnetbitsString = subnetbits + " (" + (24 - getZeroCount()) + ")";
-                } else {
-                    netbits = 8;
-                    netbitsString = String.valueOf(netbits);
-                    subnetbits = 24 - getZeroCount();
-                    subnetbitsString = String.valueOf(subnetbits);
-                }
+                netbits = 8;
+                netbitsString = String.valueOf(netbits);
+                subnetbits = 24 - getZeroCount();
+                subnetbitsString = String.valueOf(subnetbits);
                 countOfSubnets = (int) (Math.pow(2, subnetbits));
             }
             countOfSubnetsString = "2^" + subnetbits + " = " + countOfSubnets;
@@ -1064,12 +1057,8 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
             // fill zeros to 8
             while (String.valueOf(snm).length() < 8) snm *= 10;
             snm = (int) convertBinaryToDecimal(snm);
-            if (255 < snm)
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
         } else {
-            if (!testNumber(String.valueOf(snm)))
-                throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_NOT_SUPPORTED);
-            else if (255 < snm || (lastQuad && 252 < snm))
+            if (255 < snm || (lastQuad && 252 < snm))
                 throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
             else if (testBinary(snm))
                 // 8 times 0 becomes only one

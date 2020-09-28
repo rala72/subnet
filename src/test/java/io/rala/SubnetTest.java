@@ -448,6 +448,8 @@ class SubnetTest {
             subnet1.summarize(subnet3));
         assertThrows(IllegalArgumentException.class, () ->
             subnet2.summarize(subnet3));
+        assertThrows(IllegalArgumentException.class, () ->
+            subnet1.summarize(subnet2, subnet3));
         // all other combinations throw also an exception
     }
 
@@ -579,6 +581,11 @@ class SubnetTest {
     @Test
     void checkEntryAndConvertSubnetmaskWithInvalidSubnetmask() {
         assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255,"));
+    }
+
+    @Test
+    void checkEntryAndConvertSubnetmaskWithToLargeBinarySubnetmask() {
+        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.abc"));
     }
 
     @Test
