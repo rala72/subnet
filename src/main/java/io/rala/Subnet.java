@@ -667,6 +667,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         String ip2 = convertNetworkArrayToString(ip2_array);
         if (ip1.length() != 35 || ip2.length() != 35) return null;
 
+        Subnet summarization = null;
         for (int i = 35; 0 < i; i--) {
             if (ip1.substring(0, i).equals(ip2.substring(0, i))) {
                 String ipSub = ip1.substring(0, i).replace(".", "");
@@ -691,10 +692,11 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
                 }
                 String[] snm = convertBinaryNetworkAddressToDecimalStringArray(snmStringBuilder.toString());
 
-                return new Subnet(ip, snm);
+                summarization = new Subnet(ip, snm);
+                break;
             }
         }
-        return null;
+        return summarization;
     }
 
     /**
@@ -897,10 +899,8 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
             broadCastIpArray[iq] = mzMax;
         } else if (iq == 3) {
             subnetIdArray[iq] = mzMin;
-            if ((mzMin + 1) < mzMax) firstAvailableIpArray[iq] = (mzMin + 1);
-            else firstAvailableIpArray[iq] = mzMin;
-            if (0 < (mzMax - 1)) lastAvailableIpArray[iq] = (mzMax - 1);
-            else lastAvailableIpArray[iq] = mzMax;
+            firstAvailableIpArray[iq] = mzMin + 1;
+            lastAvailableIpArray[iq] = mzMax - 1;
             broadCastIpArray[iq] = mzMax;
         }
     }
