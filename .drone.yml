@@ -8,4 +8,8 @@ steps:
     commands:
       - mvn install -Dmaven.javadoc.skip=true -DskipTests -Dgpg.skip -B -V
       - mvn test -B
+  - name: report
+    image: maven:3-openjdk-11
+    commands:
+      - mvn install -Dmaven.javadoc.skip=true -DskipTests -Dgpg.skip -B -V
       - mvn clean test jacoco:report coveralls:report
