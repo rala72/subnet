@@ -147,7 +147,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @see #setSubnetmaskBasedOnClass()
      * @since 1.5.0
      */
-    public Subnet(@NotNull int[] ip) {
+    public Subnet(int[] ip) {
         setIp(ip, false);
         setSubnetmaskBasedOnClass();
     }
@@ -159,7 +159,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @param snm Subnetmask
      * @since 1.3.0
      */
-    public Subnet(@NotNull int[] ip, @NotNull int[] snm) {
+    public Subnet(int[] ip, int[] snm) {
         setIp(ip, false);
         setSubnetmask(Arrays.toString(snm).replaceAll("[\\[\\]]", "").split("\\s*,\\s*"));
     }
@@ -250,7 +250,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @param ip IP address array
      * @since 1.3.0
      */
-    public void setIp(@NotNull int[] ip) {
+    public void setIp(int[] ip) {
         setIp(convertNetworkArrayToString(ip));
     }
 
@@ -268,7 +268,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @deprecated use {@link #setIp(int[])}
      */
     @Deprecated(since = "1.5.3", forRemoval = true)
-    public void setIp(@NotNull int[] ip, boolean recalculate) {
+    public void setIp(int[] ip, boolean recalculate) {
         setIp(convertNetworkArrayToString(ip), recalculate);
     }
 
@@ -307,7 +307,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @param snm Subnetmask array
      * @since 1.3.0
      */
-    public void setSubnetmask(@NotNull int[] snm) {
+    public void setSubnetmask(int[] snm) {
         setSubnetmask(convertNetworkArrayToString(snm));
     }
 
@@ -338,7 +338,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return IP address as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getIpAsArray() {
         return ipArray;
     }
@@ -356,7 +355,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return Subnetmask as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getSubnetmaskAsArray() {
         return snmArray;
     }
@@ -374,7 +372,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return WildmarkMask as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getWildmarkMaskAsArray() {
         return wildArray;
     }
@@ -428,7 +425,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return Subnet ID as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getSubnetIdAsArray() {
         return subnetIdArray;
     }
@@ -446,7 +442,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return first available IP address as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getFirstAvailableIpAsArray() {
         return firstAvailableIpArray;
     }
@@ -464,7 +459,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return last available IP address as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getLastAvailableIpAsArray() {
         return lastAvailableIpArray;
     }
@@ -482,7 +476,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return Broadcast IP address as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getBroadCastIpAsArray() {
         return broadCastIpArray;
     }
@@ -500,7 +493,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return Class ID as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getClassIdAsArray() {
         return classIdArray;
     }
@@ -518,7 +510,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return Class Subnetmask as array
      * @since 1.0.0
      */
-    @NotNull
     public int[] getClassSubnetmaskAsArray() {
         return classSubnetmaskArray;
     }
@@ -1073,7 +1064,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @param snm Subnetmask String array
      * @param i   actual array (max 3) index
      */
-    private void isSubnetOk(@NotNull int[] snm, int i) {
+    private void isSubnetOk(int[] snm, int i) {
         boolean snm_allowed = false;
         for (int snmAllowed : SNM_ALLOWED)
             if (snm[i] == snmAllowed) {
@@ -1157,7 +1148,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return String
      */
     @NotNull
-    private static String convertNetworkArrayToString(@NotNull int[] array) {
+    private static String convertNetworkArrayToString(int[] array) {
         return convertNetworkArrayToString(convertIntegerArrayToStringArray(array));
     }
 
@@ -1234,7 +1225,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @since 1.1.0
      */
     @NotNull
-    public static String[] convertIntegerArrayToStringArray(@NotNull int[] ints) {
+    public static String[] convertIntegerArrayToStringArray(int[] ints) {
         return Arrays.toString(ints).replaceAll("[\\[\\]]", "").split("\\s*,\\s*");
     }
 
@@ -1243,7 +1234,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @return int array
      * @since 1.4.0
      */
-    @NotNull
     public static int[] convertStringArrayToIntegerArray(@NotNull String[] strings) {
         int[] intArray = new int[strings.length];
         for (int i = 0; i < strings.length; i++) intArray[i] = Integer.parseInt(strings[i]);
