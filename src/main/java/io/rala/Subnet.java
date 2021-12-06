@@ -16,6 +16,7 @@ import java.util.*;
  * <a href="https://www.rala.io">www.rala.io</a>
  * @version 2.1.1
  */
+@SuppressWarnings("DeprecatedIsStillUsed")
 public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Subnet> {
     //region error messages & valid snm entries
     /**
@@ -640,8 +641,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      */
     @Nullable
     public Subnet summarize(@NotNull Subnet s) {
-        if (this.getIq() == -1) return null;
-        else if (s.getIq() == -1) return null;
+        if (this.getIq() == -1 || s.getIq() == -1) return null;
         if (!(this.getIpAsArray()[0] == (s.getIpAsArray()[0])))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
         if (getIp().equals(s.getIp())) return new Subnet(getIp(), "/30");
@@ -1288,7 +1288,6 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         s += formatString("mz:max:", 7) + " " + getMagicNumberMax();
         s += "\n";
 
-        offset = -15;
         s += formatString("subnet ID:", offset) + " " + getSubnetId();
         s += "\n";
         s += formatString("broadcast:", offset) + " " + getBroadCastIp();
