@@ -1,5 +1,6 @@
 package io.rala;
 
+import org.assertj.core.api.GenericComparableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 class SubnetTest {
     //region default config
@@ -45,13 +46,19 @@ class SubnetTest {
     //region constructors
     @Test
     void constructors() {
-        assertEquals(subnet1, new Subnet(subnet1.getIp(), subnet1.getSubnetmask()));
-        assertEquals(subnet2, new Subnet(subnet2.getIp().split("\\."), subnet2.getSubnetmask().split("\\.")));
-        assertEquals(subnet3, new Subnet(subnet3.getIpAsArray(), subnet3.getSubnetmaskAsArray()));
+        assertThatObject(new Subnet(subnet1.getIp(), subnet1.getSubnetmask())).isEqualTo(subnet1);
+        assertThatObject(new Subnet(
+            subnet2.getIp().split("\\."),
+            subnet2.getSubnetmask().split("\\."))
+        ).isEqualTo(subnet2);
+        assertThatObject(new Subnet(
+            subnet3.getIpAsArray(),
+            subnet3.getSubnetmaskAsArray())
+        ).isEqualTo(subnet3);
 
-        assertEquals(subnet1, new Subnet(subnet1.getIp()));
-        assertEquals(subnet2, new Subnet(subnet2.getIp().split("\\.")));
-        assertEquals(subnet5, new Subnet(subnet5.getIpAsArray()));
+        assertThatObject(new Subnet(subnet1.getIp())).isEqualTo(subnet1);
+        assertThatObject(new Subnet(subnet2.getIp().split("\\."))).isEqualTo(subnet2);
+        assertThatObject(new Subnet(subnet5.getIpAsArray())).isEqualTo(subnet5);
     }
 
     @Test
@@ -68,8 +75,8 @@ class SubnetTest {
                     break networkInterfaces;
                 }
 
-        assertNotNull(loopback);
-        assertEquals(new Subnet("127.0.0.1", "/8"), new Subnet(loopback));
+        assertThat(loopback).isNotNull();
+        assertThatObject(new Subnet(loopback)).isEqualTo(new Subnet("127.0.0.1", "/8"));
     }
     //endregion
 
@@ -79,14 +86,15 @@ class SubnetTest {
         subnet2.setIp("10");
         subnet3.setIp(new String[]{"10"});
         subnet4.setIp(new int[]{10, 0, 0, 0});
-        assertEquals("10.0.0.0", subnet2.getIp());
-        assertEquals("10.0.0.0", subnet3.getIp());
-        assertEquals("10.0.0.0", subnet4.getIp());
+        assertThat(subnet2.getIp()).isEqualTo("10.0.0.0");
+        assertThat(subnet3.getIp()).isEqualTo("10.0.0.0");
+        assertThat(subnet4.getIp()).isEqualTo("10.0.0.0");
     }
 
     @Test
     void setIpEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> subnet1.setIp(""));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> subnet1.setIp(""));
     }
 
     @Test
@@ -94,9 +102,9 @@ class SubnetTest {
         subnet1.setSubnetmask("255");
         subnet2.setSubnetmask(new String[]{"255"});
         subnet3.setSubnetmask(new int[]{255});
-        assertEquals("255.0.0.0", subnet1.getSubnetmask());
-        assertEquals("255.0.0.0", subnet2.getSubnetmask());
-        assertEquals("255.0.0.0", subnet3.getSubnetmask());
+        assertThat(subnet1.getSubnetmask()).isEqualTo("255.0.0.0");
+        assertThat(subnet2.getSubnetmask()).isEqualTo("255.0.0.0");
+        assertThat(subnet3.getSubnetmask()).isEqualTo("255.0.0.0");
     }
 
     @Test
@@ -107,324 +115,325 @@ class SubnetTest {
         subnet4.setSubnetmaskBasedOnClass();
         subnet5.setSubnetmaskBasedOnClass();
 
-        assertEquals("255.0.0.0", subnet1.getSubnetmask());
-        assertEquals("255.255.0.0", subnet2.getSubnetmask());
-        assertEquals("255.255.255.0", subnet3.getSubnetmask());
-        assertEquals("255.255.255.0", subnet4.getSubnetmask());
-        assertEquals("255.255.255.0", subnet5.getSubnetmask());
+        assertThat(subnet1.getSubnetmask()).isEqualTo("255.0.0.0");
+        assertThat(subnet2.getSubnetmask()).isEqualTo("255.255.0.0");
+        assertThat(subnet3.getSubnetmask()).isEqualTo("255.255.255.0");
+        assertThat(subnet4.getSubnetmask()).isEqualTo("255.255.255.0");
+        assertThat(subnet5.getSubnetmask()).isEqualTo("255.255.255.0");
     }
 
     @Test
     void setSubnetmaskEmpty() {
-        assertThrows(IllegalArgumentException.class, () -> subnet1.setSubnetmask(""));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> subnet1.setSubnetmask(""));
     }
     //endregion
 
     //region getter (basic)
     @Test
     void getIp() {
-        assertEquals("10.0.0.0", subnet1.getIp());
-        assertEquals("128.245.97.0", subnet2.getIp());
-        assertEquals("192.168.50.0", subnet3.getIp());
-        assertEquals("224.62.83.0", subnet4.getIp());
-        assertEquals("240.136.42.0", subnet5.getIp());
+        assertThat(subnet1.getIp()).isEqualTo("10.0.0.0");
+        assertThat(subnet2.getIp()).isEqualTo("128.245.97.0");
+        assertThat(subnet3.getIp()).isEqualTo("192.168.50.0");
+        assertThat(subnet4.getIp()).isEqualTo("224.62.83.0");
+        assertThat(subnet5.getIp()).isEqualTo("240.136.42.0");
     }
 
     @Test
     void getIpAsArray() {
-        assertArrayEquals(new int[]{10, 0, 0, 0}, subnet1.getIpAsArray());
-        assertArrayEquals(new int[]{128, 245, 97, 0}, subnet2.getIpAsArray());
-        assertArrayEquals(new int[]{192, 168, 50, 0}, subnet3.getIpAsArray());
-        assertArrayEquals(new int[]{224, 62, 83, 0}, subnet4.getIpAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 0}, subnet5.getIpAsArray());
+        assertThat(subnet1.getIpAsArray()).isEqualTo(new int[]{10, 0, 0, 0});
+        assertThat(subnet2.getIpAsArray()).isEqualTo(new int[]{128, 245, 97, 0});
+        assertThat(subnet3.getIpAsArray()).isEqualTo(new int[]{192, 168, 50, 0});
+        assertThat(subnet4.getIpAsArray()).isEqualTo(new int[]{224, 62, 83, 0});
+        assertThat(subnet5.getIpAsArray()).isEqualTo(new int[]{240, 136, 42, 0});
     }
 
     @Test
     void getSubnetmask() {
-        assertEquals("255.0.0.0", subnet1.getSubnetmask());
-        assertEquals("255.255.0.0", subnet2.getSubnetmask());
-        assertEquals("255.255.224.0", subnet3.getSubnetmask());
-        assertEquals("255.255.240.0", subnet4.getSubnetmask());
-        assertEquals("255.255.255.0", subnet5.getSubnetmask());
+        assertThat(subnet1.getSubnetmask()).isEqualTo("255.0.0.0");
+        assertThat(subnet2.getSubnetmask()).isEqualTo("255.255.0.0");
+        assertThat(subnet3.getSubnetmask()).isEqualTo("255.255.224.0");
+        assertThat(subnet4.getSubnetmask()).isEqualTo("255.255.240.0");
+        assertThat(subnet5.getSubnetmask()).isEqualTo("255.255.255.0");
     }
 
     @Test
     void getSubnetmaskAsArray() {
-        assertArrayEquals(new int[]{255, 0, 0, 0}, subnet1.getSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 0, 0}, subnet2.getSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 224, 0}, subnet3.getSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 240, 0}, subnet4.getSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 255, 0}, subnet5.getSubnetmaskAsArray());
+        assertThat(subnet1.getSubnetmaskAsArray()).isEqualTo(new int[]{255, 0, 0, 0});
+        assertThat(subnet2.getSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 0, 0});
+        assertThat(subnet3.getSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 224, 0});
+        assertThat(subnet4.getSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 240, 0});
+        assertThat(subnet5.getSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 255, 0});
     }
 
     @Test
     void getWildmarkMask() {
-        assertEquals("0.255.255.255", subnet1.getWildmarkMask());
-        assertEquals("0.0.255.255", subnet2.getWildmarkMask());
-        assertEquals("0.0.31.255", subnet3.getWildmarkMask());
-        assertEquals("0.0.15.255", subnet4.getWildmarkMask());
-        assertEquals("0.0.0.255", subnet5.getWildmarkMask());
+        assertThat(subnet1.getWildmarkMask()).isEqualTo("0.255.255.255");
+        assertThat(subnet2.getWildmarkMask()).isEqualTo("0.0.255.255");
+        assertThat(subnet3.getWildmarkMask()).isEqualTo("0.0.31.255");
+        assertThat(subnet4.getWildmarkMask()).isEqualTo("0.0.15.255");
+        assertThat(subnet5.getWildmarkMask()).isEqualTo("0.0.0.255");
     }
 
     @Test
     void getWildmarkMaskAsArray() {
-        assertArrayEquals(new int[]{0, 255, 255, 255}, subnet1.getWildmarkMaskAsArray());
-        assertArrayEquals(new int[]{0, 0, 255, 255}, subnet2.getWildmarkMaskAsArray());
-        assertArrayEquals(new int[]{0, 0, 31, 255}, subnet3.getWildmarkMaskAsArray());
-        assertArrayEquals(new int[]{0, 0, 15, 255}, subnet4.getWildmarkMaskAsArray());
-        assertArrayEquals(new int[]{0, 0, 0, 255}, subnet5.getWildmarkMaskAsArray());
+        assertThat(subnet1.getWildmarkMaskAsArray()).isEqualTo(new int[]{0, 255, 255, 255});
+        assertThat(subnet2.getWildmarkMaskAsArray()).isEqualTo(new int[]{0, 0, 255, 255});
+        assertThat(subnet3.getWildmarkMaskAsArray()).isEqualTo(new int[]{0, 0, 31, 255});
+        assertThat(subnet4.getWildmarkMaskAsArray()).isEqualTo(new int[]{0, 0, 15, 255});
+        assertThat(subnet5.getWildmarkMaskAsArray()).isEqualTo(new int[]{0, 0, 0, 255});
     }
 
     @Test
     void getIq() {
-        assertEquals(1, subnet1.getIq());
-        assertEquals(2, subnet2.getIq());
-        assertEquals(2, subnet3.getIq());
-        assertEquals(2, subnet4.getIq());
-        assertEquals(3, subnet5.getIq());
+        assertThat(subnet1.getIq()).isEqualTo(1);
+        assertThat(subnet2.getIq()).isEqualTo(2);
+        assertThat(subnet3.getIq()).isEqualTo(2);
+        assertThat(subnet4.getIq()).isEqualTo(2);
+        assertThat(subnet5.getIq()).isEqualTo(3);
     }
 
     @Test
     void getMagicNumber() {
-        assertEquals(256, subnet1.getMagicNumber());
-        assertEquals(256, subnet2.getMagicNumber());
-        assertEquals(32, subnet3.getMagicNumber());
-        assertEquals(16, subnet4.getMagicNumber());
-        assertEquals(256, subnet5.getMagicNumber());
+        assertThat(subnet1.getMagicNumber()).isEqualTo(256);
+        assertThat(subnet2.getMagicNumber()).isEqualTo(256);
+        assertThat(subnet3.getMagicNumber()).isEqualTo(32);
+        assertThat(subnet4.getMagicNumber()).isEqualTo(16);
+        assertThat(subnet5.getMagicNumber()).isEqualTo(256);
     }
 
     @Test
     void getMagicNumberMin() {
-        assertEquals(0, subnet1.getMagicNumberMin());
-        assertEquals(0, subnet2.getMagicNumberMin());
-        assertEquals(32, subnet3.getMagicNumberMin());
-        assertEquals(80, subnet4.getMagicNumberMin());
-        assertEquals(0, subnet5.getMagicNumberMin());
+        assertThat(subnet1.getMagicNumberMin()).isZero();
+        assertThat(subnet2.getMagicNumberMin()).isZero();
+        assertThat(subnet3.getMagicNumberMin()).isEqualTo(32);
+        assertThat(subnet4.getMagicNumberMin()).isEqualTo(80);
+        assertThat(subnet5.getMagicNumberMin()).isZero();
     }
 
     @Test
     void getMagicNumberMax() {
-        assertEquals(255, subnet1.getMagicNumberMax());
-        assertEquals(255, subnet2.getMagicNumberMax());
-        assertEquals(63, subnet3.getMagicNumberMax());
-        assertEquals(95, subnet4.getMagicNumberMax());
-        assertEquals(255, subnet5.getMagicNumberMax());
+        assertThat(subnet1.getMagicNumberMax()).isEqualTo(255);
+        assertThat(subnet2.getMagicNumberMax()).isEqualTo(255);
+        assertThat(subnet3.getMagicNumberMax()).isEqualTo(63);
+        assertThat(subnet4.getMagicNumberMax()).isEqualTo(95);
+        assertThat(subnet5.getMagicNumberMax()).isEqualTo(255);
     }
 
     @Test
     void getSubnetId() {
-        assertEquals("10.0.0.0", subnet1.getSubnetId());
-        assertEquals("128.245.0.0", subnet2.getSubnetId());
-        assertEquals("192.168.32.0", subnet3.getSubnetId());
-        assertEquals("224.62.80.0", subnet4.getSubnetId());
-        assertEquals("240.136.42.0", subnet5.getSubnetId());
+        assertThat(subnet1.getSubnetId()).isEqualTo("10.0.0.0");
+        assertThat(subnet2.getSubnetId()).isEqualTo("128.245.0.0");
+        assertThat(subnet3.getSubnetId()).isEqualTo("192.168.32.0");
+        assertThat(subnet4.getSubnetId()).isEqualTo("224.62.80.0");
+        assertThat(subnet5.getSubnetId()).isEqualTo("240.136.42.0");
     }
 
     @Test
     void getSubnetIdAsArray() {
-        assertArrayEquals(new int[]{10, 0, 0, 0}, subnet1.getSubnetIdAsArray());
-        assertArrayEquals(new int[]{128, 245, 0, 0}, subnet2.getSubnetIdAsArray());
-        assertArrayEquals(new int[]{192, 168, 32, 0}, subnet3.getSubnetIdAsArray());
-        assertArrayEquals(new int[]{224, 62, 80, 0}, subnet4.getSubnetIdAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 0}, subnet5.getSubnetIdAsArray());
+        assertThat(subnet1.getSubnetIdAsArray()).isEqualTo(new int[]{10, 0, 0, 0});
+        assertThat(subnet2.getSubnetIdAsArray()).isEqualTo(new int[]{128, 245, 0, 0});
+        assertThat(subnet3.getSubnetIdAsArray()).isEqualTo(new int[]{192, 168, 32, 0});
+        assertThat(subnet4.getSubnetIdAsArray()).isEqualTo(new int[]{224, 62, 80, 0});
+        assertThat(subnet5.getSubnetIdAsArray()).isEqualTo(new int[]{240, 136, 42, 0});
     }
 
     @Test
     void getFirstAvailableIp() {
-        assertEquals("10.0.0.1", subnet1.getFirstAvailableIp());
-        assertEquals("128.245.0.1", subnet2.getFirstAvailableIp());
-        assertEquals("192.168.32.1", subnet3.getFirstAvailableIp());
-        assertEquals("224.62.80.1", subnet4.getFirstAvailableIp());
-        assertEquals("240.136.42.1", subnet5.getFirstAvailableIp());
+        assertThat(subnet1.getFirstAvailableIp()).isEqualTo("10.0.0.1");
+        assertThat(subnet2.getFirstAvailableIp()).isEqualTo("128.245.0.1");
+        assertThat(subnet3.getFirstAvailableIp()).isEqualTo("192.168.32.1");
+        assertThat(subnet4.getFirstAvailableIp()).isEqualTo("224.62.80.1");
+        assertThat(subnet5.getFirstAvailableIp()).isEqualTo("240.136.42.1");
     }
 
     @Test
     void getFirstAvailableIpAsArray() {
-        assertArrayEquals(new int[]{10, 0, 0, 1}, subnet1.getFirstAvailableIpAsArray());
-        assertArrayEquals(new int[]{128, 245, 0, 1}, subnet2.getFirstAvailableIpAsArray());
-        assertArrayEquals(new int[]{192, 168, 32, 1}, subnet3.getFirstAvailableIpAsArray());
-        assertArrayEquals(new int[]{224, 62, 80, 1}, subnet4.getFirstAvailableIpAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 1}, subnet5.getFirstAvailableIpAsArray());
+        assertThat(subnet1.getFirstAvailableIpAsArray()).isEqualTo(new int[]{10, 0, 0, 1});
+        assertThat(subnet2.getFirstAvailableIpAsArray()).isEqualTo(new int[]{128, 245, 0, 1});
+        assertThat(subnet3.getFirstAvailableIpAsArray()).isEqualTo(new int[]{192, 168, 32, 1});
+        assertThat(subnet4.getFirstAvailableIpAsArray()).isEqualTo(new int[]{224, 62, 80, 1});
+        assertThat(subnet5.getFirstAvailableIpAsArray()).isEqualTo(new int[]{240, 136, 42, 1});
     }
 
     @Test
     void getLastAvailableIp() {
-        assertEquals("10.255.255.254", subnet1.getLastAvailableIp());
-        assertEquals("128.245.255.254", subnet2.getLastAvailableIp());
-        assertEquals("192.168.63.254", subnet3.getLastAvailableIp());
-        assertEquals("224.62.95.254", subnet4.getLastAvailableIp());
-        assertEquals("240.136.42.254", subnet5.getLastAvailableIp());
+        assertThat(subnet1.getLastAvailableIp()).isEqualTo("10.255.255.254");
+        assertThat(subnet2.getLastAvailableIp()).isEqualTo("128.245.255.254");
+        assertThat(subnet3.getLastAvailableIp()).isEqualTo("192.168.63.254");
+        assertThat(subnet4.getLastAvailableIp()).isEqualTo("224.62.95.254");
+        assertThat(subnet5.getLastAvailableIp()).isEqualTo("240.136.42.254");
     }
 
     @Test
     void getLastAvailableIpAsArray() {
-        assertArrayEquals(new int[]{10, 255, 255, 254}, subnet1.getLastAvailableIpAsArray());
-        assertArrayEquals(new int[]{128, 245, 255, 254}, subnet2.getLastAvailableIpAsArray());
-        assertArrayEquals(new int[]{192, 168, 63, 254}, subnet3.getLastAvailableIpAsArray());
-        assertArrayEquals(new int[]{224, 62, 95, 254}, subnet4.getLastAvailableIpAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 254}, subnet5.getLastAvailableIpAsArray());
+        assertThat(subnet1.getLastAvailableIpAsArray()).isEqualTo(new int[]{10, 255, 255, 254});
+        assertThat(subnet2.getLastAvailableIpAsArray()).isEqualTo(new int[]{128, 245, 255, 254});
+        assertThat(subnet3.getLastAvailableIpAsArray()).isEqualTo(new int[]{192, 168, 63, 254});
+        assertThat(subnet4.getLastAvailableIpAsArray()).isEqualTo(new int[]{224, 62, 95, 254});
+        assertThat(subnet5.getLastAvailableIpAsArray()).isEqualTo(new int[]{240, 136, 42, 254});
     }
 
     @Test
     void getBroadCastIp() {
-        assertEquals("10.255.255.255", subnet1.getBroadCastIp());
-        assertEquals("128.245.255.255", subnet2.getBroadCastIp());
-        assertEquals("192.168.63.255", subnet3.getBroadCastIp());
-        assertEquals("224.62.95.255", subnet4.getBroadCastIp());
-        assertEquals("240.136.42.255", subnet5.getBroadCastIp());
+        assertThat(subnet1.getBroadCastIp()).isEqualTo("10.255.255.255");
+        assertThat(subnet2.getBroadCastIp()).isEqualTo("128.245.255.255");
+        assertThat(subnet3.getBroadCastIp()).isEqualTo("192.168.63.255");
+        assertThat(subnet4.getBroadCastIp()).isEqualTo("224.62.95.255");
+        assertThat(subnet5.getBroadCastIp()).isEqualTo("240.136.42.255");
     }
 
     @Test
     void getBroadCastIpAsArray() {
-        assertArrayEquals(new int[]{10, 255, 255, 255}, subnet1.getBroadCastIpAsArray());
-        assertArrayEquals(new int[]{128, 245, 255, 255}, subnet2.getBroadCastIpAsArray());
-        assertArrayEquals(new int[]{192, 168, 63, 255}, subnet3.getBroadCastIpAsArray());
-        assertArrayEquals(new int[]{224, 62, 95, 255}, subnet4.getBroadCastIpAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 255}, subnet5.getBroadCastIpAsArray());
+        assertThat(subnet1.getBroadCastIpAsArray()).isEqualTo(new int[]{10, 255, 255, 255});
+        assertThat(subnet2.getBroadCastIpAsArray()).isEqualTo(new int[]{128, 245, 255, 255});
+        assertThat(subnet3.getBroadCastIpAsArray()).isEqualTo(new int[]{192, 168, 63, 255});
+        assertThat(subnet4.getBroadCastIpAsArray()).isEqualTo(new int[]{224, 62, 95, 255});
+        assertThat(subnet5.getBroadCastIpAsArray()).isEqualTo(new int[]{240, 136, 42, 255});
     }
 
     @Test
     void getClassId() {
-        assertEquals("10.0.0.0", subnet1.getClassId());
-        assertEquals("128.245.0.0", subnet2.getClassId());
-        assertEquals("192.168.50.0", subnet3.getClassId());
-        assertEquals("224.62.83.0", subnet4.getClassId());
-        assertEquals("240.136.42.0", subnet5.getClassId());
+        assertThat(subnet1.getClassId()).isEqualTo("10.0.0.0");
+        assertThat(subnet2.getClassId()).isEqualTo("128.245.0.0");
+        assertThat(subnet3.getClassId()).isEqualTo("192.168.50.0");
+        assertThat(subnet4.getClassId()).isEqualTo("224.62.83.0");
+        assertThat(subnet5.getClassId()).isEqualTo("240.136.42.0");
     }
 
     @Test
     void getClassIdAsArray() {
-        assertArrayEquals(new int[]{10, 0, 0, 0}, subnet1.getClassIdAsArray());
-        assertArrayEquals(new int[]{128, 245, 0, 0}, subnet2.getClassIdAsArray());
-        assertArrayEquals(new int[]{192, 168, 50, 0}, subnet3.getClassIdAsArray());
-        assertArrayEquals(new int[]{224, 62, 83, 0}, subnet4.getClassIdAsArray());
-        assertArrayEquals(new int[]{240, 136, 42, 0}, subnet5.getClassIdAsArray());
+        assertThat(subnet1.getClassIdAsArray()).isEqualTo(new int[]{10, 0, 0, 0});
+        assertThat(subnet2.getClassIdAsArray()).isEqualTo(new int[]{128, 245, 0, 0});
+        assertThat(subnet3.getClassIdAsArray()).isEqualTo(new int[]{192, 168, 50, 0});
+        assertThat(subnet4.getClassIdAsArray()).isEqualTo(new int[]{224, 62, 83, 0});
+        assertThat(subnet5.getClassIdAsArray()).isEqualTo(new int[]{240, 136, 42, 0});
     }
 
     @Test
     void getClassSubnetmask() {
-        assertEquals("255.0.0.0", subnet1.getClassSubnetmask());
-        assertEquals("255.255.0.0", subnet2.getClassSubnetmask());
-        assertEquals("255.255.255.0", subnet3.getClassSubnetmask());
-        assertEquals("255.255.255.0", subnet4.getClassSubnetmask());
-        assertEquals("255.255.255.0", subnet5.getClassSubnetmask());
+        assertThat(subnet1.getClassSubnetmask()).isEqualTo("255.0.0.0");
+        assertThat(subnet2.getClassSubnetmask()).isEqualTo("255.255.0.0");
+        assertThat(subnet3.getClassSubnetmask()).isEqualTo("255.255.255.0");
+        assertThat(subnet4.getClassSubnetmask()).isEqualTo("255.255.255.0");
+        assertThat(subnet5.getClassSubnetmask()).isEqualTo("255.255.255.0");
     }
 
     @Test
     void getClassSubnetmaskAsArray() {
-        assertArrayEquals(new int[]{255, 0, 0, 0}, subnet1.getClassSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 0, 0}, subnet2.getClassSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 255, 0}, subnet3.getClassSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 255, 0}, subnet4.getClassSubnetmaskAsArray());
-        assertArrayEquals(new int[]{255, 255, 255, 0}, subnet5.getClassSubnetmaskAsArray());
+        assertThat(subnet1.getClassSubnetmaskAsArray()).isEqualTo(new int[]{255, 0, 0, 0});
+        assertThat(subnet2.getClassSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 0, 0});
+        assertThat(subnet3.getClassSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 255, 0});
+        assertThat(subnet4.getClassSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 255, 0});
+        assertThat(subnet5.getClassSubnetmaskAsArray()).isEqualTo(new int[]{255, 255, 255, 0});
     }
 
     @Test
     void getClassChar() {
-        assertEquals('A', subnet1.getClassChar());
-        assertEquals('B', subnet2.getClassChar());
-        assertEquals('C', subnet3.getClassChar());
-        assertEquals('D', subnet4.getClassChar());
-        assertEquals('E', subnet5.getClassChar());
+        assertThat(subnet1.getClassChar()).isEqualTo('A');
+        assertThat(subnet2.getClassChar()).isEqualTo('B');
+        assertThat(subnet3.getClassChar()).isEqualTo('C');
+        assertThat(subnet4.getClassChar()).isEqualTo('D');
+        assertThat(subnet5.getClassChar()).isEqualTo('E');
     }
 
     @Test
     void getNetbits() {
-        assertEquals(8, subnet1.getNetbits());
-        assertEquals(16, subnet2.getNetbits());
-        assertEquals(19, subnet3.getNetbits());
-        assertEquals(20, subnet4.getNetbits());
-        assertEquals(24, subnet5.getNetbits());
+        assertThat(subnet1.getNetbits()).isEqualTo(8);
+        assertThat(subnet2.getNetbits()).isEqualTo(16);
+        assertThat(subnet3.getNetbits()).isEqualTo(19);
+        assertThat(subnet4.getNetbits()).isEqualTo(20);
+        assertThat(subnet5.getNetbits()).isEqualTo(24);
     }
 
     @Test
     void getNetbitsString() {
-        assertEquals("8", subnet1.getNetbitsString());
-        assertEquals("16", subnet2.getNetbitsString());
-        assertEquals("19 (24)", subnet3.getNetbitsString());
-        assertEquals("20", subnet4.getNetbitsString());
-        assertEquals("24", subnet5.getNetbitsString());
+        assertThat(subnet1.getNetbitsString()).isEqualTo("8");
+        assertThat(subnet2.getNetbitsString()).isEqualTo("16");
+        assertThat(subnet3.getNetbitsString()).isEqualTo("19 (24)");
+        assertThat(subnet4.getNetbitsString()).isEqualTo("20");
+        assertThat(subnet5.getNetbitsString()).isEqualTo("24");
     }
 
     @Test
     void getSubnetbits() {
-        assertEquals(0, subnet1.getSubnetbits());
-        assertEquals(0, subnet2.getSubnetbits());
-        assertEquals(0, subnet3.getSubnetbits());
-        assertEquals(0, subnet4.getSubnetbits());
-        assertEquals(0, subnet5.getSubnetbits());
+        assertThat(subnet1.getSubnetbits()).isZero();
+        assertThat(subnet2.getSubnetbits()).isZero();
+        assertThat(subnet3.getSubnetbits()).isZero();
+        assertThat(subnet4.getSubnetbits()).isZero();
+        assertThat(subnet5.getSubnetbits()).isZero();
     }
 
     @Test
     void getSubnetbitsString() {
-        assertEquals("0", subnet1.getSubnetbitsString());
-        assertEquals("0", subnet2.getSubnetbitsString());
-        assertEquals("0 (-5)", subnet3.getSubnetbitsString());
-        assertEquals("0", subnet4.getSubnetbitsString());
-        assertEquals("0", subnet5.getSubnetbitsString());
+        assertThat(subnet1.getSubnetbitsString()).isEqualTo("0");
+        assertThat(subnet2.getSubnetbitsString()).isEqualTo("0");
+        assertThat(subnet3.getSubnetbitsString()).isEqualTo("0 (-5)");
+        assertThat(subnet4.getSubnetbitsString()).isEqualTo("0");
+        assertThat(subnet5.getSubnetbitsString()).isEqualTo("0");
     }
 
     @Test
     void getHostbits() {
-        assertEquals(24, subnet1.getHostbits());
-        assertEquals(16, subnet2.getHostbits());
-        assertEquals(13, subnet3.getHostbits());
-        assertEquals(12, subnet4.getHostbits());
-        assertEquals(8, subnet5.getHostbits());
+        assertThat(subnet1.getHostbits()).isEqualTo(24);
+        assertThat(subnet2.getHostbits()).isEqualTo(16);
+        assertThat(subnet3.getHostbits()).isEqualTo(13);
+        assertThat(subnet4.getHostbits()).isEqualTo(12);
+        assertThat(subnet5.getHostbits()).isEqualTo(8);
     }
 
     @Test
     void getHostbitsString() {
-        assertEquals("24", subnet1.getHostbitsString());
-        assertEquals("16", subnet2.getHostbitsString());
-        assertEquals("13", subnet3.getHostbitsString());
-        assertEquals("12", subnet4.getHostbitsString());
-        assertEquals("8", subnet5.getHostbitsString());
+        assertThat(subnet1.getHostbitsString()).isEqualTo("24");
+        assertThat(subnet2.getHostbitsString()).isEqualTo("16");
+        assertThat(subnet3.getHostbitsString()).isEqualTo("13");
+        assertThat(subnet4.getHostbitsString()).isEqualTo("12");
+        assertThat(subnet5.getHostbitsString()).isEqualTo("8");
     }
 
     @Test
     void getCountOfSubnets() {
-        assertEquals(1, subnet1.getCountOfSubnets());
-        assertEquals(1, subnet2.getCountOfSubnets());
-        assertEquals(1, subnet3.getCountOfSubnets());
-        assertEquals(1, subnet4.getCountOfSubnets());
-        assertEquals(1, subnet5.getCountOfSubnets());
+        assertThat(subnet1.getCountOfSubnets()).isEqualTo(1);
+        assertThat(subnet2.getCountOfSubnets()).isEqualTo(1);
+        assertThat(subnet3.getCountOfSubnets()).isEqualTo(1);
+        assertThat(subnet4.getCountOfSubnets()).isEqualTo(1);
+        assertThat(subnet5.getCountOfSubnets()).isEqualTo(1);
     }
 
     @Test
     void getCountOfSubnetsCalc() {
-        assertEquals("2^0 = 1", subnet1.getCountOfSubnetsCalc());
-        assertEquals("2^0 = 1", subnet2.getCountOfSubnetsCalc());
-        assertEquals("2^0 = 1", subnet3.getCountOfSubnetsCalc());
-        assertEquals("2^0 = 1", subnet4.getCountOfSubnetsCalc());
-        assertEquals("2^0 = 1", subnet5.getCountOfSubnetsCalc());
+        assertThat(subnet1.getCountOfSubnetsCalc()).isEqualTo("2^0 = 1");
+        assertThat(subnet2.getCountOfSubnetsCalc()).isEqualTo("2^0 = 1");
+        assertThat(subnet3.getCountOfSubnetsCalc()).isEqualTo("2^0 = 1");
+        assertThat(subnet4.getCountOfSubnetsCalc()).isEqualTo("2^0 = 1");
+        assertThat(subnet5.getCountOfSubnetsCalc()).isEqualTo("2^0 = 1");
     }
 
     @Test
     void getCountOfHosts() {
-        assertEquals(16777214, subnet1.getCountOfHosts());
-        assertEquals(65534, subnet2.getCountOfHosts());
-        assertEquals(8190, subnet3.getCountOfHosts());
-        assertEquals(4094, subnet4.getCountOfHosts());
-        assertEquals(254, subnet5.getCountOfHosts());
+        assertThat(subnet1.getCountOfHosts()).isEqualTo(16777214);
+        assertThat(subnet2.getCountOfHosts()).isEqualTo(65534);
+        assertThat(subnet3.getCountOfHosts()).isEqualTo(8190);
+        assertThat(subnet4.getCountOfHosts()).isEqualTo(4094);
+        assertThat(subnet5.getCountOfHosts()).isEqualTo(254);
     }
 
     @Test
     void getCountOfHostsCalc() {
-        assertEquals("2^24-2 = 16777214", subnet1.getCountOfHostsCalc());
-        assertEquals("2^16-2 = 65534", subnet2.getCountOfHostsCalc());
-        assertEquals("2^13-2 = 8190", subnet3.getCountOfHostsCalc());
-        assertEquals("2^12-2 = 4094", subnet4.getCountOfHostsCalc());
-        assertEquals("2^8-2 = 254", subnet5.getCountOfHostsCalc());
+        assertThat(subnet1.getCountOfHostsCalc()).isEqualTo("2^24-2 = 16777214");
+        assertThat(subnet2.getCountOfHostsCalc()).isEqualTo("2^16-2 = 65534");
+        assertThat(subnet3.getCountOfHostsCalc()).isEqualTo("2^13-2 = 8190");
+        assertThat(subnet4.getCountOfHostsCalc()).isEqualTo("2^12-2 = 4094");
+        assertThat(subnet5.getCountOfHostsCalc()).isEqualTo("2^8-2 = 254");
     }
 
     @Test
     void isSupernetting() {
-        assertFalse(subnet1.isSupernetting());
-        assertFalse(subnet2.isSupernetting());
-        assertTrue(subnet3.isSupernetting());
-        assertFalse(subnet4.isSupernetting());
-        assertFalse(subnet5.isSupernetting());
+        assertThat(subnet1.isSupernetting()).isFalse();
+        assertThat(subnet2.isSupernetting()).isFalse();
+        assertThat(subnet3.isSupernetting()).isTrue();
+        assertThat(subnet4.isSupernetting()).isFalse();
+        assertThat(subnet5.isSupernetting()).isFalse();
     }
     // endregion
 
@@ -432,24 +441,30 @@ class SubnetTest {
     @Test
     void summarize() {
         subnet2.setIp("192.168.20");
-        assertEquals(new Subnet("192.168.0.0", "255.255.192.0"), subnet2.summarize(subnet3));
-        assertEquals(new Subnet("192.168.50.0", "255.255.255.252"), subnet3.summarize(subnet3));
+        assertThatObject(subnet2.summarize(subnet3))
+            .isEqualTo(new Subnet("192.168.0.0", "255.255.192.0"));
+        assertThatObject(subnet3.summarize(subnet3))
+            .isEqualTo(new Subnet("192.168.50.0", "255.255.255.252"));
     }
 
     @Test
     void summarizeDifferent() {
         subnet2.setIp("192.167.20");
-        assertEquals(new Subnet("192.160.0.0", "255.240.0.0"), subnet2.summarize(subnet3));
+        assertThatObject(subnet2.summarize(subnet3))
+            .isEqualTo(new Subnet("192.160.0.0", "255.240.0.0"));
     }
 
     @Test
     void summarizeWithException() {
-        assertThrows(IllegalArgumentException.class, () ->
-            subnet1.summarize(subnet3));
-        assertThrows(IllegalArgumentException.class, () ->
-            subnet2.summarize(subnet3));
-        assertThrows(IllegalArgumentException.class, () ->
-            subnet1.summarize(subnet2, subnet3));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() ->
+                subnet1.summarize(subnet3));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() ->
+                subnet2.summarize(subnet3));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() ->
+                subnet1.summarize(subnet2, subnet3));
         // all other combinations throw also an exception
     }
 
@@ -457,14 +472,16 @@ class SubnetTest {
     void summarizeMultiple() {
         subnet1.setIp("192.168.0");
         subnet2.setIp("192.168.20");
-        assertEquals(new Subnet("192.168.0.0", "255.255.192.0"), subnet1.summarize(subnet2, subnet3));
+        assertThatObject(subnet1.summarize(subnet2, subnet3))
+            .isEqualTo(new Subnet("192.168.0.0", "255.255.192.0"));
     }
 
     @Test
     void summarizeMultipleDifferent() {
         subnet1.setIp("192.167.5");
         subnet2.setIp("192.169.20");
-        assertEquals(new Subnet("192.160.0.0", "255.240.0.0"), subnet1.summarize(Arrays.asList(subnet2, subnet3)));
+        assertThatObject(subnet1.summarize(Arrays.asList(subnet2, subnet3)))
+            .isEqualTo(new Subnet("192.160.0.0", "255.240.0.0"));
     }
 
     @Test
@@ -497,12 +514,13 @@ class SubnetTest {
             new Subnet("224.62.208.0", "255.255.240.0"),
             new Subnet("224.62.224.0", "255.255.240.0"),
             new Subnet("224.62.240.0", "255.255.240.0")));
-        final Set<Subnet> s5 = Collections.singleton(new Subnet("240.136.42.0", "255.255.255.0"));
-        assertEquals(s1, subnet1.getSubnets());
-        assertEquals(s2, subnet2.getSubnets());
-        assertEquals(s3, subnet3.getSubnets());
-        assertEquals(s4, subnet4.getSubnets());
-        assertEquals(s5, subnet5.getSubnets());
+        final Set<Subnet> s5 = Collections.singleton(
+            new Subnet("240.136.42.0", "255.255.255.0"));
+        assertThat(subnet1.getSubnets()).isEqualTo(s1);
+        assertThat(subnet2.getSubnets()).isEqualTo(s2);
+        assertThat(subnet3.getSubnets()).isEqualTo(s3);
+        assertThat(subnet4.getSubnets()).isEqualTo(s4);
+        assertThat(subnet5.getSubnets()).isEqualTo(s5);
     }
 
     @Test
@@ -513,7 +531,8 @@ class SubnetTest {
         // System.out.println(subnet4.getSubSubnets()); // takes to long
         // System.out.println(subnet5.getSubSubnets()); // acceptable - but still a long list
         subnet5.setSubnetmask("/28");
-        Set<Subnet> s5 = new TreeSet<>(Arrays.asList(new Subnet("240.136.42.1", "255.255.255.240"),
+        Set<Subnet> s5 = Set.of(
+            new Subnet("240.136.42.1", "255.255.255.240"),
             new Subnet("240.136.42.2", "255.255.255.240"),
             new Subnet("240.136.42.3", "255.255.255.240"),
             new Subnet("240.136.42.4", "255.255.255.240"),
@@ -526,161 +545,180 @@ class SubnetTest {
             new Subnet("240.136.42.11", "255.255.255.240"),
             new Subnet("240.136.42.12", "255.255.255.240"),
             new Subnet("240.136.42.13", "255.255.255.240"),
-            new Subnet("240.136.42.14", "255.255.255.240")));
-        assertEquals(s5, subnet5.getSubSubnets());
+            new Subnet("240.136.42.14", "255.255.255.240")
+        );
+        assertThat(subnet5.getSubSubnets()).isEqualTo(s5);
     }
 
     @Test
     void isSameSubnet() {
-        assertFalse(subnet1.isSameSubnet(subnet2));
-        assertFalse(subnet2.isSameSubnet(subnet1));
-        assertFalse(subnet1.isSameSubnet(subnet3));
-        assertFalse(subnet3.isSameSubnet(subnet1));
+        assertThat(subnet1.isSameSubnet(subnet2)).isFalse();
+        assertThat(subnet2.isSameSubnet(subnet1)).isFalse();
+        assertThat(subnet1.isSameSubnet(subnet3)).isFalse();
+        assertThat(subnet3.isSameSubnet(subnet1)).isFalse();
         // all other combinations are also not the same subnet
 
         subnet2.setIp("192.168.20");
         subnet3.setSubnetmask("255.255");
-        assertTrue(subnet2.isSameSubnet(subnet3));
+        assertThat(subnet2.isSameSubnet(subnet3)).isTrue();
     }
 
     @Test
     void contains() {
-        assertFalse(subnet1.contains(subnet2));
-        assertFalse(subnet2.contains(subnet1));
-        assertFalse(subnet1.contains(subnet3));
-        assertFalse(subnet3.contains(subnet1));
+        assertThat(subnet1.contains(subnet2)).isFalse();
+        assertThat(subnet2.contains(subnet1)).isFalse();
+        assertThat(subnet1.contains(subnet3)).isFalse();
+        assertThat(subnet3.contains(subnet1)).isFalse();
         // all other combinations do also not contain each other
 
         subnet2.setIp("192.168.20");
-        assertTrue(subnet2.contains(subnet3));
-        assertFalse(subnet3.contains(subnet2));
+        assertThat(subnet2.contains(subnet3)).isTrue();
+        assertThat(subnet3.contains(subnet2)).isFalse();
     }
     //endregion
 
     //region validate
     @Test
     void checkEntryAndConvertSubnetmaskWithMissingIp() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("", "255"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("", "255"));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithMissingSubnetmask() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", ""));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", ""));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithInvalidIp() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("/10", "255"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("/10", "255"));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithToLargeIp() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("256", "255"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("256", "255"));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithInvalidSubnetmask() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255,"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255,"));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithToLargeBinarySubnetmask() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.abc"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255.abc"));
     }
 
     @Test
     void checkEntryAndConvertSubnetmaskWithToLargeSubnetmask() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.111111110"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255.111111110"));
     }
 
     @Test
     void convertPrefixAndValidateWithMissingNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "/"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "/"));
     }
 
     @Test
     void convertPrefixAndValidateWithInvalidNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "/24,"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "/24,"));
     }
 
     @Test
     void convertPrefixAndValidateWithToLowNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "/1"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "/1"));
     }
 
     @Test
     void convertPrefixAndValidateWithToHighNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "/32"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "/32"));
     }
 
     @Test
     void convertBinarySubnetmaskToDecimalWithToLargeNumberInLastQuad() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.255.255.255"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255.255.255.255"));
     }
 
     @Test
     void isSubnetOkWithWrongSubnetmaskNumber() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "10"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "10"));
     }
 
     @Test
     void isSubnetOkWithInvalidSubnetmaskPatternUnequal0() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.240.240"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255.240.240"));
     }
 
     @Test
     void isSubnetOkWithInvalidSubnetmaskPatternAfter0() {
-        assertThrows(IllegalArgumentException.class, () -> new Subnet("10", "255.0.255"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> new Subnet("10", "255.0.255"));
     }
 
     @Test
     void setMagicNumber() {
-        assertThrows(IllegalArgumentException.class, () -> subnet1.setSubnetmask("128"));
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> subnet1.setSubnetmask("128"));
     }
     //endregion
 
     //region convert
     @Test
     void convertBinaryToDecimal() {
-        assertEquals(0b1, Subnet.convertBinaryToDecimal("1"));
-        assertEquals(0b11, Subnet.convertBinaryToDecimal("11"));
-        assertEquals(0b111, Subnet.convertBinaryToDecimal("111"));
+        assertThat(Subnet.convertBinaryToDecimal("1")).isEqualTo(0b1);
+        assertThat(Subnet.convertBinaryToDecimal("11")).isEqualTo(0b11);
+        assertThat(Subnet.convertBinaryToDecimal("111")).isEqualTo(0b111);
 
-        assertEquals(0b1, Subnet.convertBinaryToDecimal(1));
-        assertEquals(0b11, Subnet.convertBinaryToDecimal(11));
-        assertEquals(0b111, Subnet.convertBinaryToDecimal(111));
+        assertThat(Subnet.convertBinaryToDecimal(1)).isEqualTo(0b1);
+        assertThat(Subnet.convertBinaryToDecimal(11)).isEqualTo(0b11);
+        assertThat(Subnet.convertBinaryToDecimal(111)).isEqualTo(0b111);
     }
 
     @Test
     void convertDecimalToBinary() {
-        assertEquals(1, Subnet.convertDecimalToBinary("1"));
-        assertEquals(11, Subnet.convertDecimalToBinary("3"));
-        assertEquals(111, Subnet.convertDecimalToBinary("7"));
+        assertThat(Subnet.convertDecimalToBinary("1")).isEqualTo(1);
+        assertThat(Subnet.convertDecimalToBinary("3")).isEqualTo(11);
+        assertThat(Subnet.convertDecimalToBinary("7")).isEqualTo(111);
 
-        assertEquals(1, Subnet.convertDecimalToBinary(0b1));
-        assertEquals(11, Subnet.convertDecimalToBinary(0b11));
-        assertEquals(111, Subnet.convertDecimalToBinary(0b111));
+        assertThat(Subnet.convertDecimalToBinary(0b1)).isEqualTo(1);
+        assertThat(Subnet.convertDecimalToBinary(0b11)).isEqualTo(11);
+        assertThat(Subnet.convertDecimalToBinary(0b111)).isEqualTo(111);
     }
 
     @Test
     void convertIntegerArrayToStringArray() {
-        assertArrayEquals(new String[]{"0", "1", "2"}, Subnet.convertIntegerArrayToStringArray(new int[]{0, 1, 2}));
+        assertThat(Subnet.convertIntegerArrayToStringArray(new int[]{0, 1, 2}))
+            .isEqualTo(new String[]{"0", "1", "2"});
     }
 
     @Test
     void convertStringArrayToIntegerArray() {
-        assertArrayEquals(new int[]{0, 1, 2}, Subnet.convertStringArrayToIntegerArray(new String[]{"0", "1", "2"}));
+        assertThat(Subnet.convertStringArrayToIntegerArray(new String[]{"0", "1", "2"}))
+            .isEqualTo(new int[]{0, 1, 2});
     }
     // endregion
 
     //region toString, compareTo, ...
     @Test
     void toStringTest() {
-        assertEquals("10.0.0.0 255.0.0.0", subnet1.toString());
-        assertEquals("128.245.97.0 255.255.0.0", subnet2.toString());
-        assertEquals("192.168.50.0 255.255.224.0", subnet3.toString());
-        assertEquals("224.62.83.0 255.255.240.0", subnet4.toString());
-        assertEquals("240.136.42.0 255.255.255.0", subnet5.toString());
+        assertThatObject(subnet1).hasToString("10.0.0.0 255.0.0.0");
+        assertThatObject(subnet2).hasToString("128.245.97.0 255.255.0.0");
+        assertThatObject(subnet3).hasToString("192.168.50.0 255.255.224.0");
+        assertThatObject(subnet4).hasToString("224.62.83.0 255.255.240.0");
+        assertThatObject(subnet5).hasToString("240.136.42.0 255.255.255.0");
     }
 
     @Test
@@ -745,51 +783,51 @@ class SubnetTest {
             "class SNM:      255.255.255.0\n" +
             "netbits:        24              subnetbits:     0               hostbits:       8\n" +
             "count of subnets:    2^0 = 1    count of hosts:      2^8-2 = 254";
-        assertEquals(s1, subnet1.toString(true));
-        assertEquals(s2, subnet2.toString(true));
-        assertEquals(s3, subnet3.toString(true));
-        assertEquals(s4, subnet4.toString(true));
-        assertEquals(s5, subnet5.toString(true));
+        assertThat(subnet1.toString(true)).isEqualTo(s1);
+        assertThat(subnet2.toString(true)).isEqualTo(s2);
+        assertThat(subnet3.toString(true)).isEqualTo(s3);
+        assertThat(subnet4.toString(true)).isEqualTo(s4);
+        assertThat(subnet5.toString(true)).isEqualTo(s5);
     }
 
     @Test
     void copy() {
-        assertEquals(subnet1.copy(), subnet1);
-        assertEquals(subnet2.copy(), subnet2);
-        assertEquals(subnet3.copy(), subnet3);
+        assertThatObject(subnet1).isEqualTo(subnet1.copy());
+        assertThatObject(subnet2).isEqualTo(subnet2.copy());
+        assertThatObject(subnet3).isEqualTo(subnet3.copy());
     }
 
     @Test
     void compareTo() {
-        assertTrue(0 < subnet2.compareTo(subnet1));
-        assertTrue(0 < subnet3.compareTo(subnet2));
-        assertTrue(0 < subnet4.compareTo(subnet3));
-        assertTrue(0 < subnet5.compareTo(subnet4));
+        assertThatComparable(subnet2).isGreaterThan(subnet1);
+        assertThatComparable(subnet3).isGreaterThan(subnet2);
+        assertThatComparable(subnet4).isGreaterThan(subnet3);
+        assertThatComparable(subnet5).isGreaterThan(subnet4);
     }
 
     @Test
     void equals() {
-        assertEquals(new Subnet(subnet1.getIp(), subnet1.getSubnetmask()), subnet1);
-        assertNotEquals(subnet1, subnet2);
-        assertNotEquals(subnet1, subnet3);
-        assertNotEquals(subnet2, subnet3);
+        assertThatObject(subnet1).isEqualTo(new Subnet(subnet1.getIp(), subnet1.getSubnetmask()));
+        assertThatObject(subnet2).isNotEqualTo(subnet1);
+        assertThatObject(subnet3).isNotEqualTo(subnet1);
+        assertThatObject(subnet3).isNotEqualTo(subnet2);
     }
 
     @Test
     void equalsDeep() {
         subnet2.setIp("192.168.50.128");
         subnet2.setSubnetmask(subnet3.getSubnetmask());
-        assertFalse(subnet1.equals(subnet3, true));
-        assertTrue(subnet2.equals(subnet3, true));
+        assertThat(subnet1.equals(subnet3, true)).isFalse();
+        assertThat(subnet2.equals(subnet3, true)).isTrue();
     }
 
     @Test
     void hashCodeTest() {
-        assertEquals(-838740488, subnet1.hashCode());
-        assertEquals(-1722502892, subnet2.hashCode());
-        assertEquals(753851720, subnet3.hashCode());
-        assertEquals(-1887865192, subnet4.hashCode());
-        assertEquals(701803096, subnet5.hashCode());
+        assertThat(subnet1.hashCode()).isEqualTo(-838740488);
+        assertThat(subnet2.hashCode()).isEqualTo(-1722502892);
+        assertThat(subnet3.hashCode()).isEqualTo(753851720);
+        assertThat(subnet4.hashCode()).isEqualTo(-1887865192);
+        assertThat(subnet5.hashCode()).isEqualTo(701803096);
     }
 
     @Test
@@ -800,9 +838,9 @@ class SubnetTest {
         for (Subnet subnet : subnet1) subnet1subnets.add(subnet);
         for (Subnet subnet : subnet2) subnet2subnets.add(subnet);
         for (Subnet subnet : subnet3) subnet3subnets.add(subnet);
-        assertEquals(subnet1subnets, subnet1.getSubnets());
-        assertEquals(subnet2subnets, subnet2.getSubnets());
-        assertEquals(subnet3subnets, subnet3.getSubnets());
+        assertThat(subnet1.getSubnets()).isEqualTo(subnet1subnets);
+        assertThat(subnet2.getSubnets()).isEqualTo(subnet2subnets);
+        assertThat(subnet3.getSubnets()).isEqualTo(subnet3subnets);
     }
     //endregion
 
@@ -811,28 +849,32 @@ class SubnetTest {
     @SuppressWarnings({"removal"})
     void setIpDeprecation() {
         subnet2.setIp("10", false);
-        assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
-        assertEquals('B', subnet2.getClassChar());
+        assertThatObject(subnet2).hasToString("10.0.0.0 255.255.0.0");
+        assertThat(subnet2.getClassChar()).isEqualTo('B');
 
         subnet2.setIp(new String[]{"11", "0", "0", "0"}, false);
-        assertEquals("11.0.0.0 255.255.0.0", subnet2.toString());
-        assertEquals('B', subnet2.getClassChar());
+        assertThatObject(subnet2).hasToString("11.0.0.0 255.255.0.0");
+        assertThat(subnet2.getClassChar()).isEqualTo('B');
 
         subnet2.setIp(new int[]{10, 0, 0, 0}, false);
-        assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
-        assertEquals('B', subnet2.getClassChar());
+        assertThatObject(subnet2).hasToString("10.0.0.0 255.255.0.0");
+        assertThat(subnet2.getClassChar()).isEqualTo('B');
     }
 
     @Test
     @SuppressWarnings("removal")
     void recalculateDeprecation() { // see also setIpDeprecation
         subnet2.setIp("10", false);
-        assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
-        assertEquals('B', subnet2.getClassChar());
+        assertThatObject(subnet2).hasToString("10.0.0.0 255.255.0.0");
+        assertThat(subnet2.getClassChar()).isEqualTo('B');
 
         subnet2.recalculate();
-        assertEquals("10.0.0.0 255.255.0.0", subnet2.toString());
-        assertEquals('A', subnet2.getClassChar());
+        assertThatObject(subnet2).hasToString("10.0.0.0 255.255.0.0");
+        assertThat(subnet2.getClassChar()).isEqualTo('A');
     }
     //endregion
+
+    private static <T extends Comparable<T>> GenericComparableAssert<T> assertThatComparable(T t) {
+        return new GenericComparableAssert<>(t);
+    }
 }
