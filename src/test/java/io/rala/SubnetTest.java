@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.*;
 class SubnetTest {
     //region default config
     private static boolean printAll = false;
-    @SuppressWarnings("FieldCanBeLocal")
     private static final boolean printAllDetailed = false;
     //endregion
 
@@ -65,18 +64,18 @@ class SubnetTest {
     void constructorsInterfaceAddress() throws SocketException {
         Enumeration<NetworkInterface> networkInterfaceEnumeration = NetworkInterface.getNetworkInterfaces();
         ArrayList<NetworkInterface> networkInterfaces = Collections.list(networkInterfaceEnumeration);
-        InterfaceAddress loopback = null;
+        InterfaceAddress loopBack = null;
 
         networkInterfaces:
         for (NetworkInterface networkInterface : networkInterfaces)
             for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses())
                 if (interfaceAddress.getAddress().getHostAddress().equals("127.0.0.1")) {
-                    loopback = interfaceAddress;
+                    loopBack = interfaceAddress;
                     break networkInterfaces;
                 }
 
-        assertThat(loopback).isNotNull();
-        assertThatObject(new Subnet(loopback)).isEqualTo(new Subnet("127.0.0.1", "/8"));
+        assertThat(loopBack).isNotNull();
+        assertThatObject(new Subnet(loopBack)).isEqualTo(new Subnet("127.0.0.1", "/8"));
     }
     //endregion
 
@@ -525,11 +524,9 @@ class SubnetTest {
 
     @Test
     void getSubSubnets() {
-        // System.out.println(subnet1.getSubSubnets()); // takes to long
-        // System.out.println(subnet2.getSubSubnets()); // takes to long
-        // System.out.println(subnet3.getSubSubnets()); // takes to long
-        // System.out.println(subnet4.getSubSubnets()); // takes to long
-        // System.out.println(subnet5.getSubSubnets()); // acceptable - but still a long list
+        // printing subSubnets of subnet1 - subnet4 takes to long
+        // printing subSubnets of subnet5 acceptable - but still a long list
+        // System.out.println(subnet5.getSubSubnets());
         subnet5.setSubnetmask("/28");
         Set<Subnet> s5 = Set.of(
             new Subnet("240.136.42.1", "255.255.255.240"),
