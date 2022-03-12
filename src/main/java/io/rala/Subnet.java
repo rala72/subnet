@@ -2,6 +2,7 @@ package io.rala;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.net.InterfaceAddress;
 import java.util.*;
@@ -736,6 +737,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @since 1.2.0
      */
     @NotNull
+    @Unmodifiable
     public Set<@NotNull Subnet> getSubnets() {// see getSubnets(from, to)
         Set<Subnet> subnets = new TreeSet<>();
         for (int iqCount = 0; iqCount <= 255; iqCount += getMagicNumber()) {
@@ -751,7 +753,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
                     break;
             }
         }
-        return subnets;
+        return Collections.unmodifiableSet(subnets);
     }
 
     /**
@@ -763,6 +765,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @since 1.2.0
      */
     @NotNull
+    @Unmodifiable
     public Set<@NotNull Subnet> getSubSubnets() {
         return getSubnets(new Subnet(getFirstAvailableIp(), getSubnetmask()), new Subnet(getLastAvailableIp(), getSubnetmask()));
     }
@@ -778,6 +781,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @since 1.2.0
      */
     @NotNull
+    @Unmodifiable
     protected static Set<@NotNull Subnet> getSubnets(@NotNull Subnet from, @NotNull Subnet to) {
         Set<Subnet> subnets = new TreeSet<>();
         for (int from0 = from.getIpAsArray()[0]; from0 <= to.getIpAsArray()[0]; from0++)
@@ -785,7 +789,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
                 for (int from2 = from.getIpAsArray()[2]; from2 <= to.getIpAsArray()[2]; from2++)
                     for (int from3 = from.getIpAsArray()[3]; from3 <= to.getIpAsArray()[3]; from3++)
                         subnets.add(new Subnet(new int[]{from0, from1, from2, from3}, from.getSubnetmaskAsArray()));
-        return subnets;
+        return Collections.unmodifiableSet(subnets);
     }
 
     /**
