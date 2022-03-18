@@ -643,20 +643,20 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
     @Nullable
     public Subnet summarize(@NotNull Subnet s) {
         if (this.getIq() == -1 || s.getIq() == -1) return null;
-        if (!(this.getIpAsArray()[0] == (s.getIpAsArray()[0])))
+        if (this.getIpAsArray()[0] != (s.getIpAsArray()[0]))
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_FIRST_QUAD_IS_NOT_THE_SAME);
         if (getIp().equals(s.getIp())) return new Subnet(getIp(), "/30");
 
-        String[] ip1_array = new String[4];
-        String[] ip2_array = new String[4];
+        String[] ip1Array = new String[4];
+        String[] ip2Array = new String[4];
         for (int i = 0; i < 4; i++) {
-            ip1_array[i] = Integer.toBinaryString(this.getIpAsArray()[i]);
-            ip2_array[i] = Integer.toBinaryString(s.getIpAsArray()[i]);
-            for (int j = ip1_array[i].length(); j < 8; j++) ip1_array[i] = "0" + ip1_array[i];
-            for (int j = ip2_array[i].length(); j < 8; j++) ip2_array[i] = "0" + ip2_array[i];
+            ip1Array[i] = Integer.toBinaryString(this.getIpAsArray()[i]);
+            ip2Array[i] = Integer.toBinaryString(s.getIpAsArray()[i]);
+            for (int j = ip1Array[i].length(); j < 8; j++) ip1Array[i] = "0" + ip1Array[i];
+            for (int j = ip2Array[i].length(); j < 8; j++) ip2Array[i] = "0" + ip2Array[i];
         }
-        String ip1 = convertNetworkArrayToString(ip1_array);
-        String ip2 = convertNetworkArrayToString(ip2_array);
+        String ip1 = convertNetworkArrayToString(ip1Array);
+        String ip2 = convertNetworkArrayToString(ip2Array);
         if (ip1.length() != 35 || ip2.length() != 35) return null;
 
         Subnet summarization = null;
@@ -801,7 +801,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
     public boolean isSameSubnet(@NotNull Subnet s) {
         if (!isSameBeforeIq(s)) return false;
         for (int i = this.getIq(); i < 4; i++)
-            if (!(this.getSubnetmaskAsArray()[i] == s.getSubnetmaskAsArray()[i])) return false;
+            if (this.getSubnetmaskAsArray()[i] != s.getSubnetmaskAsArray()[i]) return false;
         return isIpInIqInValidRange(s);
     }
 
@@ -816,7 +816,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         if (!isSameBeforeIq(s)) return false;
         for (int i = this.getIq(); i < 4; i++) {
             if (this.getSubnetmaskAsArray()[i] < s.getSubnetmaskAsArray()[i]) break;
-            else if (!(this.getSubnetmaskAsArray()[i] <= s.getSubnetmaskAsArray()[i])) return false;
+            else if (s.getSubnetmaskAsArray()[i] < this.getSubnetmaskAsArray()[i]) return false;
         }
         return isIpInIqInValidRange(s);
     }
@@ -824,8 +824,8 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean isSameBeforeIq(@NotNull Subnet s) {
         for (int i = 0; i < this.getIq(); i++) {
-            if (!(this.getSubnetIdAsArray()[i] == s.getIpAsArray()[i])) return false;
-            if (!(this.getSubnetmaskAsArray()[i] == s.getSubnetmaskAsArray()[i])) return false;
+            if (this.getSubnetIdAsArray()[i] != s.getIpAsArray()[i]) return false;
+            if (this.getSubnetmaskAsArray()[i] != s.getSubnetmaskAsArray()[i]) return false;
         }
         return true;
     }
@@ -867,13 +867,11 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
                 lastAvailableIpArray[i] = ipArray[i];
                 broadCastIpArray[i] = ipArray[i];
             }
-            if (i == 3) {
-                if (snmArray[2] != 255 && snmArray[3] != 255 && i != iq) {// ==0?
-                    subnetIdArray[i] = 0;
-                    firstAvailableIpArray[i] = 1;
-                    lastAvailableIpArray[i] = 254;
-                    broadCastIpArray[i] = 255;
-                }
+            if (i == 3 && snmArray[2] != 255 && snmArray[3] != 255 && i != iq) {// ==0?
+                subnetIdArray[i] = 0;
+                firstAvailableIpArray[i] = 1;
+                lastAvailableIpArray[i] = 254;
+                broadCastIpArray[i] = 255;
             }
         }
 
@@ -1024,21 +1022,21 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         if (prefix.isBlank())
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_MISSING + EXCEPTION_MESSAGE_SUFFIX_SNM);
 
-        int prefix_length = Integer.parseInt(prefix);
-        if (prefix_length < 8)
+        int prefixLength = Integer.parseInt(prefix);
+        if (prefixLength < 8)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_SMALL + EXCEPTION_MESSAGE_SUFFIX_SNM);
-        else if (30 < prefix_length)
+        else if (30 < prefixLength)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
-        StringBuilder prefix_snm = new StringBuilder();
-        for (int j = 0; j < prefix_length; j++) {
-            prefix_snm.append("1");
-            if ((j + 1) % 8 == 0) prefix_snm.append(".");
+        StringBuilder prefixSnm = new StringBuilder();
+        for (int j = 0; j < prefixLength; j++) {
+            prefixSnm.append("1");
+            if ((j + 1) % 8 == 0) prefixSnm.append(".");
         }
-        for (int j = prefix_length; j < 32; j++) {
-            prefix_snm.append("0");
-            if ((j + 1) % 8 == 0 && (j + 1) != 32) prefix_snm.append(".");
+        for (int j = prefixLength; j < 32; j++) {
+            prefixSnm.append("0");
+            if ((j + 1) % 8 == 0 && (j + 1) != 32) prefixSnm.append(".");
         }
-        return prefix_snm.toString().split("\\.");
+        return prefixSnm.toString().split("\\.");
     }
 
     /**
@@ -1055,9 +1053,7 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         } else {
             if (255 < snm || (lastQuad && 252 < snm))
                 throw new IllegalArgumentException(ILLEGAL_ARGUMENT_ENTRY_SIZE_TO_LARGE + EXCEPTION_MESSAGE_SUFFIX_SNM);
-            else if (testBinary(snm))
-                // 8 times 0 becomes only one
-                if (!String.valueOf(snm).contains("1")) snm = 0;
+            else if (testBinary(snm) && !String.valueOf(snm).contains("1")) snm = 0;
         }
         return snm;
     }
@@ -1069,13 +1065,13 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
      * @param i   actual array (max 3) index
      */
     private void isSubnetOk(int[] snm, int i) {
-        boolean snm_allowed = false;
+        boolean isSnmAllowed = false;
         for (int snmAllowed : SNM_ALLOWED)
             if (snm[i] == snmAllowed) {
-                snm_allowed = true;
+                isSnmAllowed = true;
                 break;
             }
-        if (!snm_allowed)
+        if (!isSnmAllowed)
             throw new IllegalArgumentException(ILLEGAL_ARGUMENT_SUBNETMASK_CONTAINS_WRONG_NUMBER);
 
         if (i != 3 && snm[i] != 255 && snm[i + 1] != 0)
@@ -1283,9 +1279,9 @@ public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Su
         int offset = -15;
         s += formatString(getIp(), offset) + " ";
         s += formatString(getSubnetmask(), offset) + " ";
-        s += formatString("(" + getWildmarkMask() + ")", offset - 2) + " ";
+        s += formatString("(" + getWildmarkMask() + ")", offset - 2L) + " ";
         s += "Quad: " + getIq();
-        s += isSupernetting() ? " " + formatString("supernetting", 3 + 15) : "";
+        s += isSupernetting() ? " " + formatString("supernetting", 3L + 15) : "";
         s += "\n";
         s += formatString("mz:", 3) + " " + formatString(String.valueOf(getMagicNumber()), -11) + " ";
         s += formatString("mz:min:", 7) + " " + formatString(String.valueOf(getMagicNumberMin()), -7) + " ";
