@@ -15,7 +15,7 @@ import java.util.*;
  * @author rala<br>
  * <a href="mailto:code@rala.io">code@rala.io</a><br>
  * <a href="https://www.rala.io">www.rala.io</a>
- * @version 2.1.1
+ * @version 2.1.2
  */
 @SuppressWarnings("DeprecatedIsStillUsed")
 public class Subnet implements Comparable<@NotNull Subnet>, Iterable<@NotNull Subnet> {
