@@ -1,6 +1,5 @@
 package io.rala;
 
-import org.assertj.core.api.GenericComparableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -870,8 +869,4 @@ class SubnetTest {
         assertThat(subnet2.getClassChar()).isEqualTo('A');
     }
     //endregion
-
-    private static <T extends Comparable<T>> GenericComparableAssert<T> assertThatComparable(T t) {
-        return new GenericComparableAssert<>(t);
-    }
 }
