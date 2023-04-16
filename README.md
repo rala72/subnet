@@ -1,8 +1,8 @@
 # Subnet
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.rala/subnet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.rala/subnet)
-[![javadoc](https://javadoc.io/badge2/io.rala/subnet/javadoc.svg)](https://javadoc.io/doc/io.rala/subnet)
-[![Build Status](https://cloud.drone.io/api/badges/rala72/subnet/status.svg)](https://cloud.drone.io/rala72/subnet)
+[![JavaDoc](https://javadoc.io/badge2/io.rala/subnet/javadoc.svg)](https://javadoc.io/doc/io.rala/subnet)
+[![Build Status](https://dl.circleci.com/status-badge/img/gh/rala72/subnet/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/rala72/subnet/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/rala72/subnet/badge.svg?branch=master)](https://coveralls.io/github/rala72/subnet?branch=master)
 
 This library makes subnet-calculation easy.  
